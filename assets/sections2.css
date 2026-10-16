@@ -1,0 +1,126 @@
+/* Architecture, example tabs, live demo, cloud 24/7 */
+
+/* architecture */
+.arch-grid { display: grid; grid-template-columns: 1fr 340px; gap: 22px; margin-top: 1vh; height: 70vh; min-height: 440px; }
+.arch-canvas { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 10px 14px; display: flex; align-items: center; min-height: 0; }
+#archSvg { width: 100%; height: 100%; }
+#archSvg text { fill: var(--ink); font-size: 15px; text-anchor: middle; font-family: 'Be Vietnam Pro'; font-weight: 400; pointer-events: none; }
+#archSvg .sm { font-size: 12.5px; fill: var(--soft); font-weight: 300; }
+#archSvg .ttl { fill: var(--blue); font-weight: 500; font-size: 15.5px; }
+#archSvg .col { fill: var(--green-t); font-size: 12px; letter-spacing: .12em; font-weight: 500; text-transform: uppercase; }
+#archSvg .ab { cursor: pointer; }
+#archSvg .ab rect { fill: #fff; stroke: var(--line); stroke-width: 1; transition: .25s; }
+#archSvg .ab.main rect { stroke: var(--blue); stroke-width: 1.3; }
+#archSvg .ab.hub rect { stroke: var(--green); stroke-width: 1.2; }
+#archSvg .ab.hub .ttl { fill: var(--green-t); }
+#archSvg .ab.warn rect { stroke: var(--amber); stroke-dasharray: 4 4; fill: #FFFBF4; }
+#archSvg .ab.on rect { fill: #F2F6FD; stroke: var(--blue); stroke-width: 2; }
+#archSvg .ab.hub.on rect { fill: #F3FAF1; stroke: var(--green); }
+#archSvg .ab.dim { opacity: .35; }
+#archLinks path { fill: none; stroke: var(--line); stroke-width: 1.2; transition: .25s; }
+#archLinks path.dash { stroke-dasharray: 5 5; }
+#archLinks path.on { stroke: var(--blue); stroke-width: 2.2; stroke-dasharray: 6 5; animation: flow 1s linear infinite; }
+.arch-info { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 2.4vh 22px; display: flex; flex-direction: column; gap: 1vh; }
+.arch-info small { color: var(--green-t); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+.arch-info h3 { font-weight: 400; color: var(--blue); font-size: clamp(19px, 2.6vh, 24px); }
+.arch-info p { font-size: clamp(13.5px, 1.8vh, 15.5px); }
+.arch-info ul { list-style: none; display: grid; gap: .6vh; margin-top: .4vh; }
+.arch-info li { font-size: clamp(13px, 1.7vh, 14.5px); padding-left: 16px; position: relative; color: var(--body); }
+.arch-info li::before { content: ''; position: absolute; left: 0; top: .7em; width: 8px; height: 1px; background: var(--green); }
+.arch-info .hint { margin-top: auto; font-size: 12.5px; color: var(--soft); border-top: 1px solid var(--hair); padding-top: 1vh; }
+
+/* example tabs on the flow slide */
+.sc-tabs { display: inline-flex; border: 1px solid var(--line); border-radius: 30px; padding: 4px; background: #fff; margin: 0 0 1.4vh; }
+.sc-tabs button { border: none; background: transparent; padding: 8px 18px; border-radius: 26px; font-size: 14px; color: var(--soft); transition: .25s; }
+.sc-tabs button.on { background: var(--blue); color: #fff; }
+#s-n8n .flow-grid { height: 60vh; }
+#s-n8n .head-row h2 { min-height: 1.2em; }
+
+/* live demo */
+.live-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; margin-top: 1vh; height: 64vh; min-height: 420px; }
+.term { background: #1E2A44; border-radius: 16px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 16px 40px rgba(30, 42, 68, .18); }
+.term-top { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid rgba(255, 255, 255, .08); color: #C9D3E3; font-size: 13px; }
+.term-top b { font-weight: 400; margin-left: 8px; }
+.term-top .btn { margin-left: auto; padding: 6px 16px; font-size: 13px; background: var(--green); border-color: var(--green); }
+.term-body { flex: 1; overflow: auto; padding: 16px 18px; font-family: 'JetBrains Mono', monospace; font-size: clamp(12.5px, 1.65vh, 14px); color: #E7ECF4; line-height: 1.8; }
+.term-body .muted { color: #8A97B5; }
+.term-body .cmd { color: #fff; }
+.term-body .cmd::before { content: '> '; color: var(--green); }
+.term-body .ok { color: #8FD48F; }
+.term-body .dim { color: #A9B6D3; }
+.term-body .cur { display: inline-block; width: 8px; height: 1.1em; background: #E7ECF4; vertical-align: -3px; animation: blink 1s infinite; }
+.watch { display: flex; flex-direction: column; gap: 12px; }
+.watch-list { display: grid; gap: 1vh; }
+.watch-list button { text-align: left; border: 1px solid var(--line); background: var(--card); border-radius: 14px; padding: 1.3vh 18px 1.3vh 48px; position: relative; transition: .2s; color: var(--body); }
+.watch-list button::before { content: ''; position: absolute; left: 18px; top: 50%; width: 18px; height: 18px; margin-top: -9px; border-radius: 6px; border: 1px solid var(--soft); }
+.watch-list button.on { border-color: var(--green); background: #fff; }
+.watch-list button.on::before { background: var(--green); border-color: var(--green); }
+.watch-list button.on::after { content: ''; position: absolute; left: 24px; top: 50%; width: 5px; height: 10px; margin-top: -7px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.watch-list b { display: block; font-weight: 500; font-size: clamp(14.5px, 1.95vh, 17px); }
+.watch-list span { font-size: clamp(12.5px, 1.65vh, 14px); color: var(--soft); }
+.live-cta { margin-top: auto; display: flex; align-items: center; gap: 14px; border: 1px dashed var(--blue); border-radius: 14px; padding: 1.6vh 20px; color: var(--blue); font-size: clamp(16px, 2.2vh, 20px); }
+.live-cta svg { width: 30px; height: 30px; fill: none; stroke: var(--blue); stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* cloud 24/7 */
+.cloud-grid { display: grid; grid-template-columns: .85fr 1.3fr; gap: 26px; margin-top: 1vh; }
+.clock-box { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 1.8vh 22px; display: flex; flex-direction: column; align-items: center; gap: 1vh; }
+#clockSvg { width: 100%; max-height: 40vh; }
+#clockSvg .dial { fill: #fff; stroke: var(--line); stroke-width: 1; }
+#clockSvg .tick { stroke: var(--line); stroke-width: 1; }
+#clockSvg .tick.major { stroke: var(--soft); }
+#clockSvg .hl { font-family: 'Be Vietnam Pro'; font-size: 11px; fill: var(--soft); text-anchor: middle; }
+#clockSvg .ev { fill: #fff; stroke: var(--green); stroke-width: 1.5; }
+#clockSvg .ev.bug { stroke: var(--red); }
+#clockSvg .ev.on { fill: var(--green); }
+#clockSvg .ev.bug.on { fill: var(--red); }
+#clockHand { stroke: var(--blue); stroke-width: 2; stroke-linecap: round; transition: transform .4s cubic-bezier(.2, .8, .2, 1); transform-origin: 160px 160px; }
+#clockSvg .pin { fill: var(--blue); }
+#hourRange { width: 90%; accent-color: var(--blue); }
+.hour-info { width: 100%; border-top: 1px solid var(--hair); padding-top: 1vh; text-align: center; min-height: 5.6em; }
+.hour-info b { display: block; font-size: 26px; font-weight: 200; color: var(--blue); }
+.hour-info span { font-size: clamp(13px, 1.75vh, 15px); color: var(--body); }
+.cloud-right { display: flex; flex-direction: column; gap: 14px; }
+.brief { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 1.8vh 22px; }
+.brief-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .8vh; }
+.brief-top b { font-weight: 500; color: var(--blue); }
+.brief-top span { font-size: 12px; color: var(--soft); }
+.brief ul { list-style: none; display: grid; gap: .3vh; }
+.brief li { font-size: clamp(13px, 1.7vh, 14.5px); border-bottom: 1px solid var(--hair); padding: .5vh 0; }
+.brief li i { font-style: normal; display: inline-block; width: 128px; color: var(--green-t); }
+.brief-todo { margin-top: 1vh; font-size: 13.5px; color: var(--body); background: var(--fill); border-radius: 10px; padding: .9vh 12px; }
+.brief-todo b { font-weight: 500; }
+.bug-sim { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 1.8vh 22px; }
+.bug-head { display: flex; justify-content: space-between; align-items: center; }
+.bug-head b { font-weight: 500; }
+.bug-head .btn { padding: 6px 16px; font-size: 13px; }
+.bug-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 1.2vh 0; }
+.bf { border: 1px solid var(--line); border-radius: 12px; padding: .9vh 10px; font-size: 13px; color: var(--soft); background: #fff; transition: .3s; display: flex; gap: 8px; align-items: center; }
+.bf span { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font-size: 11.5px; }
+.bf.on { border-color: var(--blue); color: var(--ink); }
+.bf.on span { background: var(--blue); border-color: var(--blue); color: #fff; }
+.gchat { min-height: 11vh; }
+.gchat .msg-card { display: flex; gap: 12px; background: #fff; border: 1px solid var(--line); border-left: 3px solid var(--green); border-radius: 10px; padding: 1vh 14px; font-size: 13.5px; animation: rise .35s both; }
+.gchat .av { flex: none; width: 32px; height: 32px; border-radius: 50%; background: var(--grad); color: #fff; display: grid; place-items: center; font-size: 12px; font-weight: 500; }
+.gchat .who { font-size: 12px; color: var(--soft); }
+.gchat .who b { font-weight: 500; color: var(--ink); }
+.gchat .rc { color: var(--red); font-weight: 500; }
+.gchat .tagp { color: var(--blue); }
+
+@media (max-width: 900px) {
+  .arch-grid, .live-grid, .cloud-grid, .bug-flow { grid-template-columns: 1fr; height: auto; }
+}
+
+.term-top b { color: #C9D3E3; }
+#flowSvg .nd[data-n="jira"] text, #flowSvg .nd[data-n="chat"] text, #flowSvg .nd[data-n="drive"] text, #flowSvg .nd[data-n="gmail"] text, #flowSvg .nd[data-n="conf"] text, #flowSvg .nd[data-n="db"] text { font-size: 14px; }
+#s-prompt .pr-b { padding: 1.6vh 16px; }
+#s-prompt .pr-blocks { gap: 1.3vh; }
+
+.flow-out .old .line, .flow-out .old .mail { animation: none; }
+
+.brief-tabs { display: inline-flex; border: 1px solid var(--line); border-radius: 30px; padding: 3px; margin-bottom: 1vh; }
+.brief-tabs button { border: none; background: transparent; padding: 6px 14px; border-radius: 24px; font-size: 13px; color: var(--soft); transition: .25s; }
+.brief-tabs button.on { background: var(--blue); color: #fff; }
+.brief-sub { font-size: 12px; color: var(--soft); margin-bottom: .6vh; }
+.brief li.risk i { color: var(--red); }
+.brief li.issue i { color: var(--amber); }
+#briefBody ul { animation: rise .3s both; }

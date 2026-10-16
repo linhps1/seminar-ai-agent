@@ -1,0 +1,110 @@
+/* Round of feedback 17/10: balanced hero cards, architecture extras, full report email, productivity, cloud tabs */
+
+/* hero: 3 equal cards on one row */
+.meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; max-width: 860px; }
+.meta-card { height: 100%; padding: 1.4vh 16px; }
+.meta-card span { font-size: 12px; }
+
+/* architecture extras */
+#archSvg .ab.vsc rect { stroke: var(--blue-hi); stroke-width: 1.2; }
+#archSvg .ab.ext rect { stroke-dasharray: 3 3; }
+#archSvg .ab.sys text { font-size: 14px; }
+
+/* flow: full UAT report email at the last step */
+.flow-out .mail.full { font-size: 12.5px; }
+.flow-out .mail.full p { margin-top: 6px; }
+.flow-out .mail.full table { width: 100%; border-collapse: collapse; margin-top: 6px; text-align: center; }
+.flow-out .mail.full th { background: var(--blue); color: #fff; font-weight: 400; padding: 4px; font-size: 12px; }
+.flow-out .mail.full td { border: 1px solid var(--hair); padding: 4px; font-size: 14px; }
+.flow-out .mail.full td.g { color: var(--green-t); } .flow-out .mail.full td.r { color: var(--red); } .flow-out .mail.full td.a { color: var(--amber); }
+#flowSvg .nd[data-n] text { font-size: 14px; }
+#flowSvg .nd[data-n="pm"] text:first-child, #flowSvg .nd[data-n="cc"] text:first-of-type, #flowSvg .nd[data-n="n8n"] text:first-of-type { font-size: 15px; }
+
+/* productivity (real numbers from a previous project) */
+.prod { margin-top: 2vh; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 1.4vh 18px; display: grid; gap: .9vh; }
+.prod-row { display: grid; grid-template-columns: 48px 1fr 48px; gap: 12px; align-items: center; cursor: default; }
+.prod-row span:first-child { font-weight: 500; color: var(--ink); }
+.prod-row .pb { height: 12px; background: var(--hair); border-radius: 8px; overflow: hidden; }
+.prod-row .pb i { display: block; height: 100%; width: 0; background: var(--grad); border-radius: 8px; transition: width 1s cubic-bezier(.2, .8, .2, 1); }
+.prod-row b { font-size: 22px; font-weight: 400; color: var(--green-t); text-align: right; }
+
+/* cloud: 3 separate example tabs */
+.cl-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.cl-tabs button { display: flex; align-items: center; gap: 8px; text-align: left; border: 1px solid var(--line); background: #fff; border-radius: 12px; padding: 1vh 12px; font-size: 13.5px; color: var(--soft); transition: .25s; }
+.cl-tabs button b { flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; font-size: 12px; font-weight: 400; color: var(--soft); }
+.cl-tabs button.on { border-color: var(--blue); color: var(--ink); box-shadow: 0 8px 20px rgba(47, 82, 160, .12); }
+.cl-tabs button.on b { background: var(--blue); border-color: var(--blue); color: #fff; }
+.cl-panel { display: none; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 1.8vh 22px; flex: 1; animation: rise .3s both; }
+.cl-panel.on { display: block; }
+.cl-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 1vh; }
+.cl-head b { font-weight: 500; color: var(--blue); }
+.cl-head span { font-size: 12px; color: var(--soft); text-align: right; }
+.cl-head .btn { padding: 6px 16px; font-size: 13px; flex: none; }
+.cl-foot { font-size: 13px; color: var(--soft); margin-top: 1vh; }
+.brief-list { list-style: none; display: grid; gap: .3vh; }
+.brief-list li { font-size: clamp(13px, 1.75vh, 15px); border-bottom: 1px solid var(--hair); padding: .6vh 0; }
+.brief-list li i { font-style: normal; display: inline-block; width: 130px; color: var(--green-t); }
+.aud { display: inline-flex; border: 1px solid var(--line); border-radius: 30px; padding: 3px; margin-bottom: 1.2vh; }
+.aud button { border: none; background: transparent; padding: 6px 14px; border-radius: 24px; font-size: 13px; color: var(--soft); transition: .25s; }
+.aud button.on { background: var(--green); color: #fff; }
+.wk { animation: rise .3s both; }
+.wk-meta { font-size: 13px; border-bottom: 1px solid var(--hair); padding-bottom: .8vh; margin-bottom: .8vh; }
+.wk-meta div { padding: 1px 0; }
+.wk-meta span { display: inline-block; width: 78px; color: var(--soft); }
+.wk table { width: 100%; border-collapse: collapse; }
+.wk th { text-align: left; width: 120px; font-weight: 500; color: var(--blue); font-size: 13.5px; padding: .6vh 0; vertical-align: top; border-bottom: 1px solid var(--hair); }
+.wk td { font-size: clamp(13px, 1.7vh, 14.5px); padding: .6vh 0; border-bottom: 1px solid var(--hair); }
+#clockSvg .ev.week { stroke: var(--blue); }
+#clockSvg .ev.week.on { fill: var(--blue); }
+.cloud-right { min-height: 0; }
+
+@media (max-width: 900px) { .meta, .cl-tabs { grid-template-columns: 1fr; } }
+
+/* final results for QC / BA examples */
+.flow-out .mail.full table.tcx { text-align: left; }
+.flow-out .mail.full table.tcx th { font-size: 11.5px; padding: 3px 6px; }
+.flow-out .mail.full table.tcx td { font-size: 12px; padding: 3px 6px; }
+
+/* productivity x1 -> xN */
+.prod-row b { transition: color .3s; color: var(--soft); }
+.prod-row.up b { color: var(--green-t); }
+.prod-row .pb i { background: var(--line); }
+.prod-row.up .pb i { background: var(--grad); }
+
+/* morning brief + iPhone 15 lock screen */
+.p0-grid { display: grid; grid-template-columns: 1fr 200px; gap: 22px; align-items: center; }
+.p0-left .brief-list li i { width: 118px; }
+.iphone { justify-self: center; }
+.ip-frame { width: 196px; height: 404px; border-radius: 38px; background: #1E2A44; padding: 7px; box-shadow: 0 18px 40px rgba(30, 42, 68, .25), inset 0 0 0 1px #4b5878; }
+.ip-screen { position: relative; width: 100%; height: 100%; border-radius: 32px; overflow: hidden; color: #fff;
+  background: radial-gradient(120% 70% at 20% 0%, #6D9EEB 0%, transparent 60%), radial-gradient(100% 80% at 100% 100%, #5AB55A 0%, transparent 55%), linear-gradient(160deg, #2F52A0, #1E2A44); }
+.ip-island { position: absolute; top: 9px; left: 50%; transform: translateX(-50%); width: 64px; height: 18px; border-radius: 12px; background: #000; }
+.ip-status { display: flex; justify-content: space-between; padding: 11px 18px 0; font-size: 10.5px; font-weight: 500; }
+.ip-icons { display: flex; gap: 3px; align-items: center; }
+.ip-icons i { width: 11px; height: 7px; border-radius: 2px; background: rgba(255, 255, 255, .85); display: inline-block; }
+.ip-icons i.bat { width: 16px; height: 8px; border-radius: 3px; background: transparent; border: 1px solid #fff; box-shadow: inset 11px 0 0 #fff; }
+.ip-date { text-align: center; margin-top: 18px; font-size: 11.5px; opacity: .9; }
+.ip-time { text-align: center; font-size: 60px; font-weight: 600; line-height: 1; letter-spacing: -1px; }
+.ip-notes { position: absolute; left: 8px; right: 8px; bottom: 34px; display: grid; gap: 6px; }
+.ip-note { display: flex; gap: 7px; background: rgba(255, 255, 255, .78); backdrop-filter: blur(10px); color: #1d1d1f; border-radius: 15px; padding: 8px 9px; font-size: 10px; line-height: 1.35; animation: notif .6s cubic-bezier(.2, .8, .2, 1) both; }
+.ip-note.sm { animation-delay: .5s; opacity: .95; }
+.ip-note p { margin: 1px 0 0; }
+.ip-app { flex: none; width: 24px; height: 24px; border-radius: 7px; background: var(--grad); color: #fff; display: grid; place-items: center; font-size: 9px; font-weight: 600; }
+.ip-top { display: flex; justify-content: space-between; color: #555; font-size: 9px; }
+.ip-top b { color: #1d1d1f; font-weight: 500; }
+.ip-ttl { display: block; font-weight: 600; font-size: 10.5px; color: #1d1d1f; }
+.ip-bar { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 70px; height: 4px; border-radius: 3px; background: rgba(255, 255, 255, .85); }
+@keyframes notif { from { opacity: 0; transform: translateY(-30px) scale(.96); } }
+.iphone:hover .ip-note { animation: notif .6s cubic-bezier(.2, .8, .2, 1) both; }
+.p0-left .cl-head { display: block; }
+.p0-left .cl-head span { display: block; text-align: left; margin-top: 2px; }
+.p0-left .brief-list li { font-size: clamp(12.5px, 1.65vh, 14px); }
+.p0-left .brief-list li i { width: 128px; white-space: nowrap; }
+.flow-out .mail.full table.tcx td:first-child { white-space: nowrap; }
+
+/* Q&A slide */
+.qa-badge { display: inline-flex; align-items: center; gap: 14px; border: 1px solid var(--blue); border-radius: 40px; padding: 8px 26px 8px 10px; margin: 1.6vh 0 2.4vh; background: #fff; box-shadow: 0 10px 28px rgba(47, 82, 160, .12); }
+.qa-badge b { background: var(--grad); color: #fff; font-weight: 500; font-size: clamp(22px, 3.4vh, 32px); border-radius: 30px; padding: 4px 22px; letter-spacing: .04em; }
+.qa-badge span { color: var(--blue); font-size: clamp(16px, 2.2vh, 20px); letter-spacing: .08em; text-transform: uppercase; }
+.end-wrap .lead { max-width: none; white-space: nowrap; }
+@media (max-width: 1100px) { .end-wrap .lead { white-space: normal; } }
