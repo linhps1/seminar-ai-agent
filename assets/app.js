@@ -99,8 +99,8 @@ showRole('pm');
     { who: 'me', src: ['mail'], paste: 1, loop: 1, min: 9, html: 'Bổ sung giúp mình, khách đã chốt trong email:<span class="paste">"…banner tối đa 5 slide, tự động chuyển sau 6 giây…" (copy từ Outlook)</span>' },
     { who: 'ai', min: 3, html: 'Đã cập nhật theo email:' + rows(1) },
     { who: 'me', src: ['chat'], paste: 1, loop: 1, min: 9, html: 'À còn nữa, BA vừa nhắn trong group chat:<span class="paste">"Bỏ Omnichat khỏi Wave 1 nha, thêm case nút Explore All" (copy từ Google Chat)</span>' },
-    { who: 'ai', src: ['jira'], min: 3, html: 'Đã sửa xong:' + rows(2) + '<br>Bạn có thể gửi thêm <b>quy ước ID trên Jira</b> và các bug cũ liên quan để mình bổ sung case không?', insight: 'Lại thêm một nguồn nữa AI không tự thấy: Jira, Drive, biên bản họp…' },
-    { who: 'note', min: 25, final: true, html: '"Thôi, phần còn lại mình <b>sửa tay</b> cho nhanh."' },
+    { who: 'ai', min: 3, html: 'Đã sửa xong:' + rows(2), insight: 'Nội dung đã đúng hơn. Nhưng còn phần trình bày thì sao?' },
+    { who: 'note', min: 25, final: true, html: 'Bạn mở file ra và phát hiện: <b>file test case không trình bày đúng tiêu chuẩn khách hàng yêu cầu, thiếu phần chữ ký</b>.<br>"Thôi, phần còn lại mình <b>sửa tay</b> cho nhanh."' },
   ];
   let i = 0, busy = false;
   const fly = async (src) => {
