@@ -12,3 +12,10 @@ Trang trình bày tĩnh (HTML + CSS + JS thuần, không build, không backend).
 - Đã kiểm tra bố cục ở 1903×905 (Full HD, Chrome không F11, trừ taskbar/thanh địa chỉ/bookmark/thanh cuộn).
 - Điều khiển khi present: **↓ / PageDown** sang đúng mép trên màn kế tiếp, **↑ / PageUp** về màn trước (đang ở giữa một màn
   thì ↑ về mép trên chính màn đó). Sau khi kéo thanh giờ ở màn cloud, phím mũi tên tự trả lại cho điều hướng.
+
+## Publish (đã setup 16/10/2026)
+- Repo public: https://github.com/linhps1/seminar-ai-agent · GitHub Pages: branch `main`, root, custom domain
+  `seminar-ai-agent.linhps.dev` (DNS ở Cloudflare: CNAME `seminar-ai-agent` -> `linhps1.github.io`, DNS only).
+- Bản gốc chỉnh sửa ở `temp/seminar-ai-agent` (repo pm-ai). Publish: copy sang repo riêng `C:/Personal Files/seminar-ai-agent`
+  (remote `git@github.com-linhps1-ai-pm:linhps1/seminar-ai-agent.git`, SSH key tài khoản linhps1) → commit → push; Pages tự build.
+- GitHub CLI cài ở `C:/Program Files/GitHub CLI/gh.exe`, đã `gh auth login` bằng tài khoản linhps1 (máy linhps-desktop).
