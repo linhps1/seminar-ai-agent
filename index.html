@@ -9,10 +9,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Be Vietnam Pro: designed for Vietnamese (stacked diacritics ấ ữ ậ render cleanly), thin weights available -->
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
 <link rel="stylesheet" href="assets/style.css">
 <link rel="stylesheet" href="assets/sections.css">
 <link rel="stylesheet" href="assets/sections2.css">
 <link rel="stylesheet" href="assets/sections3.css">
+<link rel="stylesheet" href="assets/sections4.css">
 </head>
 <body>
 <div class="progress"><span id="progressBar"></span></div>
@@ -56,15 +59,15 @@
     <p class="lead narrow">Không có slide lý thuyết dài, không có bài kiểm tra cuối giờ. Chỉ là những gì tôi đã thử, đã vấp, và đang dùng hằng ngày trên dự án thật.</p>
     <div class="flips">
       <div class="flip" tabindex="0"><div class="flip-in">
-        <div class="face front"><small>Không phải</small><b>Một buổi training</b><em>di chuột để lật</em></div>
+        <div class="face front"><small>Không phải</small><b>Một buổi training</b><em>bấm để lật</em></div>
         <div class="face back"><small>Mà là</small><b>Một buổi chia sẻ</b><span>Như ngồi cà phê kể chuyện nghề</span></div>
       </div></div>
       <div class="flip" tabindex="0"><div class="flip-in">
-        <div class="face front"><small>Không phải</small><b>Kiến thức AI hàn lâm</b><em>di chuột để lật</em></div>
+        <div class="face front"><small>Không phải</small><b>Kiến thức AI hàn lâm</b><em>bấm để lật</em></div>
         <div class="face back"><small>Mà là</small><b>Ứng dụng AI trên dự án thật</b><span>Email, chat, Jira, test case, báo cáo</span></div>
       </div></div>
       <div class="flip" tabindex="0"><div class="flip-in">
-        <div class="face front"><small>Không phải</small><b>Tôi nói, bạn nghe</b><em>di chuột để lật</em></div>
+        <div class="face front"><small>Không phải</small><b>Tôi nói, bạn nghe</b><em>bấm để lật</em></div>
         <div class="face back"><small>Mà là</small><b>Cứ đặt câu hỏi bất cứ lúc nào</b><span>Để hỏi, phản biện, hay kể cách bạn đang làm</span></div>
       </div></div>
     </div>
@@ -77,16 +80,17 @@
   </div>
 </section>
 
-<!-- ============ 3. VÍ DỤ: VIẾT TEST CASE ============ -->
-<section class="slide" id="s-demo" data-title="Viết test case">
+<!-- ============ 3. VÍ DỤ: DÙNG AI CHO MỘT ĐẦU VIỆC ============ -->
+<section class="slide" id="s-demo" data-title="Dùng AI">
   <div class="wrap">
     <div class="head-row">
-      <div><p class="eyebrow">Hãy tưởng tượng</p><h2>Một buổi chiều <strong>viết test case</strong> cùng AI</h2></div>
+      <div><p class="eyebrow">Hãy tưởng tượng</p><h2>Một buổi chiều <strong>dùng AI cho một đầu việc</strong></h2></div>
       <div class="controls">
         <button class="btn ghost" id="demoPrev">‹ Lùi lại</button>
         <button class="btn" id="demoNext">Bước tiếp theo ›</button>
       </div>
     </div>
+    <div class="demo-pick"><div class="sc-tabs" id="demoTabs"><button data-s="0" class="on">PM · Weekly report</button><button data-s="1">BA · Viết BRD</button><button data-s="2">QC · Viết test case</button></div><p>Việc nào cũng cần: <b>template</b> · <b>file context</b> · <b>email</b> · <b>chat nội bộ</b> · <b>Jira, Drive</b></p></div>
     <div class="demo-grid">
       <div class="chat">
         <div class="chat-top"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><b>Claude · Cuộc trò chuyện mới</b><em id="stepLabel">Bước 0 / 8</em></div>
@@ -97,8 +101,8 @@
           <p class="mini-title">Ai đang mang thông tin cho AI?</p>
           <svg viewBox="0 0 420 300" id="courierSvg">
             <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6D9EEB"/></marker></defs>
-            <g class="src" data-src="tpl"><rect x="10" y="14" width="118" height="40" rx="10"/><text x="69" y="39">TC template</text></g>
-            <g class="src" data-src="brd"><rect x="10" y="74" width="118" height="40" rx="10"/><text x="69" y="99">BRD</text></g>
+            <g class="src" data-src="tpl"><rect x="10" y="14" width="118" height="40" rx="10"/><text x="69" y="39">Template</text></g>
+            <g class="src" data-src="brd"><rect x="10" y="74" width="118" height="40" rx="10"/><text x="69" y="99">File context</text></g>
             <g class="src" data-src="mail"><rect x="10" y="134" width="118" height="40" rx="10"/><text x="69" y="159">Email KH</text></g>
             <g class="src" data-src="chat"><rect x="10" y="194" width="118" height="40" rx="10"/><text x="69" y="219">Chat nội bộ</text></g>
             <g class="src" data-src="jira"><rect x="10" y="254" width="118" height="40" rx="10"/><text x="69" y="279">Jira · Drive …</text></g>
@@ -157,7 +161,38 @@
   </div>
 </section>
 
-<!-- ============ 5. DÀNH CHO BẠN ============ -->
+<!-- ============ 5. CLAUDE CODE QUÊN FILE ============ -->
+<section class="slide" id="s-forget" data-title="Quên file">
+  <div class="wrap">
+    <div class="head-row">
+      <div><p class="eyebrow">Một ngày đẹp trời</p><h2>Claude Code bỗng <strong>quên file</strong> bạn vừa gửi</h2></div>
+      <div class="controls"><button class="btn ghost" id="fgPrev">‹ Lùi lại</button><button class="btn" id="fgNext">Tiếp tục ›</button></div>
+    </div>
+    <div class="fg-grid">
+      <div class="fg-mem">
+        <div class="fg-head"><b>Bộ nhớ ngắn hạn</b><small>context window của một cuộc trò chuyện</small></div>
+        <div class="fg-jar" id="fgJar"></div>
+        <div class="fg-pct"><b id="fgPct">0%</b><span>đã dùng</span></div>
+      </div>
+      <div class="chat fg-chat">
+        <div class="chat-top"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><b>Claude Code · một phiên làm việc dài</b><em id="fgLabel">Bước 0 / 6</em></div>
+        <div class="chat-body" id="fgBody"></div>
+      </div>
+      <div class="fg-why">
+        <p class="mini-title">Vì sao lại như vậy?</p>
+        <div class="fg-cards" id="fgWhy">
+          <div><b>Bộ nhớ ngắn hạn có giới hạn</b><span>Mỗi cuộc trò chuyện chỉ chứa được một lượng chữ nhất định. File dài, trao đổi dài sẽ lấp đầy rất nhanh.</span></div>
+          <div><b>Đầy thì tự động "nén"</b><span>Claude tóm tắt phần cũ để làm tiếp. Ý chính còn, nhưng con số, tên người, ngoại lệ trong file thì mất.</span></div>
+          <div><b>Session mới, /clear, mở lại VS Code</b><span>Bắt đầu lại là bắt đầu trắng: file đã gửi trong cuộc trò chuyện cũ không còn.</span></div>
+          <div><b>File lớn chỉ được đọc một phần</b><span>PDF hàng trăm trang, Excel nhiều sheet: AI có thể chỉ đọc đoạn đầu hoặc đọc lướt.</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="insight fg-fix" id="fgFix"></p>
+  </div>
+</section>
+
+<!-- ============ 6. DÀNH CHO BẠN ============ -->
 <section class="slide" id="s-foryou" data-title="Dành cho bạn">
   <div class="wrap">
     <p class="eyebrow">Thành thật một chút</p>
@@ -187,7 +222,7 @@
 </section>
 
 <!-- ============ 6. LỊCH SỬ (Ý 3) ============ -->
-<section class="slide" id="s-history" data-title="AI đã đi tới đâu">
+<section class="slide" id="s-history" data-title="Lịch sử AI">
   <div class="wrap">
     <p class="eyebrow">Nhìn lại một chút</p>
     <h2>Từ "Hey Siri" đến <strong>AI Agent</strong></h2>
@@ -217,10 +252,10 @@
 <section class="slide" id="s-mindset" data-title="Đổi mindset">
   <div class="wrap">
     <p class="eyebrow">Thay đổi đầu tiên</p>
-    <h2>AI không phải cái cuốc. AI là <strong>một thành viên dự án</strong></h2>
+    <h2>AI không phải một công cụ đơn lẻ. AI là <strong>một thành viên dự án</strong></h2>
     <div class="ms-grid">
       <div class="ms-left">
-        <div class="ms-toggle" id="msToggle"><button data-m="tool" class="on">Coi AI là công cụ</button><button data-m="member">Coi AI là thành viên</button></div>
+        <div class="ms-toggle" id="msToggle"><button data-m="tool" class="on">Coi AI là công cụ đơn lẻ</button><button data-m="member">Coi AI là thành viên</button></div>
         <div class="ms-card" id="msCard"></div>
       </div>
       <div class="caps">
@@ -257,7 +292,7 @@
 </section>
 
 <!-- ============ 8. ONBOARD = CONTEXT (Ý 5a) ============ -->
-<section class="slide" id="s-context" data-title="Onboard nhân viên AI">
+<section class="slide" id="s-context" data-title="Onboard AI">
   <div class="wrap">
     <p class="eyebrow">Nhân viên mới thì phải được onboard</p>
     <h2>"Cung cấp context" chính là <strong>handover dự án</strong></h2>
@@ -337,7 +372,7 @@
 <section class="slide" id="s-n8n" data-title="Ví dụ thật">
   <div class="wrap">
     <div class="head-row">
-      <div><p class="eyebrow">Giao việc bằng một câu, AI tự đi lấy thông tin</p><h2 id="scTitle"></h2></div>
+      <div><p class="eyebrow">Giao việc bằng một câu: AI đọc Git repo trước, rồi tự đi lấy phần còn lại</p><h2 id="scTitle"></h2></div>
       <div class="controls"><button class="btn ghost" id="flowPrev">‹ Lùi lại</button><button class="btn" id="flowNext">Bước tiếp theo ›</button></div>
     </div>
     <div class="sc-tabs" id="scTabs"><button data-s="0" class="on">PM · Report UAT cuối ngày</button><button data-s="1">QC · Viết test case</button><button data-s="2">BA · Review feedback BRD v0.1</button></div>
@@ -345,6 +380,7 @@
       <div class="flow-canvas">
         <svg viewBox="0 0 760 400" id="flowSvg">
           <path class="fl" data-f="pm" d="M130 200 L200 200"/>
+          <path class="fl" data-f="repo" d="M275 250 L275 282"/>
           <path class="fl" data-f="n8n" d="M350 200 L407 200"/>
           <path class="fl" data-f="jira" d="M491 164 C540 164 545 31 580 31"/>
           <path class="fl" data-f="chat" d="M495 176 C540 176 545 86 580 86"/>
@@ -354,7 +390,8 @@
           <path class="fl" data-f="cal" d="M495 224 C540 224 545 306 580 306"/>
           <path class="fl" data-f="db" d="M491 236 C540 236 545 361 580 361"/>
           <g class="nd" data-n="pm"><rect x="10" y="165" width="120" height="70" rx="14"/><text x="70" y="195" id="actorTxt">PM</text><text x="70" y="215" class="sm">1 prompt</text></g>
-          <g class="nd" data-n="cc"><rect x="200" y="150" width="150" height="100" rx="16"/><text x="275" y="190">Claude Code</text><text x="275" y="212" class="sm">+ context dự án</text><text x="275" y="230" class="sm">(Git repo)</text></g>
+          <g class="nd" data-n="cc"><rect x="200" y="150" width="150" height="100" rx="16"/><text x="275" y="196">Claude Code</text><text x="275" y="218" class="sm">AI Agent</text></g>
+          <g class="nd repo" data-n="repo"><rect x="150" y="282" width="250" height="110" rx="16"/><text x="275" y="308">Git repo: bộ não dự án</text><text x="275" y="330" class="sm">người nhận · vai trò · rule · template</text><text x="275" y="349" class="sm">quyết định đã chốt · lịch sử dự án</text><text x="275" y="373" class="sm in">có sẵn, không cần hệ thống ngoài</text></g>
           <g class="nd" data-n="n8n"><circle cx="455" cy="200" r="48"/><text x="455" y="196">n8n · MCP</text><text x="455" y="216" class="sm">cổng kết nối</text></g>
           <g class="nd" data-n="jira"><rect x="580" y="8" width="170" height="46" rx="12"/><text x="665" y="36">Jira</text></g>
           <g class="nd" data-n="chat"><rect x="580" y="63" width="170" height="46" rx="12"/><text x="665" y="91">Google Chat</text></g>
@@ -366,6 +403,7 @@
         </svg>
       </div>
       <div class="flow-side">
+        <div class="src-split"><div class="in"><b id="cntRepo">0</b><span>thông tin có sẵn trong <u>Git repo</u></span></div><div class="ext"><b id="cntExt">0</b><span>hệ thống ngoài qua <u>n8n · MCP</u></span></div></div>
         <div class="flow-step" id="flowStep"></div>
         <div class="flow-out" id="flowOut"></div>
         <div class="time-cmp"><div><span>Tự làm tay</span><i class="tb man"></i><b id="tmMan"></b></div><div><span>Với AI Agent</span><i class="tb ai" id="tbAi"></i><b id="tmAi"></b></div></div>
@@ -375,7 +413,7 @@
 </section>
 
 <!-- ============ 10. SOURCE CODE (Ý 6) ============ -->
-<section class="slide" id="s-tree" data-title="Bộ não dự án">
+<section class="slide" id="s-tree" data-title="Bộ não">
   <div class="wrap">
     <p class="eyebrow">Mở "bộ não" của nhân viên AI</p>
     <h2>Trong repo của tôi <strong>có những gì</strong>?</h2>
@@ -393,7 +431,7 @@
 </section>
 
 <!-- ============ 11. PROMPT (Ý 7) ============ -->
-<section class="slide" id="s-prompt" data-title="Cấu trúc prompt">
+<section class="slide" id="s-prompt" data-title="Prompt">
   <div class="wrap">
     <p class="eyebrow">Giao việc cho nhân viên AI</p>
     <h2>Một prompt chuyên nghiệp gồm <strong>những phần nào</strong>?</h2>
@@ -412,7 +450,7 @@
 </section>
 
 <!-- ============ 12. CÁCH LÀM VIỆC MỚI (Ý 8) ============ -->
-<section class="slide" id="s-new" data-title="Cách làm việc mới">
+<section class="slide" id="s-new" data-title="Cách làm mới">
   <div class="wrap">
     <p class="eyebrow">Điều thay đổi thật sự</p>
     <h2>Thời gian của bạn được dùng vào <strong>đâu</strong>?</h2>
@@ -444,7 +482,7 @@
 </section>
 
 <!-- ============ 14. DEMO TRỰC TIẾP (Ý 9) ============ -->
-<section class="slide" id="s-live" data-title="Demo trực tiếp">
+<section class="slide" id="s-live" data-title="Demo">
   <div class="wrap">
     <p class="eyebrow">Không nói nữa, làm thật</p>
     <h2>Demo trực tiếp: <strong>báo cáo tiến độ trong ngày</strong> và to-do</h2>
@@ -468,7 +506,7 @@
 </section>
 
 <!-- ============ 15. CLOUD 24/7 (Ý 10) ============ -->
-<section class="slide" id="s-cloud" data-title="Chạy 24/7 trên cloud">
+<section class="slide" id="s-cloud" data-title="Chạy 24/7">
   <div class="wrap">
     <p class="eyebrow">Bước tiếp theo</p>
     <h2>Đặt Claude Code lên <strong>cloud server</strong>: làm việc 24/7</h2>
@@ -537,18 +575,36 @@
   </div>
 </section>
 
-<!-- ============ 16. HỎI ĐÁP ============ -->
+<!-- ============ 17. LỘ TRÌNH ============ -->
+<section class="slide" id="s-path" data-title="Lộ trình">
+  <div class="wrap">
+    <div class="head-row">
+      <div><p class="eyebrow">Bắt đầu từ đâu?</p><h2>Từ chưa dùng AI đến <strong>AI Agent</strong>: 8 bước, một buổi chiều</h2></div>
+      <div class="controls"><button class="btn" id="pathBtn">Đi thử lộ trình ›</button></div>
+    </div>
+    <div class="path">
+      <div class="path-end start"><small>Hôm nay</small><b>Chưa dùng AI<br>hoặc Copilot</b></div>
+      <ol class="path-steps" id="pathSteps"></ol>
+      <div class="path-end goal"><small>Sau một buổi chiều</small><b>AI Agent<br>làm việc cùng bạn</b></div>
+    </div>
+    <div class="path-detail" id="pathDetail"></div>
+  </div>
+</section>
+
+<!-- ============ 18. HỎI ĐÁP ============ -->
 <section class="slide end" id="s-end" data-title="Hỏi đáp">
   <div class="wrap end-wrap">
     <p class="eyebrow">Cảm ơn mọi người đã lắng nghe</p>
     <div class="qa-badge"><b>Q&amp;A</b><span>Hỏi đáp</span></div>
     <h1>Bây giờ, <strong>đến lượt bạn</strong> đặt câu hỏi</h1>
     <p class="lead">Câu hỏi, phản biện, hay cách bạn đang dùng AI trên dự án: tất cả đều đáng chia sẻ.</p>
+    <p class="mini-title end-title">Mang về sau buổi hôm nay</p>
     <div class="end-cards">
-      <div><b>Bắt đầu nhỏ</b><span>Một repo, một file context, một prompt cho việc bạn lặp lại nhiều nhất.</span></div>
-      <div><b>Bàn giao một lần</b><span>Viết context như onboard một đồng nghiệp mới. AI nhớ mãi.</span></div>
-      <div><b>Giữ quyền quyết định</b><span>AI thực thi. Bạn suy nghĩ, review và chịu trách nhiệm cuối cùng.</span></div>
+      <div><i>01</i><b>Bạn là người ra quyết định</b><span>AI lo phần thực thi. Thời gian của bạn dành cho điều chỉ con người làm được: hiểu khách hàng, chọn hướng đi.</span></div>
+      <div><i>02</i><b>Mỗi lần dạy AI là một lần đầu tư</b><span>Context, quy ước, góp ý bạn viết hôm nay, AI nhớ và dùng lại mãi, trên mọi máy.</span></div>
+      <div><i>03</i><b>Bắt đầu ngay tuần này</b><span>Chọn một việc lặp lại bạn ngại nhất và giao cho AI. Một buổi chiều setup, cả năm nhẹ nhàng hơn.</span></div>
     </div>
+    <p class="end-quote">AI không lấy mất công việc của bạn. Nó trả lại cho bạn <strong>thời gian để làm phần việc quan trọng nhất</strong>.</p>
     <p class="sign">Phan Sĩ Linh · Project Manager · SmartOSC</p>
   </div>
 </section>

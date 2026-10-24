@@ -1,0 +1,90 @@
+/* FEEDBACK 1: page 3 task picker, "forget a file" page, page 10 Git repo source, setup path page, Q&A takeaways */
+
+/* ---------- 3. demo: pick the task ---------- */
+.demo-pick { display: flex; align-items: center; gap: 18px; margin: .4vh 0 1.2vh; flex-wrap: wrap; }
+.demo-pick .sc-tabs { margin: 0; }
+.demo-pick p { font-size: 13.5px; color: var(--soft); }
+.demo-pick p b { color: var(--blue); font-weight: 500; }
+#s-demo .demo-grid { height: 58vh; }
+
+/* ---------- 4b. forget a file ---------- */
+.fg-grid { display: grid; grid-template-columns: .8fr 1.35fr 1fr; gap: 22px; height: 54vh; min-height: 400px; margin-top: .6vh; }
+.fg-mem { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+.fg-head b { display: block; color: var(--ink); font-weight: 500; }
+.fg-head small { color: var(--soft); font-size: 12px; }
+.fg-jar { flex: 1; min-height: 0; border: 1.5px solid var(--blue); border-top: 2px dashed var(--red); border-radius: 0 0 14px 14px; display: flex; flex-direction: column-reverse; overflow: hidden; background: #fff; position: relative; transition: box-shadow .3s; }
+.fg-jar.full { box-shadow: 0 0 0 4px rgba(192, 57, 43, .12); }
+.fg-jar::before { content: 'giới hạn'; position: absolute; top: 4px; right: 8px; font-size: 10.5px; color: var(--red); letter-spacing: .06em; }
+.fg-jar .seg { height: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 12px; transition: height .6s ease; border-top: 1px solid #fff; flex: none; }
+.fg-jar .seg span { padding: 0 8px; line-height: 1.25; }
+.fg-jar .seg.file { background: #DCE7FA; color: var(--blue); }
+.fg-jar .seg.talk { background: #EEF2F7; color: var(--soft); }
+.fg-jar .seg.paste { background: #FCEBD6; color: var(--amber); }
+.fg-jar .seg.sum { background: #E3F2DF; color: var(--green-t); font-weight: 500; }
+.fg-pct { display: flex; align-items: baseline; gap: 8px; }
+.fg-pct b { font-size: clamp(24px, 3.4vh, 34px); font-weight: 200; color: var(--blue); }
+.fg-pct span { font-size: 12px; color: var(--soft); }
+.fg-chat { min-height: 0; }
+.fg-why { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+.fg-cards { display: flex; flex-direction: column; gap: 8px; flex: 1; min-height: 0; }
+.fg-cards div { flex: 1; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1vh 14px; transition: .3s; opacity: .55; display: flex; flex-direction: column; justify-content: center; }
+.fg-cards div.on { opacity: 1; border-color: var(--amber); background: #FFF8EF; transform: translateX(-4px); }
+.fg-cards b { font-size: 14px; color: var(--ink); font-weight: 500; }
+.fg-cards span { font-size: 12.5px; color: var(--soft); line-height: 1.4; }
+.fg-fix { margin-top: 1.6vh; }
+
+/* ---------- 10. Git repo as a context source ---------- */
+#flowSvg .nd.repo rect { stroke: var(--green); stroke-dasharray: 0; }
+#flowSvg .nd.repo.on rect { fill: #F1F9EE; stroke: var(--green-t); stroke-width: 2; }
+#flowSvg .in { fill: var(--green-t) !important; font-weight: 500 !important; }
+#flowSvg .grp { font-size: 11px; fill: var(--soft); letter-spacing: .08em; text-transform: uppercase; text-anchor: end; }
+.src-split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.src-split div { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 12px; padding: .8vh 12px; background: var(--card); }
+.src-split b { font-size: clamp(22px, 3vh, 30px); font-weight: 300; line-height: 1; }
+.src-split span { font-size: 12px; color: var(--soft); line-height: 1.3; }
+.src-split .in { border-color: rgba(90, 181, 90, .6); } .src-split .in b { color: var(--green-t); }
+.src-split .ext b { color: var(--blue); }
+
+/* ---------- 16. path: no AI -> AI Agent ---------- */
+.path { display: grid; grid-template-columns: 130px 1fr 130px; gap: 14px; align-items: center; margin-top: 2vh; }
+.path-end { border: 1px solid var(--line); border-radius: 16px; padding: 2vh 14px; text-align: center; background: var(--card); }
+.path-end small { display: block; font-size: 11.5px; color: var(--soft); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 4px; }
+.path-end b { font-weight: 500; font-size: 15px; line-height: 1.3; }
+.path-end.start b { color: var(--soft); }
+.path-end.goal { border-color: var(--green); }
+.path-end.goal b { color: var(--green-t); }
+.path-end.goal.lit { background: var(--grad); border-color: transparent; box-shadow: 0 12px 30px rgba(47, 82, 160, .2); }
+.path-end.goal.lit b, .path-end.goal.lit small { color: #fff; }
+.path-steps { list-style: none; display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px; position: relative; }
+.path-line { position: absolute; left: 6%; right: 6%; top: calc(max(2.4vh, 16px) + 16px); height: 2px; background: var(--hair); z-index: 0; }
+.path-line i { display: block; height: 100%; width: 0; background: var(--grad); transition: width .6s; }
+.path-steps li { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 4px 2.4vh; border-radius: 14px; cursor: default; transition: .25s; }
+.path-steps li em { font-style: normal; font-size: 11px; color: var(--green-t); letter-spacing: .1em; text-transform: uppercase; height: 2.4vh; min-height: 16px; }
+.path-steps .pn { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--line); background: #fff; display: grid; place-items: center; font-size: 14px; color: var(--soft); transition: .3s; }
+.path-steps svg { width: 30px; height: 30px; margin: 1.4vh 0 .8vh; fill: none; stroke: var(--blue); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.path-steps b { font-size: 14px; min-height: 2.5em; display: flex; align-items: center; font-weight: 500; color: var(--ink); line-height: 1.25; }
+.path-steps small { font-size: 11.5px; color: var(--soft); margin-top: 2px; line-height: 1.3; }
+.path-steps .tm { margin-top: auto; position: relative; top: .8vh; font-size: 11.5px; color: var(--blue); border: 1px solid var(--line); border-radius: 20px; padding: 1px 10px; background: #fff; }
+.path-steps li:hover, .path-steps li.on { background: var(--card); box-shadow: 0 10px 26px rgba(30, 42, 68, .08); }
+.path-steps li.on .pn { background: var(--blue); border-color: var(--blue); color: #fff; transform: scale(1.12); }
+.path-steps li.done .pn { background: var(--green); border-color: var(--green); color: #fff; }
+.path-detail { display: grid; grid-template-columns: 1.2fr 1fr; gap: 22px; margin: 2.6vh 144px 0; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 2vh 24px; min-height: 17vh; align-items: center; }
+.pd-l small { color: var(--green-t); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.pd-l h3 { font-size: clamp(18px, 2.5vh, 24px); font-weight: 500; color: var(--blue); margin: 2px 0 4px; }
+.pd-l p { font-size: 14.5px; }
+.pd-tags { display: flex; gap: 8px; margin-top: 1vh; }
+.pd-tags span { font-size: 12px; border: 1px solid var(--line); border-radius: 20px; padding: 2px 12px; color: var(--blue); background: #fff; }
+.pd-tags .who { border-color: rgba(90, 181, 90, .6); color: var(--green-t); }
+.pd-ex { font-family: 'JetBrains Mono', monospace; font-size: 13px; background: #1F2A44; color: #DCE7FA; border-radius: 12px; padding: 1.6vh 18px; white-space: pre-wrap; line-height: 1.6; }
+
+/* ---------- Q&A: key takeaways ---------- */
+.end-title { margin-top: 3vh; letter-spacing: .1em; text-transform: uppercase; font-size: 12px; color: var(--green-t); }
+#s-end .end-cards { margin: 1.4vh auto 2.6vh; }
+.end-cards i { display: block; font-style: normal; font-size: 13px; color: var(--green-t); letter-spacing: .1em; margin-bottom: .4vh; }
+.end-quote { font-size: clamp(15px, 2vh, 19px); color: var(--body); margin-bottom: 2.4vh; }
+.end-quote strong { color: var(--blue); font-weight: 500; }
+
+@media (max-width: 900px) {
+  .fg-grid, .src-split, .path, .path-steps, .path-detail { grid-template-columns: 1fr; height: auto; }
+  .path-line { display: none; } .path-detail { margin: 2vh 0 0; } .fg-jar { height: 40vh; }
+}

@@ -40,11 +40,18 @@ h2 strong { font-weight: 500; color: var(--blue); }
 /* progress + dots */
 .progress { position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 50; }
 .progress span { display: block; height: 100%; width: 0; background: var(--grad); transition: width .15s; }
-.dots { position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 14px; }
-.dots a { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--blue); background: transparent; position: relative; transition: .25s; }
-.dots a.on { background: var(--blue); transform: scale(1.3); }
-.dots a span { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); white-space: nowrap; font-size: 12px; color: var(--soft); opacity: 0; transition: .2s; pointer-events: none; }
-.dots a:hover span { opacity: 1; }
+/* section nav: one joined vertical bar split by thin white lines, short label beside each part, current part thicker */
+.dots { position: fixed; right: 16px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; }
+.dots a { display: flex; align-items: center; justify-content: flex-end; gap: 9px; height: min(4vh, 38px); text-decoration: none; }
+.dots a i { width: 6px; height: 100%; background: #D3DCEA; border-top: 1px solid #fff; transition: width .25s, background .25s; }
+.dots a:first-child i { border-radius: 4px 4px 0 0; border-top: none; }
+.dots a:last-child i { border-radius: 0 0 4px 4px; }
+.dots a.past i { background: var(--blue-hi); }
+.dots a.on i { width: 10px; background: var(--blue); }
+.dots a span { white-space: nowrap; font-size: 11.5px; color: var(--soft); opacity: .75; transition: .2s; }
+.dots a:hover span { opacity: 1; color: var(--blue); }
+.dots a.on span { opacity: 1; color: var(--blue); font-weight: 500; }
+@media (min-width: 901px) { .wrap { width: min(1440px, calc(88vw - 90px)); left: -45px; } }
 
 /* ---------- 1. hero ---------- */
 #net { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1; }
@@ -87,7 +94,11 @@ h2 strong { font-weight: 500; color: var(--blue); }
 .flips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 4vh; perspective: 1200px; }
 .flip { height: 25vh; min-height: 170px; outline: none; cursor: pointer; }
 .flip-in { position: relative; width: 100%; height: 100%; transition: transform .7s cubic-bezier(.2, .8, .2, 1); transform-style: preserve-3d; }
-.flip:hover .flip-in, .flip:focus .flip-in, .flip.done .flip-in { transform: rotateY(180deg); }
+/* FEEDBACK 2: hover only highlights, click flips, click again flips back */
+.flip.done .flip-in { transform: rotateY(180deg); }
+.flip .face { transition: border-color .25s, box-shadow .25s, transform .25s; }
+.flip:hover .front, .flip:focus-visible .front { border: 1px solid var(--blue-hi); box-shadow: 0 12px 30px rgba(47, 82, 160, .14); }
+.flip:hover .back, .flip:focus-visible .back { box-shadow: 0 14px 34px rgba(90, 181, 90, .28); }
 .face { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 18px; padding: 3vh 28px; display: flex; flex-direction: column; justify-content: center; }
 .front { background: var(--card); border: 1px dashed var(--line); }
 .front small { color: var(--red); font-weight: 500; text-transform: uppercase; letter-spacing: .12em; font-size: 11.5px; }
