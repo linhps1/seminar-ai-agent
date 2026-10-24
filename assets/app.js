@@ -674,10 +674,10 @@ showRole('pm');
   };
   // group, icon, title, short line, time, who, description, example
   const P = [
-    ['Công cụ', 'git', 'Tạo Git repo', 'GitHub, chế độ private', '5 phút', 'Bạn tự làm', 'Tạo một repo private trên GitHub. Đây sẽ là "bộ não" của nhân viên AI: đồng bộ mọi máy, lưu toàn bộ lịch sử.', 'github.com → New repository\nTên: pm-ai · Private\ngit clone về máy'],
-    ['Công cụ', 'code', 'Cài VS Code', 'miễn phí, nhẹ', '5 phút', 'Bạn tự làm', 'Tải Visual Studio Code, mở thư mục repo vừa clone. Mọi file AI tạo ra, bạn đều nhìn thấy và sửa được.', 'code.visualstudio.com → Download\nFile → Open Folder → pm-ai'],
-    ['Công cụ', 'plug', 'Kết nối Claude', 'extension Claude Code', '5 phút', 'Bạn tự làm', 'Cài extension Claude Code trong VS Code, đăng nhập tài khoản Claude. Nhân viên AI đã "ngồi" vào bàn làm việc.', 'Extensions → tìm "Claude Code" → Install\nĐăng nhập → mở khung chat'],
-    ['Kết nối', 'hub', 'Cài n8n', 'chạy local, miễn phí', '15 phút', 'Nhờ Claude làm giúp', 'Cài n8n ngay trên máy làm "cổng kết nối". Mẹo: từ bước này, hãy nhờ chính Claude Code làm giúp.', '"Cài n8n chạy local trên máy mình,\ntự khởi động khi bật máy."'],
+    ['Công cụ', 'git', 'Xin Git repo', 'private, của SmartOSC', '1 – 2 ngày', 'Request HoD + IT', 'Request HoD duyệt, IT setup Git repo private của SmartOSC. Đây là "bộ não" của nhân viên AI: đồng bộ mọi máy, dữ liệu vẫn nằm trong công ty.', 'Request: Git repo private cho dự án ABC\nHoD duyệt → IT tạo repo, cấp quyền\ngit clone về máy'],
+    ['Công cụ', 'code', 'Cài VS Code', 'miễn phí, nhẹ', '5 phút', 'Tự cài, miễn phí', 'Tải Visual Studio Code (miễn phí, công ty không chặn), mở thư mục repo vừa clone. Mọi file AI tạo ra, bạn đều nhìn thấy và sửa được.', 'code.visualstudio.com → Download\nFile → Open Folder → pm-ai'],
+    ['Công cụ', 'plug', 'Kết nối Claude', 'extension Claude Code', '5 phút', 'Tự cài, tài khoản công ty', 'Cài extension Claude Code trong VS Code, đăng nhập tài khoản Claude Code Team công ty đã cấp cho team dự án. Nhân viên AI đã "ngồi" vào bàn làm việc.', 'Extensions → tìm "Claude Code" → Install\nĐăng nhập → mở khung chat'],
+    ['Kết nối', 'hub', 'Cài n8n', 'chạy local, miễn phí', '15 phút', 'Tự cài, nhờ Claude giúp', 'Cài n8n (miễn phí, công ty không chặn) ngay trên máy làm "cổng kết nối". Mẹo: từ bước này, hãy nhờ chính Claude Code làm giúp.', '"Cài n8n chạy local trên máy mình,\ntự khởi động khi bật máy."'],
     ['Kết nối', 'link', 'Nối hệ thống', 'Gmail · Chat · Drive · Jira', '30 phút', 'Bạn đăng nhập, Claude dựng', 'Đăng nhập Google một lần cho Gmail, Chat, Drive, Calendar; thêm MCP cho Jira, Confluence.', '"Tạo workflow n8n đọc Gmail và Google Chat,\ncó token bảo vệ, ghi hướng dẫn vào infra/."'],
     ['Bộ não', 'tree', 'Sắp xếp repo', 'CLAUDE.md · projects/ · prompt/', '20 phút', 'Nhờ Claude làm giúp', 'Dựng khung thư mục: quy tắc gốc, context công ty, từng dự án, prompt, task tự động.', 'CLAUDE.md\ncompany/   projects/   prompt/\ntasks/     knowledge/  .claude/memory/'],
     ['Bộ não', 'load', 'Nạp context lần đầu', 'email · chat · Drive · file', '1 giờ', 'Claude đọc, bạn duyệt', 'Cho AI đọc email, chat, Drive và tài liệu dự án, tự viết overview, stakeholders, notes. Bạn đọc lại, sửa chỗ chưa đúng.', '"Đọc email, chat, Drive của dự án ABC 3 tháng qua,\nviết overview.md, stakeholders.md và notes/."'],
@@ -692,14 +692,17 @@ showRole('pm');
     $('#pathFill').style.width = (100 * k) / (P.length - 1) + '%';
     det.innerHTML = `<div class="pd-l"><small>Bước ${k + 1} / ${P.length} · ${g}</small><h3>${t}</h3><p>${d}</p><div class="pd-tags"><span>${tm}</span><span class="who">${who}</span></div></div><pre class="pd-ex">${ex}</pre>`;
   };
-  lis.forEach((li) => li.addEventListener('mouseenter', () => show(+li.dataset.k)));
-  let run;
-  $('#pathBtn').addEventListener('click', () => {
-    clearInterval(run); let k = 0; show(0);
-    run = setInterval(() => { k++; if (k >= P.length) { clearInterval(run); $('.path-end.goal').classList.add('lit'); return; } show(k); }, 1100);
-    $('.path-end.goal').classList.remove('lit');
-  });
-  show(0);
+  // presenter-driven only: click a step or use the buttons (no hover, no autoplay); one step past the last lights the goal
+  let cur = 0;
+  const go = (k) => {
+    cur = Math.max(0, Math.min(P.length, k)); const end = cur === P.length;
+    show(Math.min(cur, P.length - 1)); $('.path-end.goal').classList.toggle('lit', end);
+    $('#pathPrev').disabled = cur === 0; $('#pathNext').disabled = end;
+  };
+  lis.forEach((li) => li.addEventListener('click', () => go(+li.dataset.k)));
+  $('#pathNext').addEventListener('click', () => go(cur + 1));
+  $('#pathPrev').addEventListener('click', () => go(cur - 1));
+  go(0);
 })();
 
 /* ---------- keyboard: Arrow / Page Down -> next slide top, Arrow / Page Up -> previous slide top ---------- */
