@@ -126,27 +126,27 @@
 </section>
 
 <!-- ============ 4. VÍ DỤ: AI QUÊN ============ -->
-<section class="slide" id="s-memory" data-title="AI quên">
+<section class="slide" id="s-memory" data-title="Đổi tài khoản">
   <div class="wrap">
     <p class="eyebrow">Thêm một điều nữa</p>
-    <h2>Nhưng rồi một ngày bạn <strong>WFH</strong>, mở Claude trên laptop ở nhà…</h2>
+    <h2>Nhưng rồi một ngày bạn cần dùng <strong>một tài khoản Claude khác</strong>…</h2>
     <div class="mem-tabs" id="memTabs">
-      <button data-ctx="0" class="on"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>Máy ở công ty<small>session hôm qua</small></button>
-      <button data-ctx="1"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Laptop ở nhà<small>hôm nay WFH</small></button>
-      <button data-ctx="2"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c1-3.5 3.5-5 6.5-5s5.5 1.5 6.5 5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M16 14.5c3 0 5 1.5 5.5 4.5"/></svg>Tài khoản khác<small>account dự án</small></button>
-      <button data-ctx="3"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Một session mới<small>ngay trên máy cũ</small></button>
+      <button data-ctx="0" class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Tài khoản đang dùng<small>3 tháng làm dự án ABC</small></button>
+      <button data-ctx="1"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 12h18"/></svg>Tài khoản công ty cấp<small>chuyển từ tài khoản cá nhân</small></button>
+      <button data-ctx="2"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c1-3.5 3.5-5 6.5-5s5.5 1.5 6.5 5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M16 14.5c3 0 5 1.5 5.5 4.5"/></svg>Account riêng của dự án<small>khách hoặc dự án yêu cầu</small></button>
+      <button data-ctx="3"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Một tài khoản mới<small>đổi email, đổi gói</small></button>
     </div>
     <div class="mem-grid">
       <div class="brain">
-        <div class="brain-head"><b>Những gì AI "biết" về dự án của bạn</b><span id="memPct">100%</span></div>
+        <div class="brain-head"><b>Ký ức gắn với tài khoản cũ</b><span id="memPct">100%</span></div>
         <div class="meter"><span id="memBar"></span></div>
         <ul class="mem-list" id="memList">
-          <li>Template test case của dự án và cách đặt ID <i>TC-HOM-01…</i></li>
-          <li>BRD Homepage v1.0 và 3 lần BA chỉnh sửa</li>
-          <li>Khách hàng đã chốt qua email: banner tối đa 5 slide</li>
-          <li>BA nhắn trong chat: bỏ case Omnichat khỏi Wave 1</li>
-          <li>Bạn thích bước test ngắn, mỗi bước một hành động</li>
-          <li>24 test case đã viết hôm qua và những chỗ bạn đã sửa</li>
+          <li><b>Lịch sử chat:</b> 3 tháng trao đổi về dự án ABC</li>
+          <li><b>Project "Dự án ABC":</b> BRD, template, quy ước ID <i>TC-HOM-01…</i></li>
+          <li><b>Memory:</b> bạn là QC, thích bước test ngắn, mỗi bước một hành động</li>
+          <li><b>Memory:</b> khách đã chốt banner tối đa 5 slide</li>
+          <li><b>Cài đặt cá nhân:</b> trả lời tiếng Việt, không emoji</li>
+          <li><b>Connectors:</b> Gmail, Google Drive đã kết nối</li>
         </ul>
       </div>
       <div class="newchat">
@@ -154,11 +154,12 @@
         <div class="bubble ai" id="aiGreet"></div>
         <div class="stranger" id="stranger">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 0 1 4.8 1c0 1.7-2.3 2-2.3 3.5M12 17.2v.3"/></svg>
-          <p>Như nói chuyện với một <b>người mới gặp</b>.<br>Bạn lại bắt đầu dán template, BRD, email, chat… từ đầu.</p>
-          <div class="redo"><b id="redoMin">0</b> phút giải thích lại, <u>mỗi lần</u> đổi máy hoặc mở session mới</div>
+          <p>Tài khoản mới <b>không thấy gì</b> của tài khoản cũ: lịch sử chat, Project, Memory, cài đặt, connectors đều ở lại bên kia.<br>Bạn lại bắt đầu dán template, BRD, email, chat… từ đầu.</p>
+          <div class="redo"><b id="redoMin">0</b> phút giải thích lại, <u>mỗi lần</u> đổi sang tài khoản khác</div>
         </div>
       </div>
     </div>
+    <p class="mem-note">Lưu ý: ký ức của Claude <b>gắn với tài khoản, không gắn với máy</b>. Cùng một tài khoản thì WFH, đổi máy vẫn còn; chỉ khi đổi tài khoản mới mất sạch.</p>
   </div>
 </section>
 
@@ -190,6 +191,74 @@
       </div>
     </div>
     <p class="insight fg-fix" id="fgFix"></p>
+  </div>
+</section>
+
+<!-- ============ 6. KÝ ỨC LƯU Ở ĐÂU ============ -->
+<section class="slide" id="s-accounts" data-title="Ký ức ở đâu">
+  <div class="wrap">
+    <p class="eyebrow">Nhìn từ bên trong</p>
+    <h2>Ký ức của Claude <strong>được lưu ở đâu</strong>?</h2>
+    <div class="ac-grid">
+      <div class="ac-canvas">
+        <svg viewBox="0 0 1200 500" id="acSvg">
+          <defs>
+            <marker id="acG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8A94A6"/></marker>
+            <marker id="acM" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#3E9E3E"/></marker>
+          </defs>
+          <g class="ac-acct a">
+    <rect class="zone" x="20" y="8" width="550" height="478" rx="20"/>
+    <g transform="translate(170 26)"><rect class="card" width="250" height="58" rx="14"/><text x="125" y="26" class="ac-h" text-anchor="middle">Tài khoản Claude A</text><text x="125" y="46" class="ac-s" text-anchor="middle">tài khoản cá nhân của bạn</text></g>
+    <path class="ln acc" d="M250 84 C250 105 165 100 165 122"/><path class="ln acc" d="M340 84 C340 105 425 100 425 122"/>
+    <g transform="translate(60 122)"><rect class="st hist2" x="8" y="-6" width="210" height="80" rx="12"/><rect class="st hist" width="210" height="80" rx="12"/><text x="16" y="30" class="ac-t">Lịch sử chat</text><text x="16" y="52" class="ac-s">mọi chat cũ + file đính kèm</text><text x="16" y="68" class="ac-s">chat mới không tự đọc</text></g>
+    <g transform="translate(320 122)"><rect class="st mem" width="210" height="80" rx="12"/><text x="16" y="30" class="ac-t mem-t">Memory tài khoản</text><text x="16" y="52" class="ac-s">vài topic về bạn: vai trò,</text><text x="16" y="68" class="ac-s">sở thích, dự án đang làm</text></g>
+    <path class="ln hist-ln" d="M115 316 C115 250 170 260 170 204" marker-end="url(#acG)"/><path class="ln hist-ln" d="M295 316 C295 250 170 260 170 204" marker-end="url(#acG)"/><path class="ln hist-ln" d="M475 316 C475 250 170 260 170 204" marker-end="url(#acG)"/>
+    <path class="ln mem-ln" d="M425 204 C425 260 133 250 133 316" marker-start="url(#acM)" marker-end="url(#acM)"/><path class="ln mem-ln" d="M425 204 C425 260 313 250 313 316" marker-start="url(#acM)" marker-end="url(#acM)"/><path class="ln mem-ln" d="M425 204 C425 260 493 250 493 316" marker-start="url(#acM)" marker-end="url(#acM)"/>
+    <text x="40" y="246" class="ac-s lg-hist">lưu lại</text><text x="490" y="246" class="ac-s lg-mem">nạp / ghi</text>
+    <path class="wall" d="M205 330 L205 456"/><g transform="translate(205 393)"><circle r="9" class="xc"/><path d="M-4 -4L4 4M4 -4L-4 4" class="xx"/></g><path class="wall" d="M385 330 L385 456"/><g transform="translate(385 393)"><circle r="9" class="xc"/><path d="M-4 -4L4 4M4 -4L-4 4" class="xx"/></g>
+    <g class="ac-chat" transform="translate(35 318)"><rect width="160" height="150" rx="12"/><rect class="hd" width="160" height="30" rx="12"/><rect class="hd" y="18" width="160" height="12"/>
+      <text x="12" y="20" class="ac-t">Chat 1</text><text x="12" y="54" class="ac-s">1 context window</text><text x="12" y="72" class="ac-s">riêng, có giới hạn</text>
+      <rect x="122" y="40" width="26" height="112" rx="5" class="jar" transform="translate(0 -6)"/><rect x="125" y="77" width="20" height="66" rx="3" class="fill"/>
+      <text x="12" y="132" class="ac-s">tin nhắn + file</text></g><g class="ac-chat" transform="translate(215 318)"><rect width="160" height="150" rx="12"/><rect class="hd" width="160" height="30" rx="12"/><rect class="hd" y="18" width="160" height="12"/>
+      <text x="12" y="20" class="ac-t">Chat 2</text><text x="12" y="54" class="ac-s">1 context window</text><text x="12" y="72" class="ac-s">riêng, có giới hạn</text>
+      <rect x="122" y="40" width="26" height="112" rx="5" class="jar" transform="translate(0 -6)"/><rect x="125" y="41" width="20" height="102" rx="3" class="fill full"/>
+      <text x="12" y="132" class="ac-s">gần đầy</text></g><g class="ac-chat" transform="translate(395 318)"><rect width="160" height="150" rx="12"/><rect class="hd" width="160" height="30" rx="12"/><rect class="hd" y="18" width="160" height="12"/>
+      <text x="12" y="20" class="ac-t">Chat 3</text><text x="12" y="54" class="ac-s">1 context window</text><text x="12" y="72" class="ac-s">riêng, có giới hạn</text>
+      <rect x="122" y="40" width="26" height="112" rx="5" class="jar" transform="translate(0 -6)"/><rect x="125" y="111" width="20" height="32" rx="3" class="fill"/>
+      <text x="12" y="132" class="ac-s">chat mới</text></g>
+  </g>
+          <g class="ac-acct b">
+    <rect class="zone" x="630" y="8" width="550" height="478" rx="20"/>
+    <g transform="translate(780 26)"><rect class="card" width="250" height="58" rx="14"/><text x="125" y="26" class="ac-h" text-anchor="middle">Tài khoản Claude B</text><text x="125" y="46" class="ac-s" text-anchor="middle">account riêng của dự án</text></g>
+    <path class="ln acc" d="M860 84 C860 105 775 100 775 122"/><path class="ln acc" d="M950 84 C950 105 1035 100 1035 122"/>
+    <g transform="translate(670 122)"><rect class="st hist2" x="8" y="-6" width="210" height="80" rx="12"/><rect class="st hist" width="210" height="80" rx="12"/><text x="16" y="30" class="ac-t">Lịch sử chat</text><text x="16" y="52" class="ac-s">mọi chat cũ + file đính kèm</text><text x="16" y="68" class="ac-s">chat mới không tự đọc</text></g>
+    <g transform="translate(930 122)"><rect class="st mem" width="210" height="80" rx="12"/><text x="16" y="30" class="ac-t mem-t">Memory tài khoản</text><text x="16" y="52" class="ac-s">vài topic về bạn: vai trò,</text><text x="16" y="68" class="ac-s">sở thích, dự án đang làm</text></g>
+    <path class="ln hist-ln" d="M725 316 C725 250 780 260 780 204" marker-end="url(#acG)"/><path class="ln hist-ln" d="M905 316 C905 250 780 260 780 204" marker-end="url(#acG)"/><path class="ln hist-ln" d="M1085 316 C1085 250 780 260 780 204" marker-end="url(#acG)"/>
+    <path class="ln mem-ln" d="M1035 204 C1035 260 743 250 743 316" marker-start="url(#acM)" marker-end="url(#acM)"/><path class="ln mem-ln" d="M1035 204 C1035 260 923 250 923 316" marker-start="url(#acM)" marker-end="url(#acM)"/><path class="ln mem-ln" d="M1035 204 C1035 260 1103 250 1103 316" marker-start="url(#acM)" marker-end="url(#acM)"/>
+    <text x="650" y="246" class="ac-s lg-hist">lưu lại</text><text x="1100" y="246" class="ac-s lg-mem">nạp / ghi</text>
+    <path class="wall" d="M815 330 L815 456"/><g transform="translate(815 393)"><circle r="9" class="xc"/><path d="M-4 -4L4 4M4 -4L-4 4" class="xx"/></g><path class="wall" d="M995 330 L995 456"/><g transform="translate(995 393)"><circle r="9" class="xc"/><path d="M-4 -4L4 4M4 -4L-4 4" class="xx"/></g>
+    <g class="ac-chat" transform="translate(645 318)"><rect width="160" height="150" rx="12"/><rect class="hd" width="160" height="30" rx="12"/><rect class="hd" y="18" width="160" height="12"/>
+      <text x="12" y="20" class="ac-t">Chat 1</text><text x="12" y="54" class="ac-s">1 context window</text><text x="12" y="72" class="ac-s">riêng, có giới hạn</text>
+      <rect x="122" y="40" width="26" height="112" rx="5" class="jar" transform="translate(0 -6)"/><rect x="125" y="77" width="20" height="66" rx="3" class="fill"/>
+      <text x="12" y="132" class="ac-s">tin nhắn + file</text></g><g class="ac-chat" transform="translate(825 318)"><rect width="160" height="150" rx="12"/><rect class="hd" width="160" height="30" rx="12"/><rect class="hd" y="18" width="160" height="12"/>
+      <text x="12" y="20" class="ac-t">Chat 2</text><text x="12" y="54" class="ac-s">1 context window</text><text x="12" y="72" class="ac-s">riêng, có giới hạn</text>
+      <rect x="122" y="40" width="26" height="112" rx="5" class="jar" transform="translate(0 -6)"/><rect x="125" y="41" width="20" height="102" rx="3" class="fill full"/>
+      <text x="12" y="132" class="ac-s">gần đầy</text></g><g class="ac-chat" transform="translate(1005 318)"><rect width="160" height="150" rx="12"/><rect class="hd" width="160" height="30" rx="12"/><rect class="hd" y="18" width="160" height="12"/>
+      <text x="12" y="20" class="ac-t">Chat 3</text><text x="12" y="54" class="ac-s">1 context window</text><text x="12" y="72" class="ac-s">riêng, có giới hạn</text>
+      <rect x="122" y="40" width="26" height="112" rx="5" class="jar" transform="translate(0 -6)"/><rect x="125" y="111" width="20" height="32" rx="3" class="fill"/>
+      <text x="12" y="132" class="ac-s">chat mới</text></g>
+  </g>
+          <path class="wall big" d="M600 20 L600 480"/>
+          <g transform="translate(600 250)"><circle r="17" class="xc"/><path d="M-6 -6L6 6M6 -6L-6 6" class="xx big"/></g>
+          <rect x="566" y="276" width="68" height="38" rx="8" fill="#fff"/><text x="600" y="291" class="ac-s red" text-anchor="middle">không thấy</text><text x="600" y="307" class="ac-s red" text-anchor="middle">nhau</text>
+        </svg>
+      </div>
+      <div class="ac-side">
+        <div><b>Ký ức gắn với tài khoản</b><span>Lịch sử chat và Memory nằm trên server theo tài khoản. Đổi máy vẫn còn, đổi tài khoản thì không.</span></div>
+        <div><b>Mỗi chat là một context window</b><span>Các chat độc lập, không đọc được nội dung của nhau. Chỉ nhận vài topic từ Memory khi mở chat.</span></div>
+        <div><b>Hai tài khoản tách rời hoàn toàn</b><span>Tài khoản B không thấy gì của tài khoản A: không lịch sử, không Memory, không Project.</span></div>
+      </div>
+    </div>
   </div>
 </section>
 

@@ -142,3 +142,10 @@
   h2 { font-size: 23px; }
   .role-tasks { grid-template-columns: 1fr !important; }
 }
+@media (max-width: 760px) {
+  .ac-grid, .ac-side { grid-template-columns: 1fr; }
+  .ac-canvas { overflow-x: auto; display: block; }
+  #acSvg { width: 820px; max-height: none; }
+  .ac-canvas::after { content: 'vuốt ngang để xem hết sơ đồ'; display: block; position: sticky; left: 0; font-size: 12px; color: var(--soft); margin-top: 6px; }
+  .mem-note { font-size: 13.5px; }
+}

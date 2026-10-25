@@ -135,3 +135,49 @@
 #archSvg .ab:hover rect { fill: #F2F6FD; stroke: var(--blue); stroke-width: 2; }
 #archSvg .ab.hub:hover rect { fill: #F3FAF1; stroke: var(--green); }
 #archSvg .ab.more rect { stroke-dasharray: 4 4; }
+
+/* ---------- FEEDBACK 5 ---------- */
+/* page 4: switching account */
+.mem-list li b { font-weight: 500; color: var(--ink); }
+.mem-note { margin-top: 1.6vh; font-size: clamp(13px, 1.7vh, 15px); color: var(--soft); border-left: 2px solid var(--green); padding-left: 12px; }
+.mem-note b { color: var(--green-t); font-weight: 500; }
+
+/* new page: where Claude keeps its memory (2 accounts) */
+.ac-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: .4vh; }
+.ac-canvas { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 8px 12px; display: flex; justify-content: center; }
+#acSvg { width: 100%; height: auto; max-height: 56vh; font-family: 'Be Vietnam Pro', sans-serif; }
+#acSvg .zone { fill: #F7F9FD; stroke: #2F52A0; stroke-width: 1.6; }
+#acSvg .b .zone { fill: #F8F7FC; stroke: #6A3FA0; }
+#acSvg .card { fill: #2F52A0; } #acSvg .b .card { fill: #6A3FA0; }
+#acSvg .card + text, #acSvg .card ~ text { fill: #fff; }
+#acSvg .ac-h { font-size: 16px; font-weight: 600; fill: #fff; }
+#acSvg .ac-t { font-size: 14.5px; font-weight: 600; fill: #2D2D2D; }
+#acSvg .mem-t { fill: #2E7D32; }
+#acSvg .ac-s { font-size: 12px; fill: #6B7280; }
+#acSvg .card ~ .ac-s { fill: rgba(255, 255, 255, .85); }
+#acSvg .ac-s.red { fill: #C0392B; font-weight: 600; }
+#acSvg .lg-hist { fill: #8A94A6; font-weight: 600; } #acSvg .lg-mem { fill: #3E9E3E; font-weight: 600; }
+#acSvg .st { fill: #fff; stroke: #8A94A6; stroke-width: 1.4; }
+#acSvg .st.hist2 { fill: #EEF1F6; }
+#acSvg .st.mem { stroke: #3E9E3E; stroke-width: 1.8; }
+#acSvg .ln { fill: none; stroke-width: 1.6; }
+#acSvg .ln.acc { stroke: #B5C2D6; }
+#acSvg .hist-ln { stroke: #A3ADBD; }
+#acSvg .mem-ln { stroke: #3E9E3E; stroke-dasharray: 6 4; }
+#acSvg .ac-chat rect:first-child { fill: #FFF8EE; stroke: #B26A00; stroke-width: 1.5; }
+#acSvg .ac-chat .hd { fill: #FBE9CF; }
+#acSvg .ac-chat .ac-t { fill: #B26A00; font-size: 13.5px; }
+#acSvg .jar { fill: #fff; stroke: #B26A00; stroke-width: 1.2; }
+#acSvg .fill { fill: #F3C98C; } #acSvg .fill.full { fill: #F1A99F; }
+#acSvg .wall { stroke: #C0392B; stroke-width: 1.6; stroke-dasharray: 5 4; }
+#acSvg .wall.big { stroke-width: 2.6; stroke-dasharray: 10 6; }
+#acSvg .xc { fill: #fff; stroke: #C0392B; stroke-width: 1.8; }
+#acSvg .xx { stroke: #C0392B; stroke-width: 2.2; stroke-linecap: round; }
+#acSvg .xx.big { stroke-width: 3; }
+#acSvg .ac-acct:hover .zone { stroke-width: 2.6; }
+.ac-side { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.ac-side div { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 1.2vh 18px; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
+.ac-side div:last-child { border-color: rgba(192, 57, 43, .45); background: #FDF6F5; }
+.ac-side b { font-size: clamp(15px, 2vh, 17px); font-weight: 500; color: var(--blue); }
+.ac-side div:last-child b { color: var(--red); }
+.ac-side span { font-size: clamp(13px, 1.7vh, 14.5px); color: var(--soft); line-height: 1.45; }
