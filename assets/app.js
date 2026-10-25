@@ -195,10 +195,10 @@ showRole('pm');
     { keep: [0, 1, 2, 3, 4, 5], pct: 100, ai: 'Ok, tiếp tục nhé. Mình nhớ là còn <b>3 case negative cho banner</b> chưa viết, theo đúng template và quy ước ID của dự án.' },
     { keep: [], pct: 0, ai: LOST_AI, why: ACC, redo: 'đổi sang tài khoản của dự án' },
     { keep: [], pct: 0, ai: LOST_AI, why: ACC, redo: 'đổi sang tài khoản cá nhân' },
-    { keep: [1, 2, 3, 4, 5], pct: 55, ai: 'Mình nhớ bạn là QC dự án ABC, có template và quy ước ID trong Project. Nhưng mình <b>không thấy chat hôm qua</b>: bạn đã viết tới case nào rồi?',
-      why: 'Cùng tài khoản nên Project, Memory, cài đặt vẫn còn. Nhưng chat mới là <b>một context window mới</b>: chi tiết của chat hôm qua không tự sang.<br>Phải mở lại chat cũ, hoặc dán lại những gì đã làm.', redo: 'mở chat mới' },
+    { keep: [3, 4, 5], pct: 10, ai: 'Mình nhớ bạn là QC, đang làm dự án ABC. Nhưng mình <b>không có template, BRD, hay những gì hôm qua đã làm</b>. Bạn gửi lại giúp mình nhé?',
+      why: 'Cùng tài khoản nhưng chat mới là <b>một context window mới</b>: chỉ còn vài dòng Memory (bạn là ai, làm dự án nào, thích trình bày ra sao) và cài đặt.<br>File, template, BRD, những gì đã chốt và đã làm ở chat cũ đều không tự sang.', redo: 'mở chat mới' },
   ];
-  let timer, redoT;
+  let timer;
   const set = (ctx) => {
     const C = CTX[ctx];
     $$('#memTabs button').forEach((b) => b.classList.toggle('on', +b.dataset.ctx === ctx));
@@ -211,10 +211,7 @@ showRole('pm');
     $('#aiGreet').innerHTML = C.ai;
     $('#stranger').classList.toggle('show', C.pct < 100);
     if (C.why) { $('#strangerText').innerHTML = C.why; $('#redoWhy').textContent = C.redo; }
-    clearInterval(redoT); const redo = $('#redoMin'); let r = 0; redo.textContent = 0;
-    const max = C.pct === 0 ? 15 : 5;
-    if (C.pct < 100) redoT = setInterval(() => { r++; redo.textContent = r; if (r >= max) clearInterval(redoT); }, 60);
-  };
+      };
   $$('#memTabs button').forEach((b) => b.addEventListener('click', () => set(+b.dataset.ctx)));
   set(0);
 })();
@@ -311,13 +308,9 @@ showRole('pm');
 
 /* ---------- 7. mindset: one tool vs. a project member; right side = where your time goes (before / with AI Agent) ---------- */
 (() => {
-  // hammer · hoe · shovel · pliers in the same 24px line style as the "Lộ trình" icons
-  const TOOLS = ['<path d="M4.5 3.5h9.5l4.5 3v2h-4.5v1.5h-9.5z"/><path d="M9.8 10v10.2a1.2 1.2 0 0 0 1.2 1.2h.4a1.2 1.2 0 0 0 1.2-1.2V10"/>',
-    '<rect x="1.2" y="13.6" width="16.4" height="2" rx="1" transform="rotate(-45 9.4 14.6)"/><path d="M15.4 4.5h4.4l1 10.5h-6.4z"/>',
-    '<path d="M9 3h6"/><path d="M11 3v9.5h2V3"/><path d="M7.5 12.5h9v3.5a4.5 4.5 0 0 1-9 0z"/>',
-    '<path d="M10.6 9.2L9.4 2.8h1.6l1.6 6"/><path d="M13.4 9.2l1.2-6.4H13l-1.6 6"/><circle cx="12" cy="10.6" r="1.4"/><path d="M11 12C9.5 15 8 18 7.4 21.2h2.2C10.2 18 11.4 15.2 12.4 12.6"/><path d="M13 12c1.5 3 3 6 3.6 9.2h-2.2C13.8 18 12.6 15.2 11.6 12.6"/>'];
+  // one common "tools" icon for the single-tool view
   const M = {
-    tool: { h: 'AI là một công cụ đơn lẻ: búa, cuốc, xẻng, kìm…', svg: TOOLS.map((p) => '<svg viewBox="0 0 24 24">' + p + '</svg>').join(''),
+    tool: { h: 'AI là một công cụ đơn lẻ: búa, cuốc, xẻng, kìm…', svg: '<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>',
       li: ['Mỗi công cụ làm một việc; bạn cầm từng cái, bạn làm', 'Mỗi lần dùng là bắt đầu lại từ đầu', 'Không biết gì về dự án, con người, quy trình', 'Bạn tự gom mọi thông tin rồi đưa vào', 'Kết quả "gần đúng", bạn sửa tay phần còn lại'] },
     member: { h: 'AI là một thành viên dự án', svg: '<svg viewBox="0 0 24 24"><circle cx="11" cy="7.5" r="3.5"/><path d="M4 20c1-4 3.8-6 7-6s6 2 7 6"/><path d="M16.5 10.5l1.8 1.8 3.4-3.6"/></svg>',
       li: ['Được onboard: biết người, biết việc, biết quy trình', 'Nhận việc bằng một câu, tự đi tìm thông tin cần thiết', 'Nhớ những gì đã làm, đã chốt, đã được góp ý', 'Làm việc trên máy tính và hệ thống như một nhân viên', 'Bạn giao việc, review, và chịu trách nhiệm cuối cùng'] },
@@ -389,7 +382,7 @@ showRole('pm');
   const SC = [
     { title: '"Soạn email <strong>report UAT</strong> cuối ngày"', actor: 'PM', man: '~60 phút', ai: '~5 phút review', aiW: '8%', steps: [
       { n: ['pm'], t: 'PM giao việc bằng một câu', p: 'Không đính kèm file, không copy gì cả.', out: L('PM:', 'Soạn email report UAT hôm nay gửi khách, theo mẫu report hằng ngày.') },
-      { n: ['repo'], t: 'Đọc context có sẵn trong Folder AI', p: 'Người nhận, mẫu report, quy ước, quyết định đã chốt: nằm sẵn trong repo, chưa cần gọi hệ thống nào.', out: L('Folder AI', 'stakeholders.md → To: 9 người phía khách · CC: nhóm dự án') + L('Folder AI', 'mẫu report hằng ngày, quy tắc highlight') + L('Folder AI', 'notes/: lịch UAT đã chốt, rủi ro đang theo dõi') },
+      { n: ['repo'], t: 'Đọc context có sẵn trong Folder AI', p: 'Ai nhận, ai CC, mẫu report, cách viết email cho khách, timeline và scope: có sẵn trong Folder AI, chưa cần gọi hệ thống nào.', out: L('Folder AI', 'danh sách stakeholder: ai nhận email report, ai được CC') + L('Folder AI', 'template report UAT hằng ngày') + L('Folder AI', 'quy tắc viết email cho khách hàng của dự án') + L('Folder AI', 'timeline và scope: dự án đang ở giai đoạn nào') },
       { n: ['jira'], t: 'Tự đọc Jira', p: 'Toàn bộ ticket UAT trong ngày.', out: L('Jira', '46 ticket hôm nay: 31 pass · 9 fail · 6 blocked') },
       { n: ['chat'], t: 'Tự đọc Google Chat giữa Dev và QC', p: 'Tổng hợp rủi ro, vấn đề, tiến độ thật.', out: L('Chat', '38 tin nhắn Dev ↔ QC: 2 rủi ro, 1 blocker môi trường') },
       { n: ['cal'], t: 'Đối chiếu lịch', p: 'Lịch UAT ngày mai và các buổi họp liên quan.', out: L('Calendar', 'ngày mai: UAT Round 2, 2 – 6 PM') },
@@ -398,7 +391,7 @@ showRole('pm');
     ] },
     { title: 'QC: "Viết <strong>test case</strong> cho tính năng Locate Us"', actor: 'QC', man: '~1 ngày', ai: '~1 giờ review', aiW: '13%', steps: [
       { n: ['pm'], t: 'QC giao việc bằng một câu', p: 'Chỉ nói tên tính năng cần viết test case.', out: L('QC:', 'Viết test case cho tính năng Locate Us.') },
-      { n: ['repo'], t: 'Đọc rule, template, quyết định trong Folder AI', p: 'Rule viết test case cho khách hàng khó tính, template chuẩn SmartOSC, những gì đã chốt: có sẵn trong Folder AI.', out: L('Folder AI', 'rule viết TC của khách: mỗi bước một hành động, có evidence') + L('Folder AI', 'template TC SmartOSC, cách đặt ID TC-LOC-xx') + L('Folder AI', 'notes/: Locate Us thuộc Drop 1, cần 3 vai trò người dùng') },
+      { n: ['repo'], t: 'Đọc rule, template, quyết định trong Folder AI', p: 'Template, quy tắc viết test case của khách, thông tin tính năng, người duyệt: có sẵn trong Folder AI.', out: L('Folder AI', 'template test case của dự án') + L('Folder AI', 'quy tắc viết test case mà khách hàng yêu cầu') + L('Folder AI', 'scope tính năng Locate Us, các vai trò người dùng') + L('Folder AI', 'danh sách stakeholder: ai duyệt test case, gửi cho ai') },
       { n: ['drive', 'tr'], t: 'Lấy BRD mới nhất và transcript họp', p: 'Tự tìm bản BRD mới nhất trong Drive, đọc transcript buổi họp với khách.', out: L('Drive', 'BRD Locate Us v1.0 (bản mới nhất)') + L('Transcript', 'họp với khách 12/10: chốt hiển thị giờ mở cửa') },
       { n: ['chat', 'gmail'], t: 'Đọc chat BA · QC · Dev và email liên quan', p: 'Những điều chỉnh chưa kịp cập nhật vào BRD.', out: L('Chat', 'BA: bản đồ chỉ hiển thị trung tâm tại Singapore') + L('Email', 'KH chốt: danh sách trung tâm sắp theo khu vực') },
       { n: ['cc'], t: 'Tự viết, tự review, tự tìm edge case', p: 'Viết test case theo đúng template, rồi tự soát lại và bổ sung các case biên.', out: L('viết', '42 test case · 9 negative · 6 edge case') + L('soát', 'đối chiếu lại BRD, chat, email: 0 mâu thuẫn') },
@@ -409,7 +402,7 @@ showRole('pm');
       { n: ['pm'], t: 'BA giao việc bằng một câu', p: 'Sau khi gửi khách tài liệu BRD v0.1.', out: L('BA:', 'Review comment feedback của khách trên BRD v0.1.') },
       { n: ['drive'], t: 'Đọc toàn bộ comment mới nhất', p: 'Tự đọc mọi comment của khách ngay trong file BRD v0.1.', out: L('Drive', '27 comment mới trên BRD v0.1 · 6 cần làm rõ') },
       { n: ['chat', 'gmail'], t: 'Đọc chat nội bộ và email liên quan', p: 'Những gì team đã thảo luận, khách đã nói qua email.', out: L('Chat', 'Dev: tính năng lọc nâng cao vượt scope Drop 1') + L('Email', 'KH từng đồng ý dời tính năng lọc sang Drop 2') },
-      { n: ['repo'], t: 'Đọc rule viết BRD và lịch sử quyết định trong Folder AI', p: 'Văn phong, mức chi tiết, cách trả lời comment, các quyết định đã chốt: có sẵn trong Folder AI.', out: L('Folder AI', 'rule: trả lời comment trung lập, dẫn nguồn quyết định') + L('Folder AI', 'stakeholders.md: Anna duyệt scope, Ben duyệt nội dung') },
+      { n: ['repo'], t: 'Đọc rule viết BRD và lịch sử quyết định trong Folder AI', p: 'Template BRD, quy tắc viết BRD của khách, ai comment, ai duyệt: có sẵn trong Folder AI.', out: L('Folder AI', 'template BRD của dự án') + L('Folder AI', 'quy tắc viết BRD và trả lời comment của khách hàng') + L('Folder AI', 'danh sách stakeholder: ai comment, ai duyệt nội dung, gửi phản hồi cho ai') },
       { n: ['gmail'], t: 'Đề xuất email làm rõ và hướng sửa BRD', p: 'Draft email để align với khách, cùng danh sách hướng điều chỉnh từng comment.', out: '<div class="mail"><div><span>Draft</span>Clarification on BRD v0.1 feedback</div><p>6 điểm cần khách xác nhận · đề xuất hướng sửa cho 21 comment còn lại</p></div>' },
       { n: ['pm'], t: 'BA review và phê duyệt hướng sửa', p: 'Người quyết định vẫn là BA.', out: L('BA:', 'đồng ý 19 hướng sửa, đổi 2 hướng.') },
       { n: ['cc', 'gmail'], done: true, t: 'Ra BRD v0.2 và draft email gửi khách', p: 'Đây là email AI đã soạn sẵn kèm BRD v0.2. BA chỉ review rồi bấm Send.', out: BA_RESULT },
@@ -656,13 +649,13 @@ showRole('pm');
   };
   // group, icon, title, short line, time, who, description, example
   const P = [
-    ['Công cụ', 'git', 'Xin Git repo', 'private, của SmartOSC', '10 phút', 'Request HoD + IT', 'Request HoD duyệt, IT setup Git repo private của SmartOSC. Đây là "bộ não" của nhân viên AI: đồng bộ mọi máy, dữ liệu vẫn nằm trong công ty.', 'Request: Git repo private cho dự án ABC\nHoD duyệt → IT tạo repo, cấp quyền\ngit clone về máy'],
-    ['Công cụ', 'code', 'Cài VS Code', 'miễn phí, nhẹ', '5 phút', 'Tự cài, miễn phí', 'Tải Visual Studio Code (miễn phí, công ty không chặn), mở thư mục repo vừa clone. Mọi file AI tạo ra, bạn đều nhìn thấy và sửa được.', 'code.visualstudio.com → Download\nFile → Open Folder → pm-ai'],
+    ['Công cụ', 'code', 'Cài VS Code', 'miễn phí, nhẹ', '5 phút', 'Tự cài, miễn phí', 'Tải Visual Studio Code (miễn phí, công ty không chặn), tạo và mở Folder AI. Mọi file AI tạo ra, bạn đều nhìn thấy và sửa được.', 'code.visualstudio.com → Download\nTạo thư mục pm-ai\nFile → Open Folder → pm-ai'],
     ['Công cụ', 'plug', 'Kết nối Claude', 'extension Claude Code', '5 phút', 'Tự cài, tài khoản công ty', 'Cài extension Claude Code trong VS Code, đăng nhập tài khoản Claude Code Team công ty đã cấp cho team dự án. Nhân viên AI đã "ngồi" vào bàn làm việc.', 'Extensions → tìm "Claude Code" → Install\nĐăng nhập → mở khung chat'],
     ['Kết nối', 'hub', 'Cài n8n', 'chạy local, miễn phí', '15 phút', 'Nhờ Claude làm giúp, bạn cấp quyền', 'Cài n8n (miễn phí, công ty không chặn) ngay trên máy làm "cổng kết nối". Mẹo: từ bước này, hãy nhờ chính Claude Code làm giúp.', '"Cài n8n chạy local trên máy mình,\ntự khởi động khi bật máy."'],
     ['Kết nối', 'link', 'Nối hệ thống', 'Gmail · Chat · Drive · Jira', '30 phút', 'Nhờ Claude làm giúp, bạn cấp quyền', 'Đăng nhập Google một lần cho Gmail, Chat, Drive, Calendar; thêm MCP cho Jira, Confluence.', '"Tạo workflow n8n đọc Gmail và Google Chat,\ncó token bảo vệ, ghi hướng dẫn vào infra/."'],
-    ['Bộ não', 'tree', 'Sắp xếp repo', 'CLAUDE.md · projects/ · prompt/', '20 phút', 'Nhờ Claude làm giúp, bạn cấp quyền', 'Dựng khung thư mục: quy tắc gốc, context công ty, từng dự án, prompt, task tự động.', 'CLAUDE.md\ncompany/   projects/   prompt/\ntasks/     knowledge/  .claude/memory/'],
+    ['Bộ não', 'tree', 'Sắp xếp Folder AI', 'CLAUDE.md · projects/ · prompt/', '20 phút', 'Nhờ Claude làm giúp, bạn cấp quyền', 'Dựng khung thư mục: quy tắc gốc, context công ty, từng dự án, prompt, task tự động.', 'CLAUDE.md\ncompany/   projects/   prompt/\ntasks/     knowledge/  .claude/memory/'],
     ['Bộ não', 'load', 'Nạp context lần đầu', 'email · chat · Drive · file', '1 giờ', 'Claude đọc, bạn duyệt', 'Cho AI đọc email, chat, Drive và tài liệu dự án, tự viết overview, stakeholders, notes. Bạn đọc lại, sửa chỗ chưa đúng.', '"Đọc email, chat, Drive của dự án ABC 3 tháng qua,\nviết overview.md, stakeholders.md và notes/."'],
+    ['Bộ não', 'git', 'Xin Git repo', 'private, của SmartOSC', '10 phút', 'Request HoD + IT', 'Request HoD duyệt, IT setup Git repo private của SmartOSC, rồi đưa Folder AI lên đó: đồng bộ mọi máy, lưu lịch sử. Chưa có cũng chưa sao, làm sau cũng được.', 'Request: Git repo private cho dự án ABC\nHoD duyệt → IT tạo repo, cấp quyền\ngit push Folder AI lên repo'],
     ['Bắt đầu', 'chat', 'Prompt đầu tiên', 'một việc bạn làm hằng ngày', '5 phút', 'Bạn giao việc', 'Chọn một việc lặp lại bạn ngại nhất, giao bằng một câu. Từ đây, mỗi góp ý của bạn làm AI giỏi hơn.', '"Soạn email báo cáo tiến độ hôm nay gửi khách,\ntheo mẫu report hằng ngày."'],
   ];
   const ol = $('#pathSteps'), det = $('#pathDetail');
