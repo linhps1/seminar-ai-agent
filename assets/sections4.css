@@ -258,3 +258,6 @@
 .role-card .role-tasks li::before { content: none; }
 .task-no { font-style: normal; width: 26px; height: 26px; border-radius: 50%; background: #FCEBD6; color: var(--amber); display: grid; place-items: center; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
 .role-card .role-tasks li { cursor: default; }
+
+/* FEEDBACK 10: emphasis inside the "Hôm nay / Sau buổi này" text stays inline (only the title line breaks) */
+.sw-body .col p b { display: inline; font-size: inherit; font-weight: 600; }
