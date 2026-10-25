@@ -10,7 +10,7 @@ slides.forEach((s) => s.insertAdjacentHTML('afterbegin', '<div class="brandbar">
 
 /* ---------- progress bar + section nav (joined vertical bars, short label beside each) ---------- */
 const dots = $('#dots');
-slides.forEach((s) => { const a = document.createElement('a'); a.href = '#' + s.id; a.innerHTML = `<span>${s.dataset.title}</span><i></i>`; dots.appendChild(a); });
+slides.forEach((s) => { const a = document.createElement('a'); a.href = '#' + s.id; a.innerHTML = `<span>${s.dataset.title}</span><em>${slides.indexOf(s) + 1}</em><i></i>`; dots.appendChild(a); });
 const dotLinks = $$('a', dots);
 const onScroll = () => {
   const h = document.documentElement;
@@ -185,25 +185,35 @@ showRole('pm');
   render(0, false);
 })();
 
-/* ---------- 4. memory: switching machine / account / session ---------- */
+/* ---------- 4. memory: switching Claude account vs. opening another chat in the same account ---------- */
 (() => {
   const items = $$('#memList li'), brain = $('.brain');
+  // items: 0 yesterday's chat (context window), 1 chat history, 2 Project, 3 Memory, 4 settings, 5 connectors
+  const LOST_AI = 'Xin chào! Mình là Claude. Bạn có thể cho mình biết <b>bộ test case Homepage</b> là gì, template ra sao, và hôm qua đã làm tới đâu không?';
+  const ACC = 'Tài khoản này <b>không thấy gì</b> của tài khoản cũ: lịch sử chat, Project, Memory, cài đặt, connectors đều ở lại bên kia.<br>Bạn lại bắt đầu dán template, BRD, email, chat… từ đầu.';
+  const CTX = [
+    { keep: [0, 1, 2, 3, 4, 5], pct: 100, ai: 'Ok, tiếp tục nhé. Mình nhớ là còn <b>3 case negative cho banner</b> chưa viết, theo đúng template và quy ước ID của dự án.' },
+    { keep: [], pct: 0, ai: LOST_AI, why: ACC, redo: 'đổi sang tài khoản của dự án' },
+    { keep: [], pct: 0, ai: LOST_AI, why: ACC, redo: 'đổi sang tài khoản cá nhân' },
+    { keep: [1, 2, 3, 4, 5], pct: 55, ai: 'Mình nhớ bạn là QC dự án ABC, có template và quy ước ID trong Project. Nhưng mình <b>không thấy chat hôm qua</b>: bạn đã viết tới case nào rồi?',
+      why: 'Cùng tài khoản nên Project, Memory, cài đặt vẫn còn. Nhưng chat mới là <b>một context window mới</b>: chi tiết của chat hôm qua không tự sang.<br>Phải mở lại chat cũ, hoặc dán lại những gì đã làm.', redo: 'mở chat mới' },
+  ];
   let timer, redoT;
   const set = (ctx) => {
+    const C = CTX[ctx];
     $$('#memTabs button').forEach((b) => b.classList.toggle('on', +b.dataset.ctx === ctx));
-    const lost = ctx !== 0;
-    brain.classList.toggle('lost', lost);
-    items.forEach((li, k) => setTimeout(() => li.classList.toggle('gone', lost), lost ? k * 140 : 0));
-    $('#memBar').style.width = lost ? '3%' : '100%';
+    brain.classList.toggle('lost', C.pct === 0); brain.classList.toggle('part', C.pct > 0 && C.pct < 100);
+    items.forEach((li, k) => setTimeout(() => li.classList.toggle('gone', !C.keep.includes(k)), C.keep.includes(k) ? 0 : k * 120));
+    $('#memBar').style.width = Math.max(C.pct, 3) + '%';
     clearInterval(timer);
-    const pctEl = $('#memPct'); let v = parseInt(pctEl.textContent, 10); const to = lost ? 0 : 100;
-    timer = setInterval(() => { v += v < to ? 5 : -5; if ((v - to) * (to ? 1 : -1) >= 0) { v = to; clearInterval(timer); } pctEl.textContent = v + '%'; }, 30);
-    $('#aiGreet').innerHTML = lost
-      ? 'Xin chào! Mình là Claude. Bạn có thể cho mình biết <b>bộ test case Homepage</b> là gì, template ra sao, và hôm qua đã làm tới đâu không?'
-      : 'Ok, tiếp tục nhé. Mình nhớ là còn <b>3 case negative cho banner</b> chưa viết, theo đúng template và quy ước ID của dự án.';
-    $('#stranger').classList.toggle('show', lost);
+    const pctEl = $('#memPct'); let v = parseInt(pctEl.textContent, 10); const to = C.pct;
+    timer = setInterval(() => { v += v < to ? 5 : -5; if (Math.abs(v - to) < 5) { v = to; clearInterval(timer); } pctEl.textContent = v + '%'; }, 30);
+    $('#aiGreet').innerHTML = C.ai;
+    $('#stranger').classList.toggle('show', C.pct < 100);
+    if (C.why) { $('#strangerText').innerHTML = C.why; $('#redoWhy').textContent = C.redo; }
     clearInterval(redoT); const redo = $('#redoMin'); let r = 0; redo.textContent = 0;
-    if (lost) redoT = setInterval(() => { r++; redo.textContent = r; if (r >= 15) clearInterval(redoT); }, 60);
+    const max = C.pct === 0 ? 15 : 5;
+    if (C.pct < 100) redoT = setInterval(() => { r++; redo.textContent = r; if (r >= max) clearInterval(redoT); }, 60);
   };
   $$('#memTabs button').forEach((b) => b.addEventListener('click', () => set(+b.dataset.ctx)));
   set(0);
@@ -240,7 +250,7 @@ showRole('pm');
     cards.forEach((c, k) => c.classList.toggle('on', why.includes(k)));
     const fix = $('#fgFix'), done = st && st.final;
     fix.classList.toggle('warn', !done);
-    fix.innerHTML = done ? '<b>Cách chữa:</b> đừng để kiến thức chỉ nằm trong cuộc trò chuyện. Lưu file, quyết định, quy ước vào <b>Git repo</b>: AI tự đọc lại bất cứ lúc nào, ở phiên nào, máy nào.'
+    fix.innerHTML = done ? '<b>Cách chữa:</b> đừng để kiến thức chỉ nằm trong cuộc trò chuyện. Lưu file, quyết định, quy ước vào <b>Folder AI</b>: AI tự đọc lại bất cứ lúc nào, ở phiên nào, máy nào.'
       : 'AI không "lười" hay "đãng trí". Nó chỉ có một bộ nhớ ngắn hạn <b>có giới hạn</b>, và bạn đang lấp đầy nó.';
     $('#fgLabel').textContent = `Bước ${n} / ${STEPS.length}`;
     $('#fgPrev').disabled = n === 0; $('#fgNext').disabled = n === STEPS.length;
@@ -264,53 +274,78 @@ showRole('pm');
   $('#shiftBtn').addEventListener('click', () => $('#shift').classList.toggle('on'));
 })();
 
-/* ---------- 6. history: Assistant -> Copilot -> Agent + task-length growth (METR 2025) ---------- */
+/* ---------- 6. history: Assistant -> Copilot -> Agent (click an era) + METR task-length benchmark ---------- */
 (() => {
   const ERAS = [
-    { who: 'Siri', ask: 'Hey Siri, đặt báo thức 6 giờ sáng mai.', do: 'Đã đặt báo thức lúc 6:00.', yes: ['Một câu lệnh ngắn', 'Một tác vụ có sẵn'], no: ['Hiểu ngữ cảnh', 'Làm việc văn phòng', 'Tự tìm thông tin'],
-      note: 'Chỉ thực hiện những tác vụ cực kỳ đơn giản, đã được lập trình sẵn.', hot: [] },
-    { who: 'Claude', ask: 'Viết test case cho BRD này giúp mình (đính kèm file).', do: 'Đây là 24 test case dựa trên BRD bạn gửi…', yes: ['Viết, tóm tắt, dịch', 'Gợi ý ý tưởng', 'Hỗ trợ việc văn phòng'], no: ['Tự vận hành máy tính của bạn', 'Kết nối hệ thống dự án', 'Nhớ trọn dự án'],
-      note: 'Ví dụ "một buổi chiều dùng AI" lúc nãy chính là cách dùng AI Copilot với Claude: giỏi viết, nhưng chỉ biết những gì bạn dán vào. (Từ 16/09/2026, Claude Chat và Claude Cowork đã gộp thành một ứng dụng Claude.)', hot: [0, 1, 2, 3, 4, 5] },
-    { who: 'Claude Code', ask: 'Soạn email report UAT hôm nay gửi khách.', do: 'Đã đọc 46 ticket Jira, 38 tin nhắn Dev ↔ QC, soạn draft Gmail đúng To / CC. Mời bạn review.', yes: ['Tự vận hành máy tính và công cụ', 'Kết nối hệ thống', 'Nhớ dự án', 'Chạy 24/7', 'Vận hành theo workflow phức tạp'], no: [],
-      note: 'Claude Code làm việc như một nhân viên văn phòng thực thụ: nhớ dự án qua các file trong Git repo, chạy 24/7 khi đặt trên server hoặc lên lịch. Đây là cách dùng tôi muốn giới thiệu hôm nay.', hot: [0, 1, 2, 3, 4, 5, 6, 7] },
+    { t: 'AI Assistant', sub: 'Trợ lý giọng nói', prod: [['Siri', '10/2011'], ['Google Now · "OK Google"', '2012 – 2013'], ['Alexa', '11/2014']],
+      cap: ['Nghe lệnh bằng giọng nói', 'Làm tác vụ cài sẵn: báo thức, gọi điện, thời tiết, bật nhạc', 'Không hiểu ngữ cảnh, không làm được việc văn phòng'],
+      bm: 'Chưa đo được: chỉ chạy các lệnh đã lập trình sẵn, vài giây là xong.', hot: [] },
+    { t: 'AI Copilot', sub: 'Trợ lý trò chuyện: bạn hỏi, AI đáp', prod: [['GitHub Copilot', '06/2021'], ['ChatGPT', '11/2022'], ['Claude', '03/2023'], ['Microsoft 365 Copilot', '11/2023']],
+      cap: ['Hiểu ngôn ngữ tự nhiên, trả lời gần như mọi câu hỏi', 'Viết, tóm tắt, dịch, gợi ý code, soạn tài liệu', 'Nhưng chỉ biết những gì bạn dán vào; bạn tự làm phần còn lại'],
+      bm: 'Từ vài giây (2019) lên <b>khoảng 40 phút</b> (cuối 2024) công việc của một chuyên gia.', hot: [0, 1, 2, 3, 4, 5] },
+    { t: 'AI Agent', sub: 'Nhân viên AI tự làm việc', prod: [['Claude Code', '02/2025'], ['OpenAI Codex', '05/2025'], ['ChatGPT Agent', '07/2025'], ['Claude Cowork', '01/2026']],
+      cap: ['Tự điều khiển máy tính của bạn', 'Tự kết nối hệ thống thứ ba', 'Chạy 24/7, không cần nhắc', 'Tự lập kế hoạch, thực thi, kiểm tra'],
+      bm: 'Từ khoảng 1 giờ (đầu 2025) lên <b>gần 5 giờ</b> (cuối 2025): cả một buổi làm việc của chuyên gia, và vẫn tăng gấp đôi khoảng mỗi 7 tháng.', hot: [0, 1, 2, 3, 4, 5, 6, 7, 8] },
   ];
-  // approx. 50%-success task length from METR (03/2025), rounded; last row = trend projection
+  // METR 50%-time-horizon, rounded (seconds of expert human time)
   const PTS = [['GPT-2 · 2019', 2, '~2 giây'], ['GPT-3 · 2020', 9, '~9 giây'], ['GPT-3.5 · 2022', 36, '~36 giây'], ['GPT-4 · 2023', 300, '~5 phút'],
-    ['Claude 3.5 Sonnet · 2024', 1700, '~28 phút'], ['o1 · cuối 2024', 2300, '~39 phút'], ['Claude 3.7 Sonnet · 2025', 3500, '~1 giờ'], ['Xu hướng · đầu 2026', 12000, '~3 giờ (dự phóng)']];
-  const box = $('#growthBars'), max = Math.log10(14000);
+    ['Claude 3.5 Sonnet · 2024', 1700, '~28 phút'], ['o1 · cuối 2024', 2300, '~39 phút'], ['Claude 3.7 Sonnet · 02/2025', 3500, '~1 giờ'], ['GPT-5 · 08/2025', 8200, '~2 giờ 15'], ['Claude Opus 4.5 · 11/2025', 17300, '~4 giờ 50']];
+  const box = $('#growthBars'), max = Math.log10(20000);
   box.innerHTML = PTS.map(([l, s, v]) => `<div class="bar-row"><span class="bl">${l}</span><span class="bt"><i data-w="${(100 * Math.log10(s + 1)) / max}"></i></span><span class="bv">${v}</span></div>`).join('');
   const rowsEl = $$('.bar-row', box);
+  const CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
   const set = (e) => {
     const E = ERAS[e];
     $$('#eras .era').forEach((b) => b.classList.toggle('on', +b.dataset.era === e));
     $('#eraFill').style.width = ['8%', '50%', '100%'][e];
-    $('#edAsk').textContent = E.ask; $('#edWho').textContent = E.who; $('#edDo').textContent = E.do;
-    $('#edTags').innerHTML = E.yes.map((t) => `<span class="yes">✓ ${t}</span>`).join('') + E.no.map((t) => `<span>✗ ${t}</span>`).join('');
-    $('#edNote').textContent = E.note;
+    $('#eraDetail').innerHTML = `<div class="ed-head"><b>${E.t}</b><span>${E.sub}</span></div>
+      <p class="ed-k">Sản phẩm tiêu biểu</p><div class="ed-prod">${E.prod.map(([n, d]) => `<span><b>${n}</b><i>${d}</i></span>`).join('')}</div>
+      <p class="ed-k">Năng lực nổi bật</p><ul class="ed-cap">${E.cap.map((c) => `<li>${CHECK}${c}</li>`).join('')}</ul>
+      <p class="ed-bm"><span>Benchmark</span>${E.bm}</p>`;
     rowsEl.forEach((r, k) => { const on = E.hot.includes(k), bar = $('i', r); bar.style.width = on ? bar.dataset.w + '%' : '0'; r.classList.toggle('hot', e === 2 && k >= 6); r.style.opacity = on ? 1 : .35; });
   };
-  $$('#eras .era').forEach((b) => { b.addEventListener('click', () => set(+b.dataset.era)); b.addEventListener('mouseenter', () => set(+b.dataset.era)); });
+  // click only (hover just highlights the card via CSS)
+  $$('#eras .era').forEach((b) => b.addEventListener('click', () => set(+b.dataset.era)));
   set(0);
 })();
 
-/* ---------- 7. mindset: tool vs member ---------- */
+/* ---------- 7. mindset: one tool vs. a project member; right side = where your time goes (before / with AI Agent) ---------- */
 (() => {
+  // hammer · hoe · shovel · pliers in the same 24px line style as the "Lộ trình" icons
+  const TOOLS = ['<path d="M4.5 3.5h9.5l4.5 3v2h-4.5v1.5h-9.5z"/><path d="M9.8 10v10.2a1.2 1.2 0 0 0 1.2 1.2h.4a1.2 1.2 0 0 0 1.2-1.2V10"/>',
+    '<rect x="1.2" y="13.6" width="16.4" height="2" rx="1" transform="rotate(-45 9.4 14.6)"/><path d="M15.4 4.5h4.4l1 10.5h-6.4z"/>',
+    '<path d="M9 3h6"/><path d="M11 3v9.5h2V3"/><path d="M7.5 12.5h9v3.5a4.5 4.5 0 0 1-9 0z"/>',
+    '<path d="M10.6 9.2L9.4 2.8h1.6l1.6 6"/><path d="M13.4 9.2l1.2-6.4H13l-1.6 6"/><circle cx="12" cy="10.6" r="1.4"/><path d="M11 12C9.5 15 8 18 7.4 21.2h2.2C10.2 18 11.4 15.2 12.4 12.6"/><path d="M13 12c1.5 3 3 6 3.6 9.2h-2.2C13.8 18 12.6 15.2 11.6 12.6"/>'];
   const M = {
-    tool: { h: 'AI là một công cụ đơn lẻ: búa, cuốc, xẻng, kìm…', // hammer · hoe · shovel · pliers, each drawn in its own 60x60 cell (thin line style)
-      svg: '<svg viewBox="0 0 270 60">'
-        + '<g><rect x="8" y="8" width="26" height="11" rx="2"/><rect x="4" y="10" width="4" height="7" rx="1"/><path d="M34 9c7 0 12 3 15 8M34 18c5 0 8.5 1.5 11 5"/><rect x="17" y="19" width="6" height="37" rx="2"/></g>'
-        + '<g transform="translate(70 0)"><path d="M4 54L39.2 17M6.5 56.5L38.8 22.5"/><path d="M40 8h12l4 32H36z"/></g>'
-        + '<g transform="translate(140 0)"><path d="M20 5h20M30 5v29"/><path d="M20 34h20v9c0 7-4.5 12-10 13-5.5-1-10-6-10-13z"/></g>'
-        + '<g transform="translate(210 0)"><path d="M28 3.5l2.4 12.5M32 3.5l-2.4 12.5" style="stroke-width:2.4"/><circle cx="30" cy="18" r="2.4"/><path d="M31.5 20.5c2 6 3 9 4 12M28.5 20.5c-2 6-3 9-4 12"/><path d="M35.5 32.5c2 8 3.5 15 5 23M24.5 32.5c-2 8-3.5 15-5 23" style="stroke-width:4"/></g>'
-        + '</svg>',
+    tool: { h: 'AI là một công cụ đơn lẻ: búa, cuốc, xẻng, kìm…', svg: TOOLS.map((p) => '<svg viewBox="0 0 24 24">' + p + '</svg>').join(''),
       li: ['Mỗi công cụ làm một việc; bạn cầm từng cái, bạn làm', 'Mỗi lần dùng là bắt đầu lại từ đầu', 'Không biết gì về dự án, con người, quy trình', 'Bạn tự gom mọi thông tin rồi đưa vào', 'Kết quả "gần đúng", bạn sửa tay phần còn lại'] },
-    member: { h: 'AI là một thành viên dự án', svg: '<svg viewBox="0 0 60 60"><circle cx="30" cy="18" r="9"/><path d="M12 52c2-11 9-17 18-17s16 6 18 17"/><path d="M40 30l4 4 8-8"/></svg>',
+    member: { h: 'AI là một thành viên dự án', svg: '<svg viewBox="0 0 24 24"><circle cx="11" cy="7.5" r="3.5"/><path d="M4 20c1-4 3.8-6 7-6s6 2 7 6"/><path d="M16.5 10.5l1.8 1.8 3.4-3.6"/></svg>',
       li: ['Được onboard: biết người, biết việc, biết quy trình', 'Nhận việc bằng một câu, tự đi tìm thông tin cần thiết', 'Nhớ những gì đã làm, đã chốt, đã được góp ý', 'Làm việc trên máy tính và hệ thống như một nhân viên', 'Bạn giao việc, review, và chịu trách nhiệm cuối cùng'] },
   };
+  const ROWS = [
+    { k: 'Tổng hợp context', s: 'gom thông tin, chỉ đúng nguồn', c: 'h', v: [20, 40] },
+    { k: 'Suy nghĩ giải pháp', s: 'hướng tiếp cận, hướng xử lý', c: 'h', v: [20, 40] },
+    { k: 'Thực thi', s: 'viết, soạn, nhập liệu, copy · paste', c: 'w', v: [50, 0], cAfter: 'a', sAfter: 'AI làm toàn bộ, như nhân viên cấp dưới' },
+    { k: 'Review và gửi đi', s: 'kiểm tra, quyết định, chịu trách nhiệm', c: 'h', v: [10, 20] },
+  ];
+  const CAP = ['Một nửa thời gian đi vào tự tay làm: viết, soạn, nhập liệu, copy · paste. (Tỉ lệ minh hoạ.)', 'Toàn bộ thời gian dành cho tổng hợp context, suy nghĩ và quyết định; phần thực thi do AI làm. (Tỉ lệ minh hoạ.)'];
+  const box = $('#alloc');
+  box.innerHTML = ROWS.map((r) => `<div class="al-row ${r.c}"><span>${r.k}<small>${r.s}</small></span><span class="bt"><i></i></span><b></b></div>`).join('');
+  const prodRows = $$('#prod .prod-row');
   const set = (k) => {
+    const v = k === 'member' ? 1 : 0;
     $$('#msToggle button').forEach((b) => b.classList.toggle('on', b.dataset.m === k));
     const c = $('#msCard'), d = M[k]; c.className = 'ms-card ' + k;
     c.innerHTML = `<div class="ms-svg">${d.svg}</div><h3>${d.h}</h3><ul>${d.li.map((t, i) => `<li style="animation-delay:${i * 60}ms">${t}</li>`).join('')}</ul>`;
+    $('#msRightTitle').innerHTML = v ? '<b>Với AI Agent:</b> thời gian của bạn được dùng vào đâu?' : '<b>Trước đây:</b> thời gian của bạn được dùng vào đâu?';
+    $$('.al-row', box).forEach((row, i) => {
+      const r = ROWS[i]; row.className = 'al-row ' + (v && r.cAfter ? r.cAfter : r.c);
+      $('small', row).textContent = v && r.sAfter ? r.sAfter : r.s;
+      $('i', row).style.width = r.v[v] * 2 + '%'; $('b', row).textContent = r.v[v] + '%';
+    });
+    $('#allocCap').textContent = CAP[v];
+    // productivity: x1 before, real multipliers (BA x3, Dev x5, QC x2) with AI Agent
+    prodRows.forEach((r, j) => setTimeout(() => { const x = v ? +r.dataset.x : 1; $('i', r).style.width = (100 * x) / 5 + '%'; $('b', r).textContent = '×' + x; r.classList.toggle('up', !!v); }, v ? j * 160 : 0));
   };
   $$('#msToggle button').forEach((b) => b.addEventListener('click', () => set(b.dataset.m)));
   set('tool');
@@ -354,7 +389,7 @@ showRole('pm');
   const SC = [
     { title: '"Soạn email <strong>report UAT</strong> cuối ngày"', actor: 'PM', man: '~60 phút', ai: '~5 phút review', aiW: '8%', steps: [
       { n: ['pm'], t: 'PM giao việc bằng một câu', p: 'Không đính kèm file, không copy gì cả.', out: L('PM:', 'Soạn email report UAT hôm nay gửi khách, theo mẫu report hằng ngày.') },
-      { n: ['repo'], t: 'Đọc context có sẵn trong Git repo', p: 'Người nhận, mẫu report, quy ước, quyết định đã chốt: nằm sẵn trong repo, chưa cần gọi hệ thống nào.', out: L('Git repo', 'stakeholders.md → To: 9 người phía khách · CC: nhóm dự án') + L('Git repo', 'mẫu report hằng ngày, quy tắc highlight') + L('Git repo', 'notes/: lịch UAT đã chốt, rủi ro đang theo dõi') },
+      { n: ['repo'], t: 'Đọc context có sẵn trong Folder AI', p: 'Người nhận, mẫu report, quy ước, quyết định đã chốt: nằm sẵn trong repo, chưa cần gọi hệ thống nào.', out: L('Folder AI', 'stakeholders.md → To: 9 người phía khách · CC: nhóm dự án') + L('Folder AI', 'mẫu report hằng ngày, quy tắc highlight') + L('Folder AI', 'notes/: lịch UAT đã chốt, rủi ro đang theo dõi') },
       { n: ['jira'], t: 'Tự đọc Jira', p: 'Toàn bộ ticket UAT trong ngày.', out: L('Jira', '46 ticket hôm nay: 31 pass · 9 fail · 6 blocked') },
       { n: ['chat'], t: 'Tự đọc Google Chat giữa Dev và QC', p: 'Tổng hợp rủi ro, vấn đề, tiến độ thật.', out: L('Chat', '38 tin nhắn Dev ↔ QC: 2 rủi ro, 1 blocker môi trường') },
       { n: ['cal'], t: 'Đối chiếu lịch', p: 'Lịch UAT ngày mai và các buổi họp liên quan.', out: L('Calendar', 'ngày mai: UAT Round 2, 2 – 6 PM') },
@@ -363,7 +398,7 @@ showRole('pm');
     ] },
     { title: 'QC: "Viết <strong>test case</strong> cho tính năng Locate Us"', actor: 'QC', man: '~1 ngày', ai: '~1 giờ review', aiW: '13%', steps: [
       { n: ['pm'], t: 'QC giao việc bằng một câu', p: 'Chỉ nói tên tính năng cần viết test case.', out: L('QC:', 'Viết test case cho tính năng Locate Us.') },
-      { n: ['repo'], t: 'Đọc rule, template, quyết định trong Git repo', p: 'Rule viết test case cho khách hàng khó tính, template chuẩn SmartOSC, những gì đã chốt: có sẵn trong repo.', out: L('Git repo', 'rule viết TC của khách: mỗi bước một hành động, có evidence') + L('Git repo', 'template TC SmartOSC, cách đặt ID TC-LOC-xx') + L('Git repo', 'notes/: Locate Us thuộc Drop 1, cần 3 vai trò người dùng') },
+      { n: ['repo'], t: 'Đọc rule, template, quyết định trong Folder AI', p: 'Rule viết test case cho khách hàng khó tính, template chuẩn SmartOSC, những gì đã chốt: có sẵn trong Folder AI.', out: L('Folder AI', 'rule viết TC của khách: mỗi bước một hành động, có evidence') + L('Folder AI', 'template TC SmartOSC, cách đặt ID TC-LOC-xx') + L('Folder AI', 'notes/: Locate Us thuộc Drop 1, cần 3 vai trò người dùng') },
       { n: ['drive', 'tr'], t: 'Lấy BRD mới nhất và transcript họp', p: 'Tự tìm bản BRD mới nhất trong Drive, đọc transcript buổi họp với khách.', out: L('Drive', 'BRD Locate Us v1.0 (bản mới nhất)') + L('Transcript', 'họp với khách 12/10: chốt hiển thị giờ mở cửa') },
       { n: ['chat', 'gmail'], t: 'Đọc chat BA · QC · Dev và email liên quan', p: 'Những điều chỉnh chưa kịp cập nhật vào BRD.', out: L('Chat', 'BA: bản đồ chỉ hiển thị trung tâm tại Singapore') + L('Email', 'KH chốt: danh sách trung tâm sắp theo khu vực') },
       { n: ['cc'], t: 'Tự viết, tự review, tự tìm edge case', p: 'Viết test case theo đúng template, rồi tự soát lại và bổ sung các case biên.', out: L('viết', '42 test case · 9 negative · 6 edge case') + L('soát', 'đối chiếu lại BRD, chat, email: 0 mâu thuẫn') },
@@ -374,7 +409,7 @@ showRole('pm');
       { n: ['pm'], t: 'BA giao việc bằng một câu', p: 'Sau khi gửi khách tài liệu BRD v0.1.', out: L('BA:', 'Review comment feedback của khách trên BRD v0.1.') },
       { n: ['drive'], t: 'Đọc toàn bộ comment mới nhất', p: 'Tự đọc mọi comment của khách ngay trong file BRD v0.1.', out: L('Drive', '27 comment mới trên BRD v0.1 · 6 cần làm rõ') },
       { n: ['chat', 'gmail'], t: 'Đọc chat nội bộ và email liên quan', p: 'Những gì team đã thảo luận, khách đã nói qua email.', out: L('Chat', 'Dev: tính năng lọc nâng cao vượt scope Drop 1') + L('Email', 'KH từng đồng ý dời tính năng lọc sang Drop 2') },
-      { n: ['repo'], t: 'Đọc rule viết BRD và lịch sử quyết định trong Git repo', p: 'Văn phong, mức chi tiết, cách trả lời comment, các quyết định đã chốt: có sẵn trong repo.', out: L('Git repo', 'rule: trả lời comment trung lập, dẫn nguồn quyết định') + L('Git repo', 'stakeholders.md: Anna duyệt scope, Ben duyệt nội dung') },
+      { n: ['repo'], t: 'Đọc rule viết BRD và lịch sử quyết định trong Folder AI', p: 'Văn phong, mức chi tiết, cách trả lời comment, các quyết định đã chốt: có sẵn trong Folder AI.', out: L('Folder AI', 'rule: trả lời comment trung lập, dẫn nguồn quyết định') + L('Folder AI', 'stakeholders.md: Anna duyệt scope, Ben duyệt nội dung') },
       { n: ['gmail'], t: 'Đề xuất email làm rõ và hướng sửa BRD', p: 'Draft email để align với khách, cùng danh sách hướng điều chỉnh từng comment.', out: '<div class="mail"><div><span>Draft</span>Clarification on BRD v0.1 feedback</div><p>6 điểm cần khách xác nhận · đề xuất hướng sửa cho 21 comment còn lại</p></div>' },
       { n: ['pm'], t: 'BA review và phê duyệt hướng sửa', p: 'Người quyết định vẫn là BA.', out: L('BA:', 'đồng ý 19 hướng sửa, đổi 2 hướng.') },
       { n: ['cc', 'gmail'], done: true, t: 'Ra BRD v0.2 và draft email gửi khách', p: 'Đây là email AI đã soạn sẵn kèm BRD v0.2. BA chỉ review rồi bấm Send.', out: BA_RESULT },
@@ -419,7 +454,7 @@ showRole('pm');
 (() => {
   const F = (n, title, desc, ex = '', tag = '') => ({ n, title, desc, ex, tag });
   const D = (n, title, desc, kids, open = false) => ({ n, title, desc, kids, open });
-  const TREE = D('pm-ai/', 'Bộ não của nhân viên AI', 'Một Git repo duy nhất, mở bằng VS Code. Sắp xếp từ chung nhất ở trên đến chi tiết nhất ở dưới.', [
+  const TREE = D('pm-ai/', 'Bộ não của nhân viên AI', 'Một Folder AI duy nhất (Git repo), mở bằng VS Code. Sắp xếp từ chung nhất ở trên đến chi tiết nhất ở dưới.', [
     F('CLAUDE.md', 'Bộ quy tắc gốc', 'File AI đọc đầu tiên mỗi phiên: phải đọc gì trước, dùng ngôn ngữ gì, quy ước đặt tên, những việc bắt buộc làm.', '- Giao tiếp tiếng Việt; code, tên file tiếng Anh\n- Trước khi làm dự án nào: đọc overview, stakeholders, notes\n- Phát hiện việc cần làm: tự thêm vào todo', 'Như cuốn sổ tay nhân viên'),
     D('infra/', 'Infrastructure: hạ tầng kết nối', 'Mô tả AI kết nối Gmail, Calendar, Chat, Drive, Jira, Confluence qua n8n và MCP. Không lưu mật khẩu ở đây.', [
       F('integrations/', 'Các kết nối', 'n8n cho Gmail, Drive, Chat, Calendar; MCP cho Jira, Confluence: dùng để làm gì, gọi thế nào, lỗi hay gặp.', 'gmail: tạo draft, đọc thread\njira: đọc ticket, đọc comment'),
@@ -511,37 +546,6 @@ showRole('pm');
   upd();
 })();
 
-
-/* ---------- 13. new way of working ---------- */
-(() => {
-  const ROWS = [
-    { k: 'Tổng hợp context', s: 'gom thông tin, chỉ đúng nguồn', c: 'h', v: [20, 40] },
-    { k: 'Suy nghĩ giải pháp', s: 'hướng tiếp cận, hướng xử lý', c: 'h', v: [20, 40] },
-    { k: 'Thực thi', s: 'viết, soạn, nhập liệu, copy · paste', c: 'w', v: [50, 0], cAfter: 'a', sAfter: 'AI làm toàn bộ, như nhân viên cấp dưới' },
-    { k: 'Review và gửi đi', s: 'kiểm tra, quyết định, chịu trách nhiệm', c: 'h', v: [10, 20] },
-  ];
-  const CAP = ['Một nửa thời gian đi vào tự tay làm: viết, soạn, nhập liệu, copy · paste. (Tỉ lệ minh hoạ.)', 'Toàn bộ thời gian dành cho tổng hợp context, suy nghĩ và quyết định; phần thực thi do AI làm. (Tỉ lệ minh hoạ.)'];
-  const box = $('#alloc');
-  box.innerHTML = ROWS.map((r) => `<div class="al-row ${r.c}"><span>${r.k}<small>${r.s}</small></span><span class="bt"><i></i></span><b></b></div>`).join('');
-  const set = (v) => {
-    $$('#newToggle button').forEach((b) => b.classList.toggle('on', +b.dataset.v === v));
-    $$('.al-row', box).forEach((row, i) => {
-      const r = ROWS[i]; row.className = 'al-row ' + (v && r.cAfter ? r.cAfter : r.c);
-      $('small', row).textContent = v && r.sAfter ? r.sAfter : r.s;
-      $('i', row).style.width = r.v[v] * 2 + '%'; $('b', row).textContent = r.v[v] + '%';
-    });
-    $('#allocCap').textContent = CAP[v];
-  };
-  $$('#newToggle button').forEach((b) => b.addEventListener('click', () => set(+b.dataset.v)));
-  set(0);
-  const LOOP = ['Bạn chỉ cho AI đúng nguồn: dự án nào, tài liệu nào, luồng email nào, ai là người đọc.', 'Đây là giá trị thật của bạn: hiểu vấn đề, chọn hướng đi, cân nhắc rủi ro.', 'AI thực thi hoàn toàn: đọc, viết, soạn, tổng hợp, tự kiểm tra, như một nhân viên cấp dưới.', 'Bạn review kết quả, chỉnh nếu cần, rồi gửi đi. Trách nhiệm cuối cùng vẫn là của bạn.'];
-  // productivity follows the toggle: x1 before, real multipliers (BA x3, Dev x5, QC x2) with AI Agent
-  const prodRows = $$('#prod .prod-row');
-  const fill = (v) => prodRows.forEach((r, k) => setTimeout(() => { const x = v ? +r.dataset.x : 1; $('i', r).style.width = (100 * x) / 5 + '%'; $('b', r).textContent = '×' + x; r.classList.toggle('up', !!v); }, v ? k * 160 : 0));
-  $$('#newToggle button').forEach((b) => b.addEventListener('click', () => fill(+b.dataset.v)));
-  fill(0);
-  $$('#loopSvg .lp').forEach((g) => g.addEventListener('mouseenter', () => { $$('#loopSvg .lp').forEach((x) => x.classList.toggle('on', x === g)); $('#loopCap').textContent = LOOP[+g.dataset.l]; }));
-})();
 
 /* ---------- 14. live demo: preview of the command, then switch to the real machine ---------- */
 (() => {
@@ -652,12 +656,12 @@ showRole('pm');
   };
   // group, icon, title, short line, time, who, description, example
   const P = [
-    ['Công cụ', 'git', 'Xin Git repo', 'private, của SmartOSC', '1 – 2 ngày', 'Request HoD + IT', 'Request HoD duyệt, IT setup Git repo private của SmartOSC. Đây là "bộ não" của nhân viên AI: đồng bộ mọi máy, dữ liệu vẫn nằm trong công ty.', 'Request: Git repo private cho dự án ABC\nHoD duyệt → IT tạo repo, cấp quyền\ngit clone về máy'],
+    ['Công cụ', 'git', 'Xin Git repo', 'private, của SmartOSC', '10 phút', 'Request HoD + IT', 'Request HoD duyệt, IT setup Git repo private của SmartOSC. Đây là "bộ não" của nhân viên AI: đồng bộ mọi máy, dữ liệu vẫn nằm trong công ty.', 'Request: Git repo private cho dự án ABC\nHoD duyệt → IT tạo repo, cấp quyền\ngit clone về máy'],
     ['Công cụ', 'code', 'Cài VS Code', 'miễn phí, nhẹ', '5 phút', 'Tự cài, miễn phí', 'Tải Visual Studio Code (miễn phí, công ty không chặn), mở thư mục repo vừa clone. Mọi file AI tạo ra, bạn đều nhìn thấy và sửa được.', 'code.visualstudio.com → Download\nFile → Open Folder → pm-ai'],
     ['Công cụ', 'plug', 'Kết nối Claude', 'extension Claude Code', '5 phút', 'Tự cài, tài khoản công ty', 'Cài extension Claude Code trong VS Code, đăng nhập tài khoản Claude Code Team công ty đã cấp cho team dự án. Nhân viên AI đã "ngồi" vào bàn làm việc.', 'Extensions → tìm "Claude Code" → Install\nĐăng nhập → mở khung chat'],
-    ['Kết nối', 'hub', 'Cài n8n', 'chạy local, miễn phí', '15 phút', 'Tự cài, nhờ Claude giúp', 'Cài n8n (miễn phí, công ty không chặn) ngay trên máy làm "cổng kết nối". Mẹo: từ bước này, hãy nhờ chính Claude Code làm giúp.', '"Cài n8n chạy local trên máy mình,\ntự khởi động khi bật máy."'],
-    ['Kết nối', 'link', 'Nối hệ thống', 'Gmail · Chat · Drive · Jira', '30 phút', 'Bạn đăng nhập, Claude dựng', 'Đăng nhập Google một lần cho Gmail, Chat, Drive, Calendar; thêm MCP cho Jira, Confluence.', '"Tạo workflow n8n đọc Gmail và Google Chat,\ncó token bảo vệ, ghi hướng dẫn vào infra/."'],
-    ['Bộ não', 'tree', 'Sắp xếp repo', 'CLAUDE.md · projects/ · prompt/', '20 phút', 'Nhờ Claude làm giúp', 'Dựng khung thư mục: quy tắc gốc, context công ty, từng dự án, prompt, task tự động.', 'CLAUDE.md\ncompany/   projects/   prompt/\ntasks/     knowledge/  .claude/memory/'],
+    ['Kết nối', 'hub', 'Cài n8n', 'chạy local, miễn phí', '15 phút', 'Nhờ Claude làm giúp, bạn cấp quyền', 'Cài n8n (miễn phí, công ty không chặn) ngay trên máy làm "cổng kết nối". Mẹo: từ bước này, hãy nhờ chính Claude Code làm giúp.', '"Cài n8n chạy local trên máy mình,\ntự khởi động khi bật máy."'],
+    ['Kết nối', 'link', 'Nối hệ thống', 'Gmail · Chat · Drive · Jira', '30 phút', 'Nhờ Claude làm giúp, bạn cấp quyền', 'Đăng nhập Google một lần cho Gmail, Chat, Drive, Calendar; thêm MCP cho Jira, Confluence.', '"Tạo workflow n8n đọc Gmail và Google Chat,\ncó token bảo vệ, ghi hướng dẫn vào infra/."'],
+    ['Bộ não', 'tree', 'Sắp xếp repo', 'CLAUDE.md · projects/ · prompt/', '20 phút', 'Nhờ Claude làm giúp, bạn cấp quyền', 'Dựng khung thư mục: quy tắc gốc, context công ty, từng dự án, prompt, task tự động.', 'CLAUDE.md\ncompany/   projects/   prompt/\ntasks/     knowledge/  .claude/memory/'],
     ['Bộ não', 'load', 'Nạp context lần đầu', 'email · chat · Drive · file', '1 giờ', 'Claude đọc, bạn duyệt', 'Cho AI đọc email, chat, Drive và tài liệu dự án, tự viết overview, stakeholders, notes. Bạn đọc lại, sửa chỗ chưa đúng.', '"Đọc email, chat, Drive của dự án ABC 3 tháng qua,\nviết overview.md, stakeholders.md và notes/."'],
     ['Bắt đầu', 'chat', 'Prompt đầu tiên', 'một việc bạn làm hằng ngày', '5 phút', 'Bạn giao việc', 'Chọn một việc lặp lại bạn ngại nhất, giao bằng một câu. Từ đây, mỗi góp ý của bạn làm AI giỏi hơn.', '"Soạn email báo cáo tiến độ hôm nay gửi khách,\ntheo mẫu report hằng ngày."'],
   ];

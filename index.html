@@ -129,22 +129,22 @@
 <section class="slide" id="s-memory" data-title="Đổi tài khoản">
   <div class="wrap">
     <p class="eyebrow">Thêm một điều nữa</p>
-    <h2>Nhưng rồi một ngày bạn cần dùng <strong>một tài khoản Claude khác</strong>…</h2>
+    <h2>Nhưng rồi một ngày bạn <strong>đổi tài khoản Claude</strong>, hay chỉ đơn giản là mở một chat mới…</h2>
     <div class="mem-tabs" id="memTabs">
       <button data-ctx="0" class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Tài khoản đang dùng<small>3 tháng làm dự án ABC</small></button>
-      <button data-ctx="1"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 12h18"/></svg>Tài khoản công ty cấp<small>chuyển từ tài khoản cá nhân</small></button>
-      <button data-ctx="2"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c1-3.5 3.5-5 6.5-5s5.5 1.5 6.5 5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M16 14.5c3 0 5 1.5 5.5 4.5"/></svg>Account riêng của dự án<small>khách hoặc dự án yêu cầu</small></button>
-      <button data-ctx="3"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Một tài khoản mới<small>đổi email, đổi gói</small></button>
+      <button data-ctx="1"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c1-3.5 3.5-5 6.5-5s5.5 1.5 6.5 5"/><circle cx="17.5" cy="9" r="2.5"/><path d="M16 14.5c3 0 5 1.5 5.5 4.5"/></svg>Tài khoản riêng của dự án<small>khách hoặc dự án cấp</small></button>
+      <button data-ctx="2"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Tài khoản cá nhân<small>dùng tạm tài khoản riêng</small></button>
+      <button data-ctx="3"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M12 8v5M9.5 10.5h5"/></svg>Mở một chat session khác<small>cùng tài khoản, chat mới</small></button>
     </div>
     <div class="mem-grid">
       <div class="brain">
-        <div class="brain-head"><b>Ký ức gắn với tài khoản cũ</b><span id="memPct">100%</span></div>
+        <div class="brain-head"><b>Những gì Claude còn nhớ</b><span id="memPct">100%</span></div>
         <div class="meter"><span id="memBar"></span></div>
         <ul class="mem-list" id="memList">
+          <li><b>Chat hôm qua:</b> 24 test case đã viết, những chỗ bạn đã sửa</li>
           <li><b>Lịch sử chat:</b> 3 tháng trao đổi về dự án ABC</li>
           <li><b>Project "Dự án ABC":</b> BRD, template, quy ước ID <i>TC-HOM-01…</i></li>
-          <li><b>Memory:</b> bạn là QC, thích bước test ngắn, mỗi bước một hành động</li>
-          <li><b>Memory:</b> khách đã chốt banner tối đa 5 slide</li>
+          <li><b>Memory:</b> bạn là QC, viết tiếng Việt, thích bước test ngắn</li>
           <li><b>Cài đặt cá nhân:</b> trả lời tiếng Việt, không emoji</li>
           <li><b>Connectors:</b> Gmail, Google Drive đã kết nối</li>
         </ul>
@@ -154,8 +154,8 @@
         <div class="bubble ai" id="aiGreet"></div>
         <div class="stranger" id="stranger">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 0 1 4.8 1c0 1.7-2.3 2-2.3 3.5M12 17.2v.3"/></svg>
-          <p>Tài khoản mới <b>không thấy gì</b> của tài khoản cũ: lịch sử chat, Project, Memory, cài đặt, connectors đều ở lại bên kia.<br>Bạn lại bắt đầu dán template, BRD, email, chat… từ đầu.</p>
-          <div class="redo"><b id="redoMin">0</b> phút giải thích lại, <u>mỗi lần</u> đổi sang tài khoản khác</div>
+          <p id="strangerText"></p>
+          <div class="redo"><b id="redoMin">0</b> phút giải thích lại, <u>mỗi lần</u> <span id="redoWhy">đổi tài khoản</span></div>
         </div>
       </div>
     </div>
@@ -211,7 +211,7 @@
     <g transform="translate(170 26)"><rect class="card" width="250" height="58" rx="14"/><text x="125" y="26" class="ac-h" text-anchor="middle">Tài khoản Claude A</text><text x="125" y="46" class="ac-s" text-anchor="middle">tài khoản cá nhân của bạn</text></g>
     <path class="ln acc" d="M250 84 C250 105 165 100 165 122"/><path class="ln acc" d="M340 84 C340 105 425 100 425 122"/>
     <g transform="translate(60 122)"><rect class="st hist2" x="8" y="-6" width="210" height="80" rx="12"/><rect class="st hist" width="210" height="80" rx="12"/><text x="16" y="30" class="ac-t">Lịch sử chat</text><text x="16" y="52" class="ac-s">mọi chat cũ + file đính kèm</text><text x="16" y="68" class="ac-s">chat mới không tự đọc</text></g>
-    <g transform="translate(320 122)"><rect class="st mem" width="210" height="80" rx="12"/><text x="16" y="30" class="ac-t mem-t">Memory tài khoản</text><text x="16" y="52" class="ac-s">vài topic về bạn: vai trò,</text><text x="16" y="68" class="ac-s">sở thích, dự án đang làm</text></g>
+    <g transform="translate(320 122)"><rect class="st mem" width="210" height="80" rx="12"/><text x="16" y="30" class="ac-t mem-t">Memory tài khoản</text><text x="16" y="52" class="ac-s">topic về bạn: vai trò, dự án,</text><text x="16" y="68" class="ac-s">ngôn ngữ, phong cách trình bày</text></g>
     <path class="ln hist-ln" d="M115 316 C115 250 170 260 170 204" marker-end="url(#acG)"/><path class="ln hist-ln" d="M295 316 C295 250 170 260 170 204" marker-end="url(#acG)"/><path class="ln hist-ln" d="M475 316 C475 250 170 260 170 204" marker-end="url(#acG)"/>
     <path class="ln mem-ln" d="M425 204 C425 260 133 250 133 316" marker-start="url(#acM)" marker-end="url(#acM)"/><path class="ln mem-ln" d="M425 204 C425 260 313 250 313 316" marker-start="url(#acM)" marker-end="url(#acM)"/><path class="ln mem-ln" d="M425 204 C425 260 493 250 493 316" marker-start="url(#acM)" marker-end="url(#acM)"/>
     <text x="40" y="246" class="ac-s lg-hist">lưu lại</text><text x="490" y="246" class="ac-s lg-mem">nạp / ghi</text>
@@ -232,7 +232,7 @@
     <g transform="translate(780 26)"><rect class="card" width="250" height="58" rx="14"/><text x="125" y="26" class="ac-h" text-anchor="middle">Tài khoản Claude B</text><text x="125" y="46" class="ac-s" text-anchor="middle">account riêng của dự án</text></g>
     <path class="ln acc" d="M860 84 C860 105 775 100 775 122"/><path class="ln acc" d="M950 84 C950 105 1035 100 1035 122"/>
     <g transform="translate(670 122)"><rect class="st hist2" x="8" y="-6" width="210" height="80" rx="12"/><rect class="st hist" width="210" height="80" rx="12"/><text x="16" y="30" class="ac-t">Lịch sử chat</text><text x="16" y="52" class="ac-s">mọi chat cũ + file đính kèm</text><text x="16" y="68" class="ac-s">chat mới không tự đọc</text></g>
-    <g transform="translate(930 122)"><rect class="st mem" width="210" height="80" rx="12"/><text x="16" y="30" class="ac-t mem-t">Memory tài khoản</text><text x="16" y="52" class="ac-s">vài topic về bạn: vai trò,</text><text x="16" y="68" class="ac-s">sở thích, dự án đang làm</text></g>
+    <g transform="translate(930 122)"><rect class="st mem" width="210" height="80" rx="12"/><text x="16" y="30" class="ac-t mem-t">Memory tài khoản</text><text x="16" y="52" class="ac-s">topic về bạn: vai trò, dự án,</text><text x="16" y="68" class="ac-s">ngôn ngữ, phong cách trình bày</text></g>
     <path class="ln hist-ln" d="M725 316 C725 250 780 260 780 204" marker-end="url(#acG)"/><path class="ln hist-ln" d="M905 316 C905 250 780 260 780 204" marker-end="url(#acG)"/><path class="ln hist-ln" d="M1085 316 C1085 250 780 260 780 204" marker-end="url(#acG)"/>
     <path class="ln mem-ln" d="M1035 204 C1035 260 743 250 743 316" marker-start="url(#acM)" marker-end="url(#acM)"/><path class="ln mem-ln" d="M1035 204 C1035 260 923 250 923 316" marker-start="url(#acM)" marker-end="url(#acM)"/><path class="ln mem-ln" d="M1035 204 C1035 260 1103 250 1103 316" marker-start="url(#acM)" marker-end="url(#acM)"/>
     <text x="650" y="246" class="ac-s lg-hist">lưu lại</text><text x="1100" y="246" class="ac-s lg-mem">nạp / ghi</text>
@@ -255,7 +255,7 @@
       </div>
       <div class="ac-side">
         <div><b>Ký ức gắn với tài khoản</b><span>Lịch sử chat và Memory nằm trên server theo tài khoản. Đổi máy vẫn còn, đổi tài khoản thì không.</span></div>
-        <div><b>Mỗi chat là một context window</b><span>Các chat độc lập, không đọc được nội dung của nhau. Chỉ nhận vài topic từ Memory khi mở chat.</span></div>
+        <div><b>Mỗi chat là một context window</b><span>Các chat độc lập, không đọc được nội dung của nhau. Chỉ nhận các topic từ Memory (vai trò, dự án, ngôn ngữ, phong cách) khi mở chat.</span></div>
         <div><b>Hai tài khoản tách rời hoàn toàn</b><span>Tài khoản B không thấy gì của tài khoản A: không lịch sử, không Memory, không Project.</span></div>
       </div>
     </div>
@@ -294,25 +294,21 @@
 <!-- ============ 6. LỊCH SỬ (Ý 3) ============ -->
 <section class="slide" id="s-history" data-title="Lịch sử AI">
   <div class="wrap">
-    <p class="eyebrow">Nhìn lại một chút</p>
+    <p class="eyebrow">Nhìn lại một chút <i class="hint-click">(bấm từng giai đoạn)</i></p>
     <h2>Từ "Hey Siri" đến <strong>AI Agent</strong></h2>
     <div class="eras" id="eras">
       <div class="era-line"><i id="eraFill"></i></div>
-      <button class="era on" data-era="0"><small>2011 – 2016</small><b>AI Assistant</b><span>Siri · OK Google · Alexa</span></button>
-      <button class="era" data-era="1"><small>2021 – 2024</small><b>AI Copilot</b><span>Claude · ChatGPT · M365 Copilot</span></button>
-      <button class="era" data-era="2"><small>2025 – nay</small><b>AI Agent</b><span>Claude Code · Codex · ChatGPT Agent</span></button>
+      <button class="era on" data-era="0"><b>AI Assistant</b></button>
+      <button class="era" data-era="1"><b>AI Copilot</b></button>
+      <button class="era" data-era="2"><b>AI Agent</b></button>
     </div>
     <div class="era-grid">
-      <div class="era-demo">
-        <div class="ed-row me"><span>Bạn</span><p id="edAsk"></p></div>
-        <div class="ed-row ai"><span id="edWho"></span><p id="edDo"></p></div>
-        <div class="ed-tags" id="edTags"></div>
-        <p class="ed-note" id="edNote"></p>
-      </div>
+      <div class="era-detail" id="eraDetail"></div>
       <div class="growth">
-        <p class="mini-title">Độ dài công việc AI tự làm trọn vẹn (ước lượng, thang log)</p>
+        <p class="mini-title">Benchmark: AI tự làm trọn vẹn được công việc dài bao lâu? <i>(METR)</i></p>
+        <p class="bm-def">Đo bằng thời gian <b>một chuyên gia là người thật</b> cần để làm xong việc đó. AI làm thành công ít nhất 1 trong 2 lần thì tính.</p>
         <div class="bars" id="growthBars"></div>
-        <p class="src-note">Nguồn: METR (03/2025), <i>Measuring AI Ability to Complete Long Tasks</i>: độ dài công việc AI tự hoàn thành <b>tăng gấp đôi khoảng mỗi 7 tháng</b>. Số liệu làm tròn để minh hoạ.</p>
+        <p class="src-note">Nguồn: METR, <i>Measuring AI Ability to Complete Long Tasks</i> (03/2025) và các bản cập nhật 2025: độ dài công việc AI tự làm được <b>tăng gấp đôi khoảng mỗi 7 tháng</b>. Số liệu làm tròn.</p>
       </div>
     </div>
   </div>
@@ -328,33 +324,15 @@
         <div class="ms-toggle" id="msToggle"><button data-m="tool" class="on">Coi AI là công cụ đơn lẻ</button><button data-m="member">Coi AI là thành viên</button></div>
         <div class="ms-card" id="msCard"></div>
       </div>
-      <div class="caps">
-        <p class="mini-title">AI Agent làm được những gì Copilot không làm được <i>(di chuột vào từng thẻ)</i></p>
-        <div class="cap-grid">
-          <div class="cap" tabindex="0">
-            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4M8 8.5l2 1.8-2 1.8M12 12h4"/></svg>
-            <b>Tự điều khiển máy tính của bạn</b>
-            <p>Mở, đọc, sửa file · chạy lệnh, chạy script · mở trình duyệt, chụp màn hình để tự kiểm tra.</p>
-            <div class="cap-demo term"><span>&gt; đọc 3 file BRD trong projects/du-an-abc</span><span>&gt; tạo file test-cases.xlsx</span><span class="ok">đã tự kiểm tra: 0 lỗi định dạng</span></div>
-          </div>
-          <div class="cap" tabindex="0">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="4" cy="5" r="2"/><circle cx="20" cy="5" r="2"/><circle cx="4" cy="19" r="2"/><circle cx="20" cy="19" r="2"/><path d="M6 6.5l4 3.5M18 6.5l-4 3.5M6 17.5l4-3.5M18 17.5l-4-3.5"/></svg>
-            <b>Tự kết nối hệ thống thứ ba</b>
-            <p>Gmail · Calendar · Google Chat · Drive · Jira · Confluence · server… và rất nhiều hệ thống khác.</p>
-            <div class="cap-demo chips"><span>Gmail</span><span>Calendar</span><span>Chat</span><span>Drive</span><span>Jira</span><span>Confluence</span><span>Git</span><span>Server</span></div>
-          </div>
-          <div class="cap" tabindex="0">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-            <b>Chạy 24/7, không cần nhắc</b>
-            <p>Lên lịch làm việc định kỳ, tự chạy khi có sự kiện, không cần ai ra lệnh từng lần.</p>
-            <div class="cap-demo sched"><span><i>08:00</i>Tóm tắt email, chat đêm qua</span><span><i>17:30</i>Soạn report UAT cuối ngày</span><span><i>22:00</i>Cập nhật to-do, nhắc deadline</span></div>
-          </div>
-          <div class="cap" tabindex="0">
-            <svg viewBox="0 0 24 24"><path d="M4 6h10M4 12h7M4 18h10"/><path d="M15 15l2 2 4-4"/></svg>
-            <b>Tự lập kế hoạch, tự kiểm tra</b>
-            <p>Chia việc lớn thành nhiều bước, làm từng bước, tự soát lại trước khi đưa bạn review.</p>
-            <div class="cap-demo plan"><span class="d">1. Đọc BRD + email đã chốt</span><span class="d">2. Viết 40 test case</span><span class="d">3. Đối chiếu lại template</span><span>4. Gửi bạn review</span></div>
-          </div>
+      <div class="ms-right">
+        <p class="ms-right-title" id="msRightTitle"></p>
+        <div class="alloc" id="alloc"></div>
+        <p class="caption" id="allocCap"></p>
+        <div class="prod" id="prod">
+          <p class="mini-title">Năng suất <i>(dự án thật ở công ty cũ của tôi)</i></p>
+          <div class="prod-row" data-x="3"><span>BA</span><span class="pb"><i></i></span><b>×1</b></div>
+          <div class="prod-row" data-x="5"><span>Dev</span><span class="pb"><i></i></span><b>×1</b></div>
+          <div class="prod-row" data-x="2"><span>QC</span><span class="pb"><i></i></span><b>×1</b></div>
         </div>
       </div>
     </div>
@@ -380,16 +358,34 @@
         <div class="ho-meter"><span>Mức hiểu dự án của "nhân viên AI"</span><div class="meter"><span id="hoBar"></span></div><b id="hoPct">0%</b></div>
       </div>
       <div class="setup">
-        <p class="mini-title">Tôi bàn giao một lần, AI nhớ mãi, ở mọi máy <i>(di chuột vào từng máy)</i></p>
+        <p class="mini-title">Tôi bàn giao một lần vào Folder AI, AI nhớ mãi, ở mọi máy</p>
         <svg viewBox="0 0 520 320" id="setupSvg">
-          <path class="sync" d="M160 55 C190 55 195 140 215 145"/><path class="sync" d="M160 160 L215 160"/><path class="sync" d="M160 265 C190 265 195 180 215 175"/><path class="sync" d="M355 160 L385 160"/>
-          <g class="mac"><rect x="10" y="15" width="150" height="80" rx="12"/><text x="85" y="50">Máy công ty</text><text x="85" y="70" class="sm">VS Code + Claude Code</text></g>
-          <g class="mac"><rect x="10" y="120" width="150" height="80" rx="12"/><text x="85" y="155">Laptop WFH</text><text x="85" y="175" class="sm">VS Code + Claude Code</text></g>
-          <g class="mac"><rect x="10" y="225" width="150" height="80" rx="12"/><text x="85" y="260">Máy bất kỳ</text><text x="85" y="280" class="sm">chỉ cần git clone</text></g>
-          <g id="gitNode"><rect x="215" y="100" width="140" height="120" rx="16"/><text x="285" y="138" class="ttl-b">Git repo</text><text x="285" y="160" class="sm">context · prompt</text><text x="285" y="178" class="sm">memory · lưu vĩnh viễn</text><text x="285" y="196" class="sm">có lịch sử thay đổi</text></g>
-          <g id="memNote"><rect x="385" y="100" width="125" height="120" rx="14"/><text x="447" y="135" class="ttl-g">Nhớ mãi</text><text x="447" y="157" class="sm">email · vai trò KH</text><text x="447" y="175" class="sm">tính năng · quyết định</text><text x="447" y="193" class="sm">chỉ cần nói 1 lần</text></g>
+          <path class="sync" d="M160 55 C190 55 195 140 215 145"/><path class="sync" d="M160 160 L215 160"/><path class="sync" d="M160 265 C190 265 195 180 215 175"/><path class="sync" d="M355 160 L375 160"/>
+          <g class="mac"><rect x="10" y="15" width="150" height="80" rx="12"/><text x="85" y="60">Máy công ty</text></g>
+          <g class="mac"><rect x="10" y="120" width="150" height="80" rx="12"/><text x="85" y="165">Laptop WFH</text></g>
+          <g class="mac"><rect x="10" y="225" width="150" height="80" rx="12"/><text x="85" y="270">Máy bất kỳ</text></g>
+          <g id="gitNode"><rect x="215" y="100" width="140" height="120" rx="16"/><text x="285" y="140" class="ttl-b">Folder AI</text><text x="285" y="164" class="sm">Context, skills, prompt</text><text x="285" y="184" class="sm">lưu vĩnh viễn</text><text x="285" y="202" class="sm">có lịch sử thay đổi</text></g>
+          <g id="memNote"><rect x="375" y="92" width="140" height="136" rx="14"/><text x="445" y="122" class="ttl-g">Nhớ mãi</text><text x="445" y="146" class="sm">chat dài không bị nén</text><text x="445" y="166" class="sm">đổi account không mất</text><text x="445" y="186" class="sm">không bao giờ quên file</text><text x="445" y="206" class="sm">máy nào cũng như nhau</text></g>
         </svg>
-        <p class="caption">Visual Studio Code: <b>miễn phí, nhẹ, dễ dùng, dễ mở rộng</b>. Git: đổi máy chỉ cần <b>git pull</b>, AI có lại toàn bộ "ký ức".</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 10. SOURCE CODE (Ý 6) ============ -->
+<section class="slide" id="s-tree" data-title="Bộ não">
+  <div class="wrap">
+    <p class="eyebrow">Mở "bộ não" của nhân viên AI</p>
+    <h2>Trong Folder AI của tôi <strong>có những gì</strong>?</h2>
+    <div class="tree-grid">
+      <div class="tree" id="tree"></div>
+      <div class="tree-view">
+        <div class="tv-path" id="tvPath"></div>
+        <h3 id="tvTitle"></h3>
+        <p id="tvDesc"></p>
+        <div class="tv-ex" id="tvEx"></div>
+        <div class="tv-tag" id="tvTag"></div>
       </div>
     </div>
   </div>
@@ -403,7 +399,7 @@
     <div class="arch-grid solo">
       <div class="arch-canvas">
         <svg viewBox="0 0 1100 560" id="archSvg">
-          <text x="110" y="24" class="col">1. Nơi làm việc</text><text x="390" y="24" class="col">2. Bộ não</text><text x="680" y="24" class="col">3. Cổng kết nối</text><text x="960" y="24" class="col">4. Hệ thống, dịch vụ ngoài</text>
+          <text x="110" y="24" class="col c1">1. Nơi làm việc</text><text x="390" y="24" class="col c2">2. Bộ não</text><text x="680" y="24" class="col c3">3. Cổng kết nối</text><text x="960" y="24" class="col c4">4. Hệ thống, dịch vụ ngoài</text>
           <g id="archLinks">
             <path data-l="w1 vsc" d="M200 80 C230 80 230 66 260 66"/><path data-l="w2 vsc" d="M200 190 C232 190 232 74 260 74"/><path data-l="w3 vsc" d="M200 300 C236 300 236 82 260 82"/>
             <path data-l="vsc cc" d="M390 100 L390 118"/><path data-l="cc repo" d="M390 262 L390 282"/><path data-l="repo gh" d="M390 446 L390 472"/>
@@ -411,28 +407,29 @@
             <path data-l="n8n gmail" d="M780 150 C810 150 810 65 840 65"/><path data-l="n8n cal" d="M780 165 C810 165 810 115 840 115"/><path data-l="n8n chat" d="M780 180 C812 180 812 165 840 165"/><path data-l="n8n drive" d="M780 195 C812 195 812 215 840 215"/><path data-l="n8n hf" d="M780 210 C812 210 812 265 840 265"/>
             <path data-l="mcp jira" d="M780 385 C812 385 812 315 840 315"/><path data-l="mcp conf" d="M780 400 C812 400 812 365 840 365"/><path data-l="mcp figma" d="M780 415 C812 415 812 415 840 415"/>
           </g>
-          <g class="ab" data-k="w1"><rect x="20" y="45" width="180" height="70" rx="12"/><text x="110" y="75">Máy công ty</text><text x="110" y="95" class="sm">mở repo trong VS Code</text></g>
-          <g class="ab" data-k="w2"><rect x="20" y="155" width="180" height="70" rx="12"/><text x="110" y="185">Laptop WFH</text><text x="110" y="205" class="sm">mở repo trong VS Code</text></g>
-          <g class="ab" data-k="w3"><rect x="20" y="265" width="180" height="70" rx="12"/><text x="110" y="295">Máy mới bất kỳ</text><text x="110" y="315" class="sm">git clone là xong</text></g>
-          <g class="ab vsc" data-k="vsc"><rect x="260" y="44" width="260" height="56" rx="14"/><text x="390" y="68" class="ttl">Visual Studio Code</text><text x="390" y="88" class="sm">miễn phí · nhẹ · nhìn thấy mọi file</text></g>
-          <g class="ab main" data-k="cc"><rect x="260" y="118" width="260" height="144" rx="16"/><text x="390" y="146" class="ttl">Claude Code (AI Agent)</text><text x="390" y="174" class="sm">đọc · sửa · tạo file</text><text x="390" y="198" class="sm">chạy script, lệnh terminal</text><text x="390" y="222" class="sm">mở trình duyệt, chụp màn hình</text><text x="390" y="246" class="sm">tự lập kế hoạch, tự kiểm tra</text></g>
-          <g class="ab" data-k="repo"><rect x="260" y="282" width="260" height="164" rx="16"/><text x="390" y="310" class="ttl">Git repo: bộ não</text><text x="390" y="336" class="sm">CLAUDE.md: quy tắc gốc</text><text x="390" y="358" class="sm">Shared · Project knowledge</text><text x="390" y="380" class="sm">skills · prompt · tasks</text><text x="390" y="402" class="sm">.claude/memory: trí nhớ dài hạn</text><text x="390" y="424" class="sm">infra: mô tả cách kết nối</text></g>
-          <g class="ab" data-k="gh"><rect x="260" y="472" width="260" height="62" rx="14"/><text x="390" y="499">GitHub (private)</text><text x="390" y="519" class="sm">đồng bộ mọi máy · lịch sử thay đổi</text></g>
+          <g class="ab ws" data-k="w1"><rect x="20" y="45" width="180" height="70" rx="12"/><text x="110" y="75">Máy công ty</text><text x="110" y="95" class="sm">mở Folder AI trong VS Code</text></g>
+          <g class="ab ws" data-k="w2"><rect x="20" y="155" width="180" height="70" rx="12"/><text x="110" y="185">Laptop WFH</text><text x="110" y="205" class="sm">mở Folder AI trong VS Code</text></g>
+          <g class="ab ws" data-k="w3"><rect x="20" y="265" width="180" height="70" rx="12"/><text x="110" y="295">Máy mới bất kỳ</text><text x="110" y="315" class="sm">git clone là xong</text></g>
+          <g class="ab br" data-k="vsc"><rect x="260" y="44" width="260" height="56" rx="14"/><text x="390" y="68" class="ttl">Visual Studio Code</text><text x="390" y="88" class="sm">miễn phí · nhẹ · nhìn thấy mọi file</text></g>
+          <g class="ab br" data-k="cc"><rect x="260" y="118" width="260" height="144" rx="16"/><text x="390" y="146" class="ttl">Claude Code (AI Agent)</text><text x="390" y="174" class="sm">đọc · sửa · tạo file</text><text x="390" y="198" class="sm">chạy script, lệnh terminal</text><text x="390" y="222" class="sm">mở trình duyệt, chụp màn hình</text><text x="390" y="246" class="sm">tự lập kế hoạch, thực thi, kiểm tra</text></g>
+          <g class="ab br" data-k="repo"><rect x="260" y="282" width="260" height="164" rx="16"/><text x="390" y="310" class="ttl">Folder AI: bộ não</text><text x="390" y="336" class="sm">CLAUDE.md: quy tắc gốc</text><text x="390" y="358" class="sm">Shared · Project knowledge</text><text x="390" y="380" class="sm">skills · prompt · tasks</text><text x="390" y="402" class="sm">.claude/memory: trí nhớ dài hạn</text><text x="390" y="424" class="sm">infra: mô tả cách kết nối</text></g>
+          <g class="ab br" data-k="gh"><rect x="260" y="472" width="260" height="62" rx="14"/><text x="390" y="499">GitHub (private)</text><text x="390" y="519" class="sm">đồng bộ mọi máy · lịch sử thay đổi</text></g>
           <g class="ab hub" data-k="n8n"><rect x="580" y="44" width="200" height="290" rx="16"/><text x="680" y="76" class="ttl">n8n (self-hosted)</text><text x="680" y="106" class="sm">webhook riêng, có token</text><text x="680" y="132" class="sm">OAuth Google: Gmail,</text><text x="680" y="152" class="sm">Drive, Chat, Calendar</text><text x="680" y="178" class="sm">API key: HuggingFace…</text><text x="680" y="204" class="sm">chạy ẩn, tự khởi động</text><text x="680" y="224" class="sm">cùng máy tính</text><text x="680" y="250" class="sm">log tự dọn sau 7 ngày</text><text x="680" y="276" class="sm">miễn phí, chạy local</text><text x="680" y="302" class="sm">mở rộng: Zoho, server…</text></g>
           <g class="ab hub" data-k="mcp"><rect x="580" y="358" width="200" height="84" rx="14"/><text x="680" y="384" class="ttl">MCP</text><text x="680" y="406" class="sm">Atlassian: Jira, Confluence</text><text x="680" y="426" class="sm">Figma</text></g>
-          <g class="ab warn" data-k="sec"><rect x="580" y="466" width="200" height="68" rx="14"/><text x="680" y="494">Secret chỉ ở máy local</text><text x="680" y="515" class="sm">không bao giờ lên Git</text></g>
-          <g class="ab sys" data-k="gmail"><rect x="840" y="44" width="240" height="42" rx="10"/><text x="960" y="70">Gmail</text></g>
-          <g class="ab sys" data-k="cal"><rect x="840" y="94" width="240" height="42" rx="10"/><text x="960" y="120">Google Calendar</text></g>
-          <g class="ab sys" data-k="chat"><rect x="840" y="144" width="240" height="42" rx="10"/><text x="960" y="170">Google Chat</text></g>
-          <g class="ab sys" data-k="drive"><rect x="840" y="194" width="240" height="42" rx="10"/><text x="960" y="220">Drive · Docs · Sheets</text></g>
-          <g class="ab sys ext" data-k="hf"><rect x="840" y="244" width="240" height="42" rx="10"/><text x="960" y="270">HuggingFace (model AI, ảnh)</text></g>
-          <g class="ab sys" data-k="jira"><rect x="840" y="294" width="240" height="42" rx="10"/><text x="960" y="320">Jira</text></g>
-          <g class="ab sys" data-k="conf"><rect x="840" y="344" width="240" height="42" rx="10"/><text x="960" y="370">Confluence</text></g>
-          <g class="ab sys ext" data-k="figma"><rect x="840" y="394" width="240" height="42" rx="10"/><text x="960" y="420">Figma (design)</text></g>
-                    <g class="ab sys more" data-k="more"><rect x="840" y="444" width="240" height="42" rx="10"/><text x="960" y="470">… và dịch vụ khác</text></g>
+          <g class="ab hub" data-k="sec"><rect x="580" y="466" width="200" height="68" rx="14"/><text x="680" y="494">Secret chỉ ở máy local</text><text x="680" y="515" class="sm">không bao giờ lên Git</text></g>
+          <g class="ab sys" data-k="gmail"><rect x="840" y="44" width="240" height="42" rx="10"/><g class="ic" transform="translate(856 53)"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></g><text x="892" y="70" class="lt">Gmail</text></g>
+          <g class="ab sys" data-k="cal"><rect x="840" y="94" width="240" height="42" rx="10"/><g class="ic" transform="translate(856 103)"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></g><text x="892" y="120" class="lt">Google Calendar</text></g>
+          <g class="ab sys" data-k="chat"><rect x="840" y="144" width="240" height="42" rx="10"/><g class="ic" transform="translate(856 153)"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8"/></g><text x="892" y="170" class="lt">Google Chat</text></g>
+          <g class="ab sys" data-k="drive"><rect x="840" y="194" width="240" height="42" rx="10"/><g class="ic" transform="translate(856 203)"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></g><text x="892" y="220" class="lt">Drive · Docs · Sheets</text></g>
+          <g class="ab sys" data-k="hf"><rect x="840" y="244" width="240" height="42" rx="10"/><g class="ic" transform="translate(856 253)"><path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7-4.7-1.8 4.7-1.8z"/><path d="M18 15l.8 2.2L21 18l-2.2.8L18 21l-.8-2.2L15 18l2.2-.8z"/></g><text x="892" y="270" class="lt">HuggingFace</text></g>
+          <g class="ab sys" data-k="jira"><rect x="840" y="294" width="240" height="42" rx="10"/><g class="ic" transform="translate(856 303)"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12l3 3 5-6"/></g><text x="892" y="320" class="lt">Jira</text></g>
+          <g class="ab sys" data-k="conf"><rect x="840" y="344" width="240" height="42" rx="10"/><g class="ic" transform="translate(856 353)"><path d="M8 3h11v14H8z"/><path d="M5 7v14h11M11 8h5M11 12h5"/></g><text x="892" y="370" class="lt">Confluence</text></g>
+          <g class="ab sys" data-k="figma"><rect x="840" y="394" width="240" height="42" rx="10"/><g class="ic" transform="translate(856 403)"><rect x="4" y="4" width="7" height="7" rx="1"/><circle cx="16.5" cy="7.5" r="3.5"/><path d="M7.5 14l4 7h-8z"/><rect x="14" y="14" width="6" height="6" rx="3"/></g><text x="892" y="420" class="lt">Figma</text></g>
+                    <g class="ab sys" data-k="more"><rect x="840" y="444" width="240" height="42" rx="10"/><g class="ic" transform="translate(856 453)"><circle cx="6" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="18" cy="12" r="1.6"/></g><text x="892" y="470" class="lt">… và dịch vụ khác</text></g>
         </svg>
       </div>
     </div>
+    <p class="caption arch-cap">Visual Studio Code: <b>miễn phí, nhẹ, dễ dùng, dễ mở rộng</b>. Git: đổi máy chỉ cần <b>git pull</b>, AI có lại toàn bộ "ký ức".</p>
   </div>
 </section>
 
@@ -440,7 +437,7 @@
 <section class="slide" id="s-n8n" data-title="Ví dụ thật">
   <div class="wrap">
     <div class="head-row">
-      <div><p class="eyebrow">Giao việc bằng một câu: AI đọc Git repo trước, rồi tự đi lấy phần còn lại</p><h2 id="scTitle"></h2></div>
+      <div><p class="eyebrow">Giao việc bằng một câu: AI đọc Folder AI trước, rồi tự đi lấy phần còn lại</p><h2 id="scTitle"></h2></div>
       <div class="controls"><button class="btn ghost" id="flowPrev">‹ Lùi lại</button><button class="btn" id="flowNext">Bước tiếp theo ›</button></div>
     </div>
     <div class="sc-tabs" id="scTabs"><button data-s="0" class="on">PM · Report UAT cuối ngày</button><button data-s="1">QC · Viết test case</button><button data-s="2">BA · Review feedback BRD v0.1</button></div>
@@ -459,7 +456,7 @@
           <path class="fl" data-f="db" d="M491 236 C540 236 545 361 580 361"/>
           <g class="nd" data-n="pm"><rect x="10" y="165" width="120" height="70" rx="14"/><text x="70" y="195" id="actorTxt">PM</text><text x="70" y="215" class="sm">1 prompt</text></g>
           <g class="nd" data-n="cc"><rect x="200" y="150" width="150" height="100" rx="16"/><text x="275" y="196">Claude Code</text><text x="275" y="218" class="sm">AI Agent</text></g>
-          <g class="nd repo" data-n="repo"><rect x="150" y="282" width="250" height="110" rx="16"/><text x="275" y="308">Git repo: bộ não dự án</text><text x="275" y="330" class="sm">người nhận · vai trò · rule · template</text><text x="275" y="349" class="sm">quyết định đã chốt · lịch sử dự án</text><text x="275" y="373" class="sm in">có sẵn, không cần hệ thống ngoài</text></g>
+          <g class="nd repo" data-n="repo"><rect x="150" y="282" width="250" height="110" rx="16"/><text x="275" y="308">Folder AI: bộ não dự án</text><text x="275" y="330" class="sm">người nhận · vai trò · rule · template</text><text x="275" y="349" class="sm">quyết định đã chốt · lịch sử dự án</text><text x="275" y="373" class="sm in">có sẵn, không cần hệ thống ngoài</text></g>
           <g class="nd" data-n="n8n"><circle cx="455" cy="200" r="48"/><text x="455" y="196">n8n · MCP</text><text x="455" y="216" class="sm">cổng kết nối</text></g>
           <g class="nd" data-n="jira"><rect x="580" y="8" width="170" height="46" rx="12"/><text x="665" y="36">Jira</text></g>
           <g class="nd" data-n="chat"><rect x="580" y="63" width="170" height="46" rx="12"/><text x="665" y="91">Google Chat</text></g>
@@ -471,28 +468,10 @@
         </svg>
       </div>
       <div class="flow-side">
-        <div class="src-split"><div class="in"><b id="cntRepo">0</b><span>thông tin có sẵn trong <u>Git repo</u></span></div><div class="ext"><b id="cntExt">0</b><span>hệ thống ngoài qua <u>n8n · MCP</u></span></div></div>
+        <div class="src-split"><div class="in"><b id="cntRepo">0</b><span>thông tin có sẵn trong <u>Folder AI</u></span></div><div class="ext"><b id="cntExt">0</b><span>hệ thống ngoài qua <u>n8n · MCP</u></span></div></div>
         <div class="flow-step" id="flowStep"></div>
         <div class="flow-out" id="flowOut"></div>
         <div class="time-cmp"><div><span>Tự làm tay</span><i class="tb man"></i><b id="tmMan"></b></div><div><span>Với AI Agent</span><i class="tb ai" id="tbAi"></i><b id="tmAi"></b></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 10. SOURCE CODE (Ý 6) ============ -->
-<section class="slide" id="s-tree" data-title="Bộ não">
-  <div class="wrap">
-    <p class="eyebrow">Mở "bộ não" của nhân viên AI</p>
-    <h2>Trong repo của tôi <strong>có những gì</strong>?</h2>
-    <div class="tree-grid">
-      <div class="tree" id="tree"></div>
-      <div class="tree-view">
-        <div class="tv-path" id="tvPath"></div>
-        <h3 id="tvTitle"></h3>
-        <p id="tvDesc"></p>
-        <div class="tv-ex" id="tvEx"></div>
-        <div class="tv-tag" id="tvTag"></div>
       </div>
     </div>
   </div>
@@ -517,37 +496,6 @@
   </div>
 </section>
 
-<!-- ============ 12. CÁCH LÀM VIỆC MỚI (Ý 8) ============ -->
-<section class="slide" id="s-new" data-title="Cách làm mới">
-  <div class="wrap">
-    <p class="eyebrow">Điều thay đổi thật sự</p>
-    <h2>Thời gian của bạn được dùng vào <strong>đâu</strong>?</h2>
-    <div class="new-grid">
-      <div class="new-left">
-        <div class="new-toggle" id="newToggle"><button data-v="0" class="on">Trước đây</button><button data-v="1">Với AI Agent</button></div>
-        <div class="alloc" id="alloc"></div>
-        <p class="caption" id="allocCap"></p>
-        <div class="prod" id="prod">
-          <p class="mini-title">Năng suất <i>(dự án thật ở công ty cũ của tôi)</i></p>
-          <div class="prod-row" data-x="3"><span>BA</span><span class="pb"><i></i></span><b>×1</b></div>
-          <div class="prod-row" data-x="5"><span>Dev</span><span class="pb"><i></i></span><b>×1</b></div>
-          <div class="prod-row" data-x="2"><span>QC</span><span class="pb"><i></i></span><b>×1</b></div>
-        </div>
-      </div>
-      <div class="loop">
-        <svg viewBox="0 0 420 420" id="loopSvg">
-          <circle cx="210" cy="210" r="145" class="ring"/>
-          <g class="lp human" data-l="0"><circle cx="210" cy="65" r="56"/><text x="210" y="60">Tổng hợp</text><text x="210" y="80">context</text></g>
-          <g class="lp human" data-l="1"><circle cx="355" cy="210" r="56"/><text x="355" y="205">Nghĩ giải pháp</text><text x="355" y="225">hướng xử lý</text></g>
-          <g class="lp ai" data-l="2"><circle cx="210" cy="355" r="56"/><text x="210" y="350">AI thực thi</text><text x="210" y="370">như cấp dưới</text></g>
-          <g class="lp human" data-l="3"><circle cx="65" cy="210" r="56"/><text x="65" y="205">Review</text><text x="65" y="225">và gửi đi</text></g>
-          <text x="210" y="196" class="mid">Bạn làm</text><text x="210" y="220" class="mid big">việc của người</text><text x="210" y="244" class="mid">ra quyết định</text>
-        </svg>
-        <p class="caption" id="loopCap">Di chuột vào từng bước trong vòng lặp.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- ============ 14. DEMO TRỰC TIẾP (Ý 9) ============ -->
 <section class="slide" id="s-live" data-title="Demo">
@@ -653,7 +601,7 @@
     <div class="path">
       <div class="path-end start"><small>Hôm nay</small><b>Tay mơ AI<br> dùng kiểu Copilot</b></div>
       <ol class="path-steps" id="pathSteps"></ol>
-      <div class="path-end goal"><small>Sau 8 bước</small><b>AI Agent<br> làm việc cùng bạn</b></div>
+      <div class="path-end goal"><small>Sau 8 bước · ~150 phút</small><b>AI Agent<br> làm việc cùng bạn</b></div>
     </div>
     <div class="path-detail" id="pathDetail"></div>
     <p class="path-free"><b>Chi phí: 0 đồng.</b> VS Code, n8n miễn phí và tự cài được (công ty không chặn) · Git repo private do IT SmartOSC cấp · Claude Code dùng tài khoản <b>Claude Code Team</b> công ty đã cấp cho team dự án.</p>
@@ -669,8 +617,8 @@
     <p class="lead">Câu hỏi, phản biện, hay cách bạn đang dùng AI trên dự án: tất cả đều đáng chia sẻ.</p>
     <p class="mini-title end-title">Mang về sau buổi hôm nay</p>
     <div class="end-cards">
-      <div><i>01</i><b>Bạn là người ra quyết định</b><span>AI lo phần thực thi. Thời gian của bạn dành cho điều chỉ con người làm được: hiểu khách hàng, chọn hướng đi.</span></div>
-      <div><i>02</i><b>Mỗi lần dạy AI là một lần đầu tư</b><span>Context, quy ước, góp ý bạn viết hôm nay, AI nhớ và dùng lại mãi, trên mọi máy.</span></div>
+      <div><i>01</i><b>Context là thứ đầu tiên</b><span>AI giỏi đến đâu cũng chỉ làm đúng khi có đủ context. Hãy bàn giao dự án cho AI như cho một đồng nghiệp mới, trước mọi thứ khác.</span></div>
+      <div><i>02</i><b>Bắt đầu với AI, đừng chờ lúc bí</b><span>Đừng tự làm rồi chỗ nào khó mới nhờ AI. Để AI dựng template, khung sườn ngay từ đầu; bạn tập trung vào giải pháp, quyết định và review.</span></div>
       <div><i>03</i><b>Bắt đầu ngay tuần này</b><span>Chọn một việc lặp lại bạn ngại nhất và giao cho AI. Một buổi chiều setup, cả năm nhẹ nhàng hơn.</span></div>
     </div>
     <p class="end-quote">AI không lấy mất công việc của bạn. Nó trả lại cho bạn <strong>thời gian để làm phần việc quan trọng nhất</strong>.</p>

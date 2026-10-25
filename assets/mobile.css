@@ -149,3 +149,9 @@
   .ac-canvas::after { content: 'vuốt ngang để xem hết sơ đồ'; display: block; position: sticky; left: 0; font-size: 12px; color: var(--soft); margin-top: 6px; }
   .mem-note { font-size: 13.5px; }
 }
+@media (max-width: 760px) {
+  .ms-right { padding: 14px; }
+  .al-row { grid-template-columns: 1fr 70px 44px !important; gap: 8px; }
+  .ed-prod span { padding: 5px 10px; }
+  .eras .era { padding: 10px 12px; }
+}
