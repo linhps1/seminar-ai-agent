@@ -109,7 +109,7 @@
         <button class="btn" id="demoNext">Bước tiếp theo ›</button>
       </div>
     </div>
-    <div class="demo-pick"><div class="sc-tabs" id="demoTabs"><button data-s="0" class="on">PM · Weekly report</button><button data-s="1">BA · Viết BRD</button><button data-s="2">QC · Viết test case</button></div><p>Việc nào cũng cần: <b>template</b> · <b>file context</b> · <b>email</b> · <b>chat nội bộ</b> · <b>Jira, Drive</b></p></div>
+    <div class="demo-pick"><div class="sc-tabs" id="demoTabs"><button data-s="0" class="on">PM · Weekly report</button><button data-s="1">BA · Viết BRD</button><button data-s="2">QC · Viết test case</button><button data-s="3">QA · Báo cáo compliance</button></div><p>Việc nào cũng cần: <b>template</b> · <b>file context</b> · <b>email</b> · <b>chat nội bộ</b> · <b>Jira, Drive</b></p></div>
     <div class="demo-grid">
       <div class="chat">
         <div class="chat-top"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><b>Claude · Cuộc trò chuyện mới</b><em id="stepLabel">Bước 0 / 8</em></div>
@@ -302,7 +302,7 @@
     <div class="shift" id="shift">
       <div class="sw-row"><span>Hôm nay</span><button class="switch" id="shiftBtn" aria-label="Chuyển trạng thái"><i></i></button><span>Sau buổi này</span></div>
       <div class="sw-body">
-        <div class="col now"><i class="tool-tag">Claude · AI Copilot</i><b>Bạn dùng AI như một Copilot</b><p>Bạn làm chính, AI đóng vai trò hỗ trợ. Với công nghệ AI hiện nay, đó là cách của <b>tay mơ</b> đang dùng AI.</p></div>
+        <div class="col now"><i class="tool-tag">Claude · AI Copilot</i><b>Bạn dùng AI như một Copilot</b><p>Bạn làm chính, AI đóng vai trò hỗ trợ. Với công nghệ AI hiện nay, cách sử dụng đó <b>đã không còn mang lại hiệu quả cao</b> nữa.</p></div>
         <div class="col next"><i class="tool-tag">Claude Code · AI Agent</i><b>Bạn dùng AI như một Agent</b><p>AI làm việc thay bạn, theo sự chỉ đạo của bạn, như một thành viên cấp dưới. Đó là cách <b>các senior</b> đang dùng AI.</p></div>
       </div>
     </div>
@@ -347,7 +347,7 @@
         <div class="alloc" id="alloc"></div>
         <p class="caption" id="allocCap"></p>
         <div class="prod" id="prod">
-          <p class="mini-title">Năng suất <i>(dự án thật ở công ty cũ của tôi)</i></p>
+          <p class="mini-title">Năng suất <i>(một dự án thật tôi từng quản lý)</i></p>
           <div class="prod-row" data-x="3"><span>BA</span><span class="pb"><i></i></span><b>×1</b></div>
           <div class="prod-row" data-x="5"><span>Dev</span><span class="pb"><i></i></span><b>×1</b></div>
           <div class="prod-row" data-x="2"><span>QC</span><span class="pb"><i></i></span><b>×1</b></div>
@@ -458,7 +458,7 @@
       <div><p class="eyebrow">Giao việc bằng một câu: AI đọc Folder AI trước, rồi tự đi lấy phần còn lại</p><h2 id="scTitle"></h2></div>
       <div class="controls"><button class="btn ghost" id="flowPrev">‹ Lùi lại</button><button class="btn" id="flowNext">Bước tiếp theo ›</button></div>
     </div>
-    <div class="sc-tabs" id="scTabs"><button data-s="0" class="on">PM · Report UAT cuối ngày</button><button data-s="1">QC · Viết test case</button><button data-s="2">BA · Review feedback BRD v0.1</button></div>
+    <div class="sc-tabs" id="scTabs"><button data-s="0" class="on">PM · Report UAT cuối ngày</button><button data-s="1">BA · Review feedback BRD v0.1</button><button data-s="2">QC · Viết test case</button><button data-s="3">QA · Rà compliance tháng</button></div>
     <div class="flow-grid">
       <div class="flow-canvas">
         <svg viewBox="0 0 760 400" id="flowSvg">
@@ -539,6 +539,23 @@
   </div>
 </section>
 
+<!-- ============ 17. LỘ TRÌNH ============ -->
+<section class="slide" id="s-path" data-title="Lộ trình">
+  <div class="wrap">
+    <div class="head-row">
+      <div><p class="eyebrow">Bắt đầu từ đâu?</p><h2>Từ dùng AI kiểu Copilot đến <strong>AI Agent</strong>: 8 bước, 0 đồng</h2></div>
+      <div class="controls"><button class="btn ghost" id="pathPrev">‹ Lùi lại</button><button class="btn" id="pathNext">Bước tiếp theo ›</button></div>
+    </div>
+    <div class="path">
+      <div class="path-end start"><small>Hôm nay</small><b>Dùng AI<br> kiểu Copilot</b></div>
+      <ol class="path-steps" id="pathSteps"></ol>
+      <div class="path-end goal"><small>Sau 8 bước · ~2 tiếng rưỡi</small><b>AI Agent<br> làm việc cùng bạn</b></div>
+    </div>
+    <div class="path-detail" id="pathDetail"></div>
+    <p class="path-free"><b>Chi phí: 0 đồng.</b> VS Code, n8n miễn phí và tự cài được (công ty không chặn) · Git repo private do IT SmartOSC cấp · Claude Code dùng tài khoản <b>Claude Code Team</b> công ty đã cấp cho team dự án.</p>
+  </div>
+</section>
+
 <!-- ============ 15. CLOUD 24/7 (Ý 10) ============ -->
 <section class="slide" id="s-cloud" data-title="Chạy 24/7">
   <div class="wrap">
@@ -556,7 +573,7 @@
         <div class="hour-info" id="hourInfo"></div>
       </div>
       <div class="cloud-right">
-        <div class="cl-tabs" id="clTabs"><button data-t="0" class="on"><b>1</b>07:00 · Tóm tắt buổi sáng</button><button data-t="1"><b>2</b>Bug mới trên Jira</button><button data-t="2"><b>3</b>Thứ Sáu 17:00 · Weekly report</button></div>
+        <div class="cl-tabs four" id="clTabs"><button data-t="0" class="on"><b>1</b>Tóm tắt buổi sáng</button><button data-t="1"><b>2</b>UAT bug mới khách báo</button><button data-t="2"><b>3</b>Weekly report theo vai trò</button><button data-t="3"><b>4</b>Tự trả lời tin nhắn</button></div>
 
         <div class="cl-panel on" data-t="0">
           <div class="p0-grid">
@@ -589,10 +606,10 @@
         </div>
 
         <div class="cl-panel" data-t="1">
-          <div class="cl-head"><b>Ngay khi có bug mới, UAT feedback hay comment mới trên Jira</b><button class="btn" id="bugBtn">Mô phỏng</button></div>
+          <div class="cl-head"><b>Ngay khi khách báo UAT bug mới trên Jira</b><button class="btn" id="bugBtn">Mô phỏng</button></div>
           <div class="bug-flow" id="bugFlow">
-            <div class="bf" data-k="0"><span>1</span>Phát hiện bug mới</div>
-            <div class="bf" data-k="1"><span>2</span>Đọc mô tả, log, code liên quan</div>
+            <div class="bf" data-k="0"><span>1</span>Phát hiện UAT bug khách vừa báo</div>
+            <div class="bf" data-k="1"><span>2</span>Đọc mô tả, ảnh, log, code liên quan</div>
             <div class="bf" data-k="2"><span>3</span>Dự báo root cause</div>
             <div class="bf" data-k="3"><span>4</span>Báo Dev, QC trên Google Chat</div>
           </div>
@@ -600,29 +617,40 @@
         </div>
 
         <div class="cl-panel" data-t="2">
-          <div class="cl-head"><b>Mỗi thứ Sáu 17:00: weekly report, mỗi người nhận một phiên bản phù hợp</b></div>
-          <div class="aud" id="audTabs"><button data-a="0" class="on">Toàn team dự án</button><button data-a="1">Head of Division</button><button data-a="2">Khách hàng</button></div>
+          <div class="cl-head"><b>Weekly report: mỗi vai trò một bản phù hợp, AI soạn sẵn</b></div>
+          <div class="aud" id="audTabs"><button data-a="0" class="on">PM · Project weekly</button><button data-a="1">BA · Requirement status</button><button data-a="2">QC · Weekly test</button><button data-a="3">QA · Compliance tháng</button></div>
           <div class="wk" id="wkMail"></div>
+        </div>
+
+        <div class="cl-panel" data-t="3">
+          <div class="cl-head"><b>Có người hỏi trong chat: AI trả lời ngay, như người thật</b><button class="btn" id="replyBtn">Mô phỏng</button></div>
+          <div class="reply-list" id="replyList"><p class="cl-foot">Bấm "Mô phỏng" để xem AI xử lý 3 câu hỏi: 2 câu tự trả lời, 1 câu cần người quyết định.</p></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 17. LỘ TRÌNH ============ -->
-<section class="slide" id="s-path" data-title="Lộ trình">
+<!-- ============ POLICY: SmartOSC rules for using AI ============ -->
+<section class="slide" id="s-policy" data-title="Policy AI">
   <div class="wrap">
-    <div class="head-row">
-      <div><p class="eyebrow">Bắt đầu từ đâu?</p><h2>Từ tay mơ AI đến <strong>AI Agent</strong>: 8 bước, 0 đồng</h2></div>
-      <div class="controls"><button class="btn ghost" id="pathPrev">‹ Lùi lại</button><button class="btn" id="pathNext">Bước tiếp theo ›</button></div>
+    <p class="eyebrow">Dùng AI đúng quy định</p>
+    <h2>SmartOSC cho phép gì, và yêu cầu gì <strong>khi dùng AI</strong>?</h2>
+    <div class="pol-grid">
+      <div class="pol"><i>1</i><b>Được dùng AI Agent trong dự án thật</b><p>SmartOSC đã ban hành quy trình phát triển phần mềm với AI Agent (ADLC), áp dụng cho mọi dự án; danh sách AI tool được phép có Claude.ai, ChatGPT…</p>
+        <p class="pol-src"><b>AI_PLAN_Process_01</b> AI Development Lifecycle Software v1/0 · <span>mục 3.6.2.1.1–3.6.2.1.2, trang 580</span></p><p class="pol-src"><b>EC_LIC_IT_QD_08</b> Allowed list of AI tools · <span>mục 2.5.2.3, trang 247–249</span></p></div>
+      <div class="pol"><i>2</i><b>Dùng tài khoản email công ty</b><p>Đăng ký tài khoản AI bằng email @smartosc.com hoặc group email do công ty cung cấp, không dùng tài khoản cá nhân.</p>
+        <p class="pol-src"><b>EC_LIC_IT_QD_08</b> Allowed list of AI tools · <span>trang 247–249: "You must use the company email or group email to register an account"</span></p></div>
+      <div class="pol"><i>3</i><b>Bật xác thực 2 lớp (2FA)</b><p>Tài khoản đăng ký AI phải bật 2FA; bắt buộc với tài khoản dùng chung.</p>
+        <p class="pol-src"><b>EC_LIC_IT_QD_08</b> Allowed list of AI tools · <span>trang 247–248: "You must enable 2FA when using a sharing account"</span></p></div>
+      <div class="pol"><i>4</i><b>Được kết nối AI Agent với tài nguyên nội bộ</b><p>Source code viết bằng AI, Git nội bộ, Jira, Drive, Gmail nội bộ của SmartOSC.</p>
+        <p class="pol-src"><b>AI_PLAN_Process_01</b> AI Development Lifecycle Software v1/0 · <span>trang 581, 586: Agent làm việc trên repo, môi trường, CI/CD, Claude.md của dự án</span></p></div>
+      <div class="pol warn"><i>5</i><b>Không kết nối AI vào dữ liệu khách hàng khi chưa được phép</b><p>Jira, Drive, SharePoint… của khách chỉ được kết nối khi khách đã đồng ý <u>bằng văn bản</u>: email, hợp đồng, phụ lục, DPA.</p>
+        <p class="pol-src"><b>IS_QD_12</b> Chính sách bảo vệ Dữ liệu cá nhân v1/0 · <span>mục 5.2.2, trang 217</span></p><p class="pol-src"><b>IS_HD_01</b> Hướng dẫn nhận diện rủi ro DLCN theo LINDDUN v1/0 · <span>trang 142–143, 146</span></p></div>
+      <div class="pol key"><i>6</i><b>Quan trọng nhất: con người review mọi output của AI</b><p>AI chỉ tạo bản nháp. Người phụ trách đọc, sửa và chịu trách nhiệm trước khi gửi đi, nhất là email và tài liệu cho khách hàng.</p>
+        <p class="pol-src"><b>AI_PLAN_Process_01</b> ADLC v1/0 · <span>trang 581: "people stay in charge of… reviewing the work"; trang 590: review R2 bắt buộc</span></p><p class="pol-src"><b>IS_HD_01</b> LINDDUN v1/0 · <span>trang 144: AI cần cơ chế human review</span></p></div>
     </div>
-    <div class="path">
-      <div class="path-end start"><small>Hôm nay</small><b>Tay mơ AI<br> dùng kiểu Copilot</b></div>
-      <ol class="path-steps" id="pathSteps"></ol>
-      <div class="path-end goal"><small>Sau 8 bước · ~2 tiếng rưỡi</small><b>AI Agent<br> làm việc cùng bạn</b></div>
-    </div>
-    <div class="path-detail" id="pathDetail"></div>
-    <p class="path-free"><b>Chi phí: 0 đồng.</b> VS Code, n8n miễn phí và tự cài được (công ty không chặn) · Git repo private do IT SmartOSC cấp · Claude Code dùng tài khoản <b>Claude Code Team</b> công ty đã cấp cho team dự án.</p>
+    <p class="pol-foot">Nguồn: <b>Official SmartOSC Process Home</b> bản v80 (26/09/2026), export từ Confluence space OSP. Số trang theo file PDF.</p>
   </div>
 </section>
 
@@ -640,6 +668,7 @@
       <div><i>03</i><b>2 tiếng rưỡi để thành senior</b><span>Chỉ một buổi chiều setup Folder AI và Claude Code, từ ngày mai bạn đã dùng AI theo cách của một senior.</span></div>
     </div>
     <p class="end-quote">AI không lấy mất công việc của bạn. Nó trả lại cho bạn <strong>thời gian để làm phần việc quan trọng nhất</strong>.</p>
+    <div class="coach"><b>Tôi sẵn sàng coaching 1:1</b> để cùng bạn bắt đầu với AI Agent. Sau buổi này, cứ <b>inbox hoặc gặp trực tiếp tôi</b> nếu bạn cần hỗ trợ những bước đầu. Tôi luôn sẵn lòng chia sẻ.</div>
     <p class="sign">Phan Sĩ Linh · Project Manager · SmartOSC</p>
   </div>
 </section>
