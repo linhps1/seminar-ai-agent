@@ -1,0 +1,144 @@
+/* Phones (FEEDBACK 4): iPhone 12+ (390px) and Android 2020+ (360-412px). Loaded last so it overrides the desktop sizes.
+   Slides become normal scrolling sections (no fixed 100vh), every grid stacks, wide diagrams scroll sideways. */
+@media (max-width: 760px) {
+  html { scroll-snap-type: none; }
+  body { font-size: 15px; }
+  .slide { height: auto; min-height: 0; display: block; padding: 62px 0 44px; overflow: visible; scroll-snap-align: none; }
+  .slide.hero { padding-top: 70px; }
+  .wrap { width: calc(100vw - 32px); left: 0; }
+  .brandbar { top: 16px; left: 16px; right: 16px; }
+  .brandbar img { height: 20px; }
+  .brandbar span { display: none; }
+  .dots, .scroll-hint { display: none; }
+
+  /* type: fewer forced line breaks */
+  h1 { font-size: 38px; line-height: 1.12; }
+  h2 { font-size: 25px; line-height: 1.28; margin-bottom: 12px; }
+  .eyebrow { font-size: 11px; letter-spacing: .1em; margin-bottom: 6px; }
+  .eyebrow::before { width: 18px; margin-right: 8px; }
+  .lead { font-size: 15.5px; }
+  .mini-title { font-size: 13px; }
+
+  /* every multi-column layout stacks; fixed desktop heights go away */
+  .hero-grid, .demo-grid, .mem-grid, .fy-grid, .sw-body, .era-grid, .eras, .ms-grid, .cap-grid, .ctx-grid, .arch-grid, .flow-grid, .tree-grid,
+  .pr-grid, .new-grid, .live-grid, .cloud-grid, .p0-grid, .fg-grid, .src-split, .end-cards, .bug-flow, .path, .path-detail, .cl-tabs {
+    grid-template-columns: 1fr !important; height: auto !important; min-height: 0 !important; gap: 14px; }
+  .head-row { flex-direction: column; align-items: stretch; gap: 10px; }
+  .controls { display: flex; gap: 8px; }
+  .controls .btn { flex: 1; white-space: nowrap; padding: 10px 12px; }
+  .btn { font-size: 14px; }
+
+  /* tab strips scroll sideways instead of wrapping each label */
+  .sc-tabs, .aud { display: flex; max-width: 100%; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .sc-tabs::-webkit-scrollbar, .aud::-webkit-scrollbar { display: none; }
+  .sc-tabs button, .aud button { flex: none; white-space: nowrap; padding: 8px 14px; font-size: 13.5px; }
+
+  /* wide SVG diagrams: keep a readable size, swipe sideways */
+  .arch-canvas, .flow-canvas { overflow-x: auto; display: block; padding: 10px; -webkit-overflow-scrolling: touch; }
+  #archSvg { width: 860px; height: auto; }
+  #flowSvg { width: 640px; height: auto; }
+  .arch-canvas::after, .flow-canvas::after { content: 'vuốt ngang để xem hết sơ đồ'; display: block; position: sticky; left: 0; font-size: 12px; color: var(--soft); margin-top: 6px; }
+
+  /* 1. welcome */
+  .meta { flex-direction: column; gap: 10px; }
+  .meta-card { padding: 10px 14px; }
+  .hero .flip { height: 76px; min-height: 0; }
+  .hero .face { padding: 8px 16px; column-gap: 12px; }
+  .hero .face small { width: 64px; font-size: 11px; }
+  .hero .face b { font-size: 17px; }
+  .hero .hand-row { padding: 12px 14px; }
+
+  /* 2. roles: 2 x 2 task cards */
+  .roles { gap: 8px; }
+  .roles button { padding: 10px 0; font-size: 16px; }
+  .role-card { padding: 16px; }
+  .role-card h3 { font-size: 18px; }
+  .role-tasks { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+  .role-card .role-tasks li { padding: 12px; }
+  .role-tasks li b { font-size: 15px; }
+  .role-tasks li span { font-size: 13px; }
+
+  /* 3. demo */
+  .demo-pick { gap: 8px; }
+  .demo-pick p { font-size: 13px; }
+  #s-demo .chat, .chat { height: 62vh; }
+  .stats { gap: 8px; }
+
+  /* 4. memory: 2 x 2 tabs */
+  .mem-tabs { grid-template-columns: 1fr 1fr !important; gap: 8px; }
+  .mem-tabs button { padding: 10px 6px; font-size: 14px; }
+  .newchat { min-height: 0; }
+  .stranger:not(.show) { display: none; }
+  .chat-top b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .chat-top em { white-space: nowrap; flex: none; }
+
+  /* 5. forget */
+  .fg-jar { height: 260px; flex: none; }
+  .fg-chat { height: 52vh; }
+  .fg-cards div { padding: 10px 14px; }
+
+  /* 6. for you */
+  .verdict { display: grid; grid-template-columns: 140px 1fr; align-items: center; text-align: left; gap: 12px; }
+  .v-num { margin-top: -40px; grid-column: 1; grid-row: 1; align-self: end; text-align: center; }
+  .v-num b { font-size: 38px; }
+  .gauge { grid-column: 1; grid-row: 1; }
+  .v-text { grid-column: 2; grid-row: 1; margin: 0; min-height: 0; font-size: 16px; }
+
+  /* 7. history */
+  .era { padding: 12px 16px; }
+  .bar-row { grid-template-columns: 112px 1fr 64px !important; font-size: 12px; }
+
+  /* 8. mindset */
+  .ms-toggle { display: flex; }
+  .ms-toggle button { flex: 1; padding: 8px 6px; font-size: 12.5px; white-space: nowrap; }
+  .ms-card .ms-svg { height: 52px; }
+  .cap-demo { display: none; }
+  .cap { min-height: 0; height: auto; padding: 14px 16px; }
+
+  /* 9. context */
+  #setupSvg { width: 100%; height: auto; }
+
+  /* 11. repo tree */
+  .tree { max-height: 60vh; }
+  .tree-view { min-height: 0; }
+
+  /* 13. new way: loop diagram smaller */
+  #loopSvg { max-width: 320px; margin: 0 auto; display: block; }
+
+  /* 14. live demo */
+  .term { height: 42vh; }
+
+  /* 15. cloud: clock + phone mockup scale down */
+  .clock-box { padding: 12px; }
+  #clockSvg { max-width: 260px; }
+  .cl-tabs button { padding: 10px 12px; }
+  .iphone { transform: scale(.9); transform-origin: top center; }
+  .wk th { width: 92px; }
+
+  /* 16. path: compact vertical list */
+  .path { gap: 10px; margin-top: 8px; }
+  .path-end { padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; text-align: left; gap: 10px; }
+  .path-end small { margin: 0; }
+  .path-end b br { display: none; }
+  .path-steps { display: flex; flex-direction: column; gap: 6px; }
+  .path-line { display: none; }
+  .path-steps li { display: grid; grid-template-columns: 36px 1fr auto; grid-template-rows: auto auto; align-items: center; text-align: left; column-gap: 12px; padding: 8px 10px; border: 1px solid var(--line); background: #fff; }
+  .path-steps li em, .path-steps svg { display: none; }
+  .path-steps .pn { grid-row: 1 / 3; width: 32px; height: 32px; font-size: 13px; }
+  .path-steps b { min-height: 0; font-size: 15px; display: block; }
+  .path-steps small { grid-column: 2; font-size: 12px; }
+  .path-steps .tm { grid-column: 3; grid-row: 1 / 3; margin: 0; top: 0; }
+  .path-detail { margin: 12px 0 0; height: auto; padding: 14px 16px; }
+  .path-free { margin: 10px 0 0; text-align: left; }
+  #s-path .controls { order: 2; }
+
+  /* 18. Q&A */
+  .end-wrap .lead { white-space: normal; }
+  .qa-badge b { font-size: 24px; }
+  .end-quote { font-size: 15.5px; }
+}
+@media (max-width: 380px) {
+  h1 { font-size: 34px; }
+  h2 { font-size: 23px; }
+  .role-tasks { grid-template-columns: 1fr !important; }
+}

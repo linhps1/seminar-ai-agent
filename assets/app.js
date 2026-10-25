@@ -50,23 +50,25 @@ addEventListener('scroll', onScroll, { passive: true });
 
 /* ---------- 1. hero: role picker ---------- */
 const ROLES = {
-  pm: { t: 'Project Manager', pains: ['Gom tiến độ từ Jira, email, chat để viết báo cáo tuần', 'Đọc lại cả luồng email dài để trả lời khách cho đúng', 'Ghi MOM, chia action item, nhắc việc từng người'],
-    gain: 'Một "đồng nghiệp AI" tự đọc Jira, email, chat của dự án và soạn sẵn báo cáo, MOM, email để bạn chỉ việc review.' },
-  ba: { t: 'Business Analyst', pains: ['Viết và sửa BRD qua nhiều vòng comment của khách', 'Tìm lại "khách đã chốt gì" trong email, chat, biên bản', 'Giữ tài liệu, prototype và Jira luôn khớp nhau'],
+  // 4 most common daily tasks per role, close to a real web-revamp project (UAT, BRD sign-off, test cases, audit)
+  pm: { t: 'Project Manager', pains: [['Đọc email, chat mỗi sáng', 'khách hàng, nội bộ, Jira: việc gì mới, ai đang chờ mình'], ['Báo cáo tiến độ', 'daily UAT report, weekly report, MOM sau mỗi buổi họp'], ['Cập nhật kế hoạch', 'timeline, open items tracker, sign-off tài liệu'], ['Điều phối và nhắc việc', 'daily meeting, deadline, rủi ro, trả lời khách']],
+    gain: 'Một "đồng nghiệp AI" tự đọc email, chat, Jira của dự án và soạn sẵn report, MOM, email để bạn chỉ việc review.' },
+  ba: { t: 'Business Analyst', pains: [['Viết và sửa BRD', 'qua nhiều vòng comment của khách đến khi sign-off'], ['Tìm lại "khách đã chốt gì"', 'trong email, chat, MOM, transcript họp'], ['Làm rõ requirement', 'trả lời câu hỏi của Dev, QC, Designer'], ['Giữ tài liệu khớp nhau', 'BRD, Figma, Jira, test case không lệch nhau']],
     gain: 'AI nhớ mọi quyết định đã chốt, tự đối chiếu BRD với email, chat và chỉ ra chỗ còn thiếu hoặc mâu thuẫn.' },
-  qc: { t: 'Quality Control', pains: ['Viết hàng trăm test case từ BRD theo đúng template', 'Cập nhật test case mỗi khi BA hay khách đổi yêu cầu', 'Log bug đủ bước, đủ evidence, link đúng ticket'],
+  qc: { t: 'Quality Control', pains: [['Viết test case', 'từ BRD và Figma, đúng template khách yêu cầu'], ['Cập nhật test case', 'mỗi khi BRD hoặc design thay đổi'], ['Test SIT, log bug', 'đủ bước, đủ evidence, link đúng ticket Jira'], ['Theo dõi UAT', 'import test case lên Jira, triage bug cùng khách']],
     gain: 'Test case được viết từ BRD cùng mọi thay đổi đã chốt, đúng template, và được cập nhật khi yêu cầu đổi.' },
-  qa: { t: 'Quality Assurance', pains: ['Kiểm tra dự án có đi đúng quy trình công ty không', 'Tìm evidence sign-off, approval rải rác khắp nơi', 'Tổng hợp số liệu chất lượng cho audit'],
+  qa: { t: 'Quality Assurance', pains: [['Rà quy trình dự án', 'có đi đúng quy trình SmartOSC không'], ['Gom evidence', 'sign-off, approval rải rác trong email, Zoho, Drive'], ['Theo dõi NC', 'nhắc dự án đóng non-conformity đúng hạn'], ['Báo cáo chất lượng', 'số liệu cho audit và báo cáo hằng tháng']],
     gain: 'AI rà quy trình, gom evidence và lập checklist audit từ chính dữ liệu thật của dự án.' },
 };
 const showRole = (k) => {
   const r = ROLES[k];
   $$('#roles button').forEach((b) => b.classList.toggle('on', b.dataset.role === k));
   $('#roleTitle').innerHTML = `Dành cho bạn, <strong>${r.t}</strong>`;
-  $('#rolePains').innerHTML = r.pains.map((p, i) => `<li style="animation-delay:${i * 80}ms">${p}</li>`).join('');
+  $('#rolePains').innerHTML = r.pains.map(([h, s], i) => `<li style="animation-delay:${i * 80}ms"><b>${h}</b><span>${s}</span></li>`).join('');
   $('#roleGain').textContent = r.gain;
 };
-$$('#roles button').forEach((b) => { b.addEventListener('click', () => showRole(b.dataset.role)); b.addEventListener('mouseenter', () => showRole(b.dataset.role)); });
+// hover only highlights (CSS); the content changes on click
+$$('#roles button').forEach((b) => b.addEventListener('click', () => showRole(b.dataset.role)));
 showRole('pm');
 
 /* ---------- 2. spirit: flip cards + raise hand (no counter: nothing is synced) ---------- */
@@ -267,10 +269,10 @@ showRole('pm');
   const ERAS = [
     { who: 'Siri', ask: 'Hey Siri, đặt báo thức 6 giờ sáng mai.', do: 'Đã đặt báo thức lúc 6:00.', yes: ['Một câu lệnh ngắn', 'Một tác vụ có sẵn'], no: ['Hiểu ngữ cảnh', 'Làm việc văn phòng', 'Tự tìm thông tin'],
       note: 'Chỉ thực hiện những tác vụ cực kỳ đơn giản, đã được lập trình sẵn.', hot: [] },
-    { who: 'Copilot', ask: 'Viết test case cho BRD này giúp mình (đính kèm file).', do: 'Đây là 24 test case dựa trên BRD bạn gửi…', yes: ['Viết, tóm tắt, dịch', 'Gợi ý ý tưởng', 'Hỗ trợ việc văn phòng'], no: ['Tự tìm thông tin', 'Tự thao tác hệ thống', 'Nhớ dự án'],
-      note: 'Ví dụ "một buổi chiều dùng AI" lúc nãy chính là cách dùng AI Copilot: giỏi viết, nhưng chỉ biết những gì bạn dán vào.', hot: [0, 1, 2, 3, 4, 5] },
-    { who: 'AI Agent', ask: 'Soạn email report UAT hôm nay gửi khách.', do: 'Đã đọc 46 ticket Jira, 38 tin nhắn Dev ↔ QC, soạn draft Gmail đúng To / CC. Mời bạn review.', yes: ['Tự lập kế hoạch', 'Tự dùng máy tính và công cụ', 'Kết nối hệ thống', 'Nhớ dự án', 'Chạy 24/7'], no: [],
-      note: 'Làm việc như một nhân viên văn phòng thực thụ. Đây là cách dùng cơ bản nhất mà tôi muốn giới thiệu hôm nay.', hot: [0, 1, 2, 3, 4, 5, 6, 7] },
+    { who: 'Claude', ask: 'Viết test case cho BRD này giúp mình (đính kèm file).', do: 'Đây là 24 test case dựa trên BRD bạn gửi…', yes: ['Viết, tóm tắt, dịch', 'Gợi ý ý tưởng', 'Hỗ trợ việc văn phòng'], no: ['Tự vận hành máy tính của bạn', 'Kết nối hệ thống dự án', 'Nhớ trọn dự án'],
+      note: 'Ví dụ "một buổi chiều dùng AI" lúc nãy chính là cách dùng AI Copilot với Claude: giỏi viết, nhưng chỉ biết những gì bạn dán vào. (Từ 16/09/2026, Claude Chat và Claude Cowork đã gộp thành một ứng dụng Claude.)', hot: [0, 1, 2, 3, 4, 5] },
+    { who: 'Claude Code', ask: 'Soạn email report UAT hôm nay gửi khách.', do: 'Đã đọc 46 ticket Jira, 38 tin nhắn Dev ↔ QC, soạn draft Gmail đúng To / CC. Mời bạn review.', yes: ['Tự vận hành máy tính và công cụ', 'Kết nối hệ thống', 'Nhớ dự án', 'Chạy 24/7', 'Vận hành theo workflow phức tạp'], no: [],
+      note: 'Claude Code làm việc như một nhân viên văn phòng thực thụ: nhớ dự án qua các file trong Git repo, chạy 24/7 khi đặt trên server hoặc lên lịch. Đây là cách dùng tôi muốn giới thiệu hôm nay.', hot: [0, 1, 2, 3, 4, 5, 6, 7] },
   ];
   // approx. 50%-success task length from METR (03/2025), rounded; last row = trend projection
   const PTS = [['GPT-2 · 2019', 2, '~2 giây'], ['GPT-3 · 2020', 9, '~9 giây'], ['GPT-3.5 · 2022', 36, '~36 giây'], ['GPT-4 · 2023', 300, '~5 phút'],
@@ -294,7 +296,13 @@ showRole('pm');
 /* ---------- 7. mindset: tool vs member ---------- */
 (() => {
   const M = {
-    tool: { h: 'AI là một công cụ đơn lẻ: búa, cuốc, xẻng, kìm…', svg: '<svg viewBox="0 0 132 60"><path d="M8 50L30 28"/><path d="M24 18l12 12M20 22l8-8 12 12-8 8z"/><path d="M50 50L72 20"/><path d="M66 12c6-4 12-2 14 0-2 2-4 8 0 14-6-1-10-4-14-14z"/><path d="M96 52V24"/><path d="M90 24h12M88 8c0 10 16 10 16 0"/><path d="M114 50l8-26M126 50l-8-26M116 18l2 6 2-6"/></svg>',
+    tool: { h: 'AI là một công cụ đơn lẻ: búa, cuốc, xẻng, kìm…', // hammer · hoe · shovel · pliers, each drawn in its own 60x60 cell (thin line style)
+      svg: '<svg viewBox="0 0 270 60">'
+        + '<g><rect x="8" y="8" width="26" height="11" rx="2"/><rect x="4" y="10" width="4" height="7" rx="1"/><path d="M34 9c7 0 12 3 15 8M34 18c5 0 8.5 1.5 11 5"/><rect x="17" y="19" width="6" height="37" rx="2"/></g>'
+        + '<g transform="translate(70 0)"><path d="M4 54L39.2 17M6.5 56.5L38.8 22.5"/><path d="M40 8h12l4 32H36z"/></g>'
+        + '<g transform="translate(140 0)"><path d="M20 5h20M30 5v29"/><path d="M20 34h20v9c0 7-4.5 12-10 13-5.5-1-10-6-10-13z"/></g>'
+        + '<g transform="translate(210 0)"><path d="M28 3.5l2.4 12.5M32 3.5l-2.4 12.5" style="stroke-width:2.4"/><circle cx="30" cy="18" r="2.4"/><path d="M31.5 20.5c2 6 3 9 4 12M28.5 20.5c-2 6-3 9-4 12"/><path d="M35.5 32.5c2 8 3.5 15 5 23M24.5 32.5c-2 8-3.5 15-5 23" style="stroke-width:4"/></g>'
+        + '</svg>',
       li: ['Mỗi công cụ làm một việc; bạn cầm từng cái, bạn làm', 'Mỗi lần dùng là bắt đầu lại từ đầu', 'Không biết gì về dự án, con người, quy trình', 'Bạn tự gom mọi thông tin rồi đưa vào', 'Kết quả "gần đúng", bạn sửa tay phần còn lại'] },
     member: { h: 'AI là một thành viên dự án', svg: '<svg viewBox="0 0 60 60"><circle cx="30" cy="18" r="9"/><path d="M12 52c2-11 9-17 18-17s16 6 18 17"/><path d="M40 30l4 4 8-8"/></svg>',
       li: ['Được onboard: biết người, biết việc, biết quy trình', 'Nhận việc bằng một câu, tự đi tìm thông tin cần thiết', 'Nhớ những gì đã làm, đã chốt, đã được góp ý', 'Làm việc trên máy tính và hệ thống như một nhân viên', 'Bạn giao việc, review, và chịu trách nhiệm cuối cùng'] },
@@ -318,44 +326,7 @@ showRole('pm');
   $$('.mac', svg).forEach((m) => { m.addEventListener('mouseenter', () => svg.classList.add('hot')); m.addEventListener('mouseleave', () => svg.classList.remove('hot')); });
 })();
 
-/* ---------- 9. architecture: hover a component to see what it does ---------- */
-(() => {
-  const INFO = {
-    w1: ['Nơi làm việc', 'Máy công ty', 'Cài VS Code (miễn phí) và Claude Code. Mở thư mục repo là bắt đầu làm việc.', ['Không cần server riêng', 'Mọi thao tác diễn ra ngay trên máy bạn']],
-    w2: ['Nơi làm việc', 'Laptop ở nhà (WFH)', 'Cùng một repo, cùng một "bộ não". Chỉ cần git pull là AI có lại toàn bộ ký ức.', ['Không phải giải thích lại dự án', 'Không phụ thuộc tài khoản hay session']],
-    w3: ['Nơi làm việc', 'Máy mới bất kỳ', 'git clone repo, cài n8n theo hướng dẫn trong infra/, là làm việc được ngay.', ['Hướng dẫn cài đặt nằm sẵn trong repo', 'Mỗi máy có file cấu hình riêng']],
-    vsc: ['Nơi làm việc', 'Visual Studio Code', 'Trình soạn thảo miễn phí của Microsoft. Mở thư mục repo là thấy toàn bộ "bộ não" của AI, và Claude Code chạy ngay bên trong.', ['Miễn phí, nhẹ, dễ dùng', 'Nhìn thấy, sửa được mọi file AI tạo ra', 'Rất nhiều extension để mở rộng']],
-    cc: ['AI Agent', 'Claude Code', 'Nhân viên AI làm việc ngay trong thư mục dự án: đọc, viết, chạy, kiểm tra.', ['Đọc và sửa file, tạo tài liệu, bảng tính', 'Chạy script để gọi hệ thống bên ngoài', 'Tự lập kế hoạch nhiều bước, tự soát kết quả', 'Luôn hỏi lại trước những việc khó đảo ngược']],
-    repo: ['Bộ não', 'Git repo', 'Mọi thứ AI cần biết, viết bằng file văn bản đơn giản (Markdown).', ['CLAUDE.md: quy tắc AI đọc đầu tiên mỗi phiên', 'Context công ty, division, từng dự án', 'Prompt, task tự động, template dùng chung', 'Trí nhớ dài hạn: góp ý, sở thích của bạn']],
-    gh: ['Bộ não', 'GitHub (private)', 'Nơi đồng bộ repo giữa các máy, kèm toàn bộ lịch sử thay đổi.', ['Repo private, chỉ bạn truy cập', 'Xem lại được ai sửa gì, khi nào', 'Không bao giờ chứa mật khẩu, token']],
-    n8n: ['Cổng kết nối', 'n8n (self-hosted)', 'Công cụ automation miễn phí, chạy ngay trên máy bạn, làm "cổng" để Claude Code gọi Gmail, Drive, Chat, Calendar.', ['Mỗi kết nối là một webhook riêng, có token bảo vệ', 'Đăng nhập Google một lần bằng OAuth', 'Chạy ẩn, tự khởi động khi bật máy', 'Thêm hệ thống mới chỉ cần thêm một workflow']],
-    mcp: ['Cổng kết nối', 'MCP', 'MCP là chuẩn kết nối giúp AI dùng trực tiếp công cụ của hệ thống khác, cài một lần là dùng.', ['Atlassian: đọc ticket, comment trên Jira, tài liệu trên Confluence', 'Figma: đọc thiết kế, đối chiếu UI với BRD']],
-    sec: ['Bảo mật', 'Secret chỉ ở máy local', 'Mật khẩu, token nằm trong file riêng trên từng máy, đã được loại khỏi Git.', ['Repo chỉ ghi "lấy key ở đâu", không ghi key', 'Script đồng bộ tự chặn file có dấu hiệu secret']],
-    gmail: ['Hệ thống', 'Gmail', 'Đọc luồng email, soạn draft đúng người nhận, đúng chữ ký. Bạn tự review và bấm gửi.', ['Trả lời đúng message mới nhất của luồng', 'Không tự gửi khi bạn chưa duyệt']],
-    cal: ['Hệ thống', 'Google Calendar', 'Đọc lịch họp, lịch UAT, ngày nghỉ để lên kế hoạch và nhắc việc.', []],
-    chat: ['Hệ thống', 'Google Chat', 'Đọc tin nhắn nhóm dự án, nhóm Dev và QC để tổng hợp tiến độ, rủi ro.', []],
-    drive: ['Hệ thống', 'Drive · Docs · Sheets', 'Đọc BRD, transcript họp, file feedback; tạo và cập nhật Docs, Sheets, PDF.', []],
-    jira: ['Hệ thống', 'Jira', 'Đọc ticket, bug, comment để làm báo cáo, phân tích bug, theo dõi tiến độ.', []],
-    conf: ['Hệ thống', 'Confluence', 'Đọc tài liệu dự án, quy trình, biên bản trên Confluence.', []],
-    hf: ['Dịch vụ ngoài', 'HuggingFace', 'Kho model AI mở: sinh ảnh minh hoạ cho slide, chuyển giọng nói thành chữ, dịch thuật…', ['Gọi qua n8n bằng API key', 'Key lưu riêng trên máy, không lên Git']],
-    figma: ['Dịch vụ ngoài', 'Figma', 'Đọc design để đối chiếu với BRD, test case, viết hướng dẫn UAT có hình minh hoạ.', ['Kết nối qua MCP']],
-    diag: ['Dịch vụ ngoài', 'Công cụ vẽ diagram', 'Mermaid, draw.io: AI tự vẽ sơ đồ quy trình, kiến trúc, timeline dưới dạng code, xuất ra ảnh hoặc PDF.', ['Claude Code tự chạy, không cần cổng kết nối', 'Sửa sơ đồ bằng một câu lệnh']],
-    more: ['Hệ thống', 'Và nhiều hệ thống khác', 'Server, database, Zoho, công cụ nội bộ… bất cứ hệ thống nào có API đều có thể kết nối thêm.', []],
-  };
-  const svg = $('#archSvg'), info = $('#archInfo'), links = $$('#archLinks path');
-  const show = (k) => {
-    const [cat, t, d, li] = INFO[k];
-    info.innerHTML = `<small>${cat}</small><h3>${t}</h3><p>${d}</p>${li.length ? `<ul>${li.map((x) => `<li>${x}</li>`).join('')}</ul>` : ''}<p class="hint">Di chuột vào từng khối trong sơ đồ.</p>`;
-    $$('.ab', svg).forEach((g) => { g.classList.toggle('on', g.dataset.k === k); });
-    const on = links.filter((p) => p.dataset.l.split(' ').includes(k));
-    const near = new Set([k, ...on.flatMap((p) => p.dataset.l.split(' '))]);
-    links.forEach((p) => p.classList.toggle('on', on.includes(p)));
-    $$('.ab', svg).forEach((g) => g.classList.toggle('dim', !near.has(g.dataset.k)));
-  };
-  $$('.ab', svg).forEach((g) => g.addEventListener('mouseenter', () => show(g.dataset.k)));
-  svg.addEventListener('mouseleave', () => { $$('.ab', svg).forEach((g) => g.classList.remove('dim')); });
-  show('cc'); $$('.ab', svg).forEach((g) => g.classList.remove('dim')); links.forEach((p) => p.classList.remove('on'));
-})();
+/* ---------- 9. architecture: static diagram, hover only highlights a block (CSS) ---------- */
 
 /* ---------- 10. real examples: one sentence -> AI fetches everything (3 scenarios, next / back) ---------- */
 (() => {
@@ -450,17 +421,24 @@ showRole('pm');
   const D = (n, title, desc, kids, open = false) => ({ n, title, desc, kids, open });
   const TREE = D('pm-ai/', 'Bộ não của nhân viên AI', 'Một Git repo duy nhất, mở bằng VS Code. Sắp xếp từ chung nhất ở trên đến chi tiết nhất ở dưới.', [
     F('CLAUDE.md', 'Bộ quy tắc gốc', 'File AI đọc đầu tiên mỗi phiên: phải đọc gì trước, dùng ngôn ngữ gì, quy ước đặt tên, những việc bắt buộc làm.', '- Giao tiếp tiếng Việt; code, tên file tiếng Anh\n- Trước khi làm dự án nào: đọc overview, stakeholders, notes\n- Phát hiện việc cần làm: tự thêm vào todo', 'Như cuốn sổ tay nhân viên'),
-    D('infra/', 'Hạ tầng kết nối hệ thống ngoài', 'Mô tả AI kết nối Gmail, Calendar, Chat, Drive, Jira, Confluence qua n8n và MCP. Không lưu mật khẩu ở đây.', [
+    D('infra/', 'Infrastructure: hạ tầng kết nối', 'Mô tả AI kết nối Gmail, Calendar, Chat, Drive, Jira, Confluence qua n8n và MCP. Không lưu mật khẩu ở đây.', [
       F('integrations/', 'Các kết nối', 'n8n cho Gmail, Drive, Chat, Calendar; MCP cho Jira, Confluence: dùng để làm gì, gọi thế nào, lỗi hay gặp.', 'gmail: tạo draft, đọc thread\njira: đọc ticket, đọc comment'),
       F('machines/', 'Cấu hình riêng từng máy', 'Máy công ty, laptop ở nhà: mỗi máy cài đặt một chút khác nhau.'),
     ]),
-    F('.claude/memory/', 'Trí nhớ dài hạn', 'Những điều AI học được khi làm việc với bạn (góp ý, sở thích, quy tắc), đồng bộ qua Git sang mọi máy.', '- Không dùng emoji trong email\n- Bảng trong Gmail: tô màu nền trên từng ô', 'Nhớ cả những lần bạn góp ý'),
-    D('company/', 'Knowledge chung của SmartOSC', 'Những gì mọi dự án đều cần: công ty là ai, ai làm gì, quy trình chuẩn.', [
+    D('.claude/', 'Skills và trí nhớ của AI', 'Thư mục riêng của Claude Code: skills (cách làm từng loại việc) và memory (những gì AI tự học), đồng bộ qua Git sang mọi máy.', [
+      D('skills/', 'Skills của AI', 'Mỗi skill là một thư mục có file SKILL.md: hướng dẫn cách làm một loại việc, kèm template, script. Claude Code tự chọn đúng skill khi gặp việc phù hợp, không cần bạn dặn lại.', [
+        F('write-test-case/SKILL.md', 'Skill viết test case', 'Cách viết test case theo template của khách: đặt ID, mỗi bước một hành động, đối chiếu BRD, tự soát edge case.', '1. Đọc BRD + Figma mới nhất\n2. Viết theo template, ID TC-<MODULE>-xx\n3. Tự soát: positive, negative, edge case', 'Viết một lần, ai trong team cũng dùng được'),
+        F('uat-daily-report/SKILL.md', 'Skill report UAT hằng ngày', 'Đọc Jira, chat Dev ↔ QC, soạn email report đúng mẫu, đúng người nhận.'),
+        F('draw-timeline/SKILL.md', 'Skill vẽ timeline', 'Dựng Gantt / timeline PDF theo quy ước màu, ngày nghỉ, nguồn lực.'),
+      ], true),
+      F('memory/', 'Trí nhớ dài hạn', 'Những điều AI học được khi làm việc với bạn (góp ý, sở thích, quy tắc), đồng bộ qua Git sang mọi máy.', '- Không dùng emoji trong email\n- Bảng trong Gmail: tô màu nền trên từng ô', 'Nhớ cả những lần bạn góp ý'),
+    ], true),
+    D('company/', 'Shared knowledge: SmartOSC', 'Những gì mọi dự án đều cần: công ty là ai, ai làm gì, quy trình chuẩn.', [
       F('org-chart.md', 'Sơ đồ tổ chức', 'Các khối, phòng ban, ai báo cáo cho ai, ai duyệt việc gì.', 'BOD → Delivery → Division → các dự án\nQA, Finance, HR, IT: đầu mối từng việc'),
       F('colleagues.md', 'Đồng nghiệp: email, vai trò, kỹ năng', 'Để AI biết hỏi ai, CC ai, giao việc cho ai.', 'An · Tech Lead · an@smartosc.com · Java, cloud\nBình · QC Lead · binh@smartosc.com · test strategy'),
       F('smartosc-process/', 'Quy trình SmartOSC', 'Lifecycle dự án, báo cáo, UAT, release, Jira workflow, bảo mật dữ liệu, tài chính dự án.', 'Report tuần: thứ Sáu trước 17:00\nUAT sign-off: cần evidence đủ chữ ký'),
     ]),
-    D('division/', 'Knowledge chung của Division', 'Thành viên trong division, mối quan hệ, ai đang ở dự án nào, ai hỗ trợ được việc gì.', [
+    D('division/', 'Shared knowledge: Division', 'Thành viên trong division, mối quan hệ, ai đang ở dự án nào, ai hỗ trợ được việc gì.', [
       F('members.md', 'Thành viên Division', 'Danh sách, vai trò, dự án hiện tại, thế mạnh.', 'Chi · BA · dự án ABC · BRD, prototype'),
       F('relationships.md', 'Mối quan hệ, cách phối hợp', 'Ai thường làm cùng ai, ai là backup của ai, ai duyệt ngân sách.', 'Backup PM dự án ABC: Dũng'),
     ]),
@@ -468,7 +446,7 @@ showRole('pm');
       F('templates/', 'Mẫu dùng chung', 'Chữ ký email, mẫu report tuần, mẫu MOM.'),
       F('glossary.md', 'Thuật ngữ', 'Các từ viết tắt của công ty và từng dự án.'),
     ]),
-    D('projects/', 'Knowledge riêng từng dự án', 'Mỗi dự án một thư mục. Bàn giao một lần, AI nhớ mãi.', [
+    D('projects/', 'Project knowledge: từng dự án', 'Mỗi dự án một thư mục. Bàn giao một lần, AI nhớ mãi.', [
       F('_template/', 'Mẫu cho dự án mới', 'Bắt đầu dự án mới: copy thư mục này rồi điền thông tin.', 'overview.md · stakeholders.md · notes/'),
       D('du-an-abc/', 'Dự án ABC', 'Mọi thứ một thành viên mới cần biết về dự án ABC.', [
         F('overview.md', 'Tổng quan dự án', 'Scope, phase, timeline, milestone, tiến độ hiện tại, rủi ro lớn.', 'Go-live Drop 1: 12/11\nUAT Wave 2: 26/10 – 06/11\nRủi ro: dữ liệu production chưa đủ'),
