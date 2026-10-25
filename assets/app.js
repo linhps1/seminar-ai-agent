@@ -64,7 +64,7 @@ const showRole = (k) => {
   const r = ROLES[k];
   $$('#roles button').forEach((b) => b.classList.toggle('on', b.dataset.role === k));
   $('#roleTitle').innerHTML = `Dành cho bạn, <strong>${r.t}</strong>`;
-  $('#rolePains').innerHTML = r.pains.map(([h, s], i) => `<li style="animation-delay:${i * 80}ms"><b>${h}</b><span>${s}</span></li>`).join('');
+  $('#rolePains').innerHTML = r.pains.map(([h, s], i) => `<li style="animation-delay:${i * 80}ms"><em class="task-no">${i + 1}</em><b>${h}</b><span>${s}</span></li>`).join('');
   $('#roleGain').textContent = r.gain;
 };
 // hover only highlights (CSS); the content changes on click
@@ -355,7 +355,7 @@ showRole('pm');
 (() => {
   const btns = $$('#hoList button');
   const upd = () => { const p = Math.round((100 * btns.filter((b) => b.classList.contains('on')).length) / btns.length); $('#hoBar').style.width = p + '%'; $('#hoPct').textContent = p + '%'; };
-  btns.forEach((b) => b.addEventListener('click', () => { b.classList.toggle('on'); upd(); }));
+  btns.forEach((b) => { b.setAttribute('role', 'checkbox'); b.setAttribute('aria-checked', 'false'); b.addEventListener('click', () => { b.setAttribute('aria-checked', b.classList.toggle('on')); upd(); }); });
   upd();
   const svg = $('#setupSvg');
   $$('.mac', svg).forEach((m) => { m.addEventListener('mouseenter', () => svg.classList.add('hot')); m.addEventListener('mouseleave', () => svg.classList.remove('hot')); });
@@ -571,7 +571,7 @@ showRole('pm');
     }
     body.insertAdjacentHTML('beforeend', '<span class="cur"></span>'); running = false;
   });
-  $$('#watchList button').forEach((b) => b.addEventListener('click', () => b.classList.toggle('on')));
+  $$('#watchList button').forEach((b) => { b.setAttribute('role', 'checkbox'); b.setAttribute('aria-checked', 'false'); b.addEventListener('click', () => b.setAttribute('aria-checked', b.classList.toggle('on'))); });
 })();
 
 /* ---------- 15. cloud 24/7: 24h clock + 3 separate examples (morning brief / new bug / weekly report) ---------- */

@@ -237,3 +237,24 @@
 #archSvg .ic { fill: none; stroke: #D6811F; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 #archSvg .lt { text-anchor: start; }
 .arch-cap { margin-top: 1.2vh; }
+
+/* ---------- FEEDBACK 7: one UI pattern per behaviour ----------
+   multi-select  -> square checkbox (20px, radius 6, green fill + white tick): page "Dành cho bạn", "Onboard AI", "Demo"
+   on / off      -> toggle switch (page "Prompt");  single choice -> segmented tabs / cards (no radio dots anywhere)
+   information   -> numbered badge or green tick icon, never something that looks clickable */
+.checks label span, .ho-list button::before, .watch-list button::before {
+  width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid #9AA4B5; background: #fff; box-shadow: none; transition: .2s; }
+.ho-list button::before, .watch-list button::before { left: 16px; margin-top: -10px; }
+.ho-list button, .watch-list button { padding-left: 48px; }
+.checks input:checked + span, .ho-list button.on::before, .watch-list button.on::before { background: var(--green); border-color: var(--green); box-shadow: none; }
+.checks input:checked + span::after, .ho-list button.on::after, .watch-list button.on::after {
+  content: ''; position: absolute; width: 5px; height: 10px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.checks input:checked + span::after { left: 6.5px; top: 2.5px; }
+.ho-list button.on::after, .watch-list button.on::after { left: 23.5px; top: 50%; margin-top: -7.5px; }
+.checks label:hover span, .ho-list button:hover::before, .watch-list button:hover::before { border-color: var(--blue); }
+.ho-list button.on, .watch-list button.on, .checks label:has(input:checked) { border-color: var(--green); background: #fff; }
+
+/* page 2: numbered task badge (not interactive) */
+.role-card .role-tasks li::before { content: none; }
+.task-no { font-style: normal; width: 26px; height: 26px; border-radius: 50%; background: #FCEBD6; color: var(--amber); display: grid; place-items: center; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+.role-card .role-tasks li { cursor: default; }
