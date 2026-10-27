@@ -50,7 +50,7 @@ addEventListener('scroll', onScroll, { passive: true });
 
 /* ---------- 1. hero: role picker ---------- */
 const ROLES = {
-  // 4 most common daily tasks per role, close to a real web-revamp project (UAT, BRD sign-off, test cases, audit)
+  // 4 most common daily tasks per role (UAT, BRD sign-off, test cases, audit)
   pm: { t: 'Project Manager', pains: [['Đọc email, chat mỗi sáng', 'khách hàng, nội bộ, Jira: việc gì mới, ai đang chờ mình'], ['Báo cáo tiến độ', 'daily UAT report, weekly report, MOM sau mỗi buổi họp'], ['Cập nhật kế hoạch', 'timeline, open items tracker, sign-off tài liệu'], ['Điều phối và nhắc việc', 'daily meeting, deadline, rủi ro, trả lời khách']],
     gain: 'Một "đồng nghiệp AI" tự đọc email, chat, Jira của dự án và soạn sẵn report, MOM, email để bạn chỉ việc review.' },
   ba: { t: 'Business Analyst', pains: [['Viết và sửa BRD', 'qua nhiều vòng comment của khách đến khi sign-off'], ['Tìm lại "khách đã chốt gì"', 'trong email, chat, MOM, transcript họp'], ['Làm rõ requirement', 'trả lời câu hỏi của Dev, QC, Designer'], ['Giữ tài liệu khớp nhau', 'BRD, Figma, Jira, test case không lệch nhau']],
@@ -99,14 +99,14 @@ showRole('pm');
   const SC = [
     { head: ['Mục', 'Nội dung'], rows: [
       { k: 'Tiến độ', ok: ['Đúng kế hoạch, hoàn thành 70%'] },
-      { k: 'Lịch UAT', bad: ['Bắt đầu 26/10'], fix: ['Dời sang 02/11'], why: 'Sai: KH đã dời qua email', at: 1 },
-      { k: 'Phạm vi', bad: ['12 tính năng trong Drop 1'], fix: ['11 tính năng, Search sang Drop 2'], why: 'Sai: email đã chốt', at: 1 },
+      { k: 'Lịch UAT', bad: ['Bắt đầu 09/03'], fix: ['Dời sang 16/03'], why: 'Sai: KH đã dời qua email', at: 1 },
+      { k: 'Phạm vi', bad: ['12 tính năng trong Phase 1'], fix: ['11 tính năng, Search sang Phase 2'], why: 'Sai: email đã chốt', at: 1 },
       { k: 'Rủi ro', bad: ['Không có rủi ro lớn'], fix: ['Môi trường test lỗi, 2 bug blocker'], why: 'Thiếu: Dev báo trong chat', at: 2 } ],
     steps: [
       { who: 'me', src: ['tpl', 'brd'], paste: 2, min: 5, html: '<span class="att"><i></i>Weekly_Report_Template.pptx</span><span class="att doc"><i></i>Project_Plan_v3.xlsx</span><br>Soạn weekly report tuần này gửi khách, dựa trên template và kế hoạch đính kèm nhé.' },
       { who: 'ai', min: 3, html: 'Đã soạn <b>weekly report</b> theo template. Một vài nội dung:', t: 0, insight: 'Nhìn qua thì ổn. Nhưng AI chỉ biết những gì nằm trong file kế hoạch.' },
       { who: 'note', html: 'Bạn chợt nhớ: thứ Ba <b>khách hàng đã chốt qua email</b> vài thay đổi…' },
-      { who: 'me', src: ['mail'], paste: 1, loop: 1, min: 9, html: 'Bổ sung giúp mình, khách đã chốt trong email:<span class="paste">"…UAT dời sang 02/11, tính năng Search chuyển sang Drop 2…" (copy từ Outlook)</span>' },
+      { who: 'me', src: ['mail'], paste: 1, loop: 1, min: 9, html: 'Bổ sung giúp mình, khách đã chốt trong email:<span class="paste">"…UAT dời sang 16/03, tính năng Search chuyển sang Phase 2…" (copy từ Outlook)</span>' },
       { who: 'ai', min: 3, html: 'Đã cập nhật theo email:', t: 1 },
       { who: 'me', src: ['chat'], paste: 1, loop: 1, min: 9, html: 'À còn nữa, Dev vừa báo trong group chat:<span class="paste">"Môi trường test đang lỗi, còn 2 bug blocker chưa fix" (copy từ Google Chat)</span>' },
       { who: 'ai', min: 3, html: 'Đã sửa xong:', t: 2, insight: 'Nội dung đã đúng hơn. Nhưng số liệu và trình bày thì sao?' },
@@ -114,44 +114,44 @@ showRole('pm');
     ] },
     { head: ['Mục', 'Nội dung'], rows: [
       { k: '1. Mục tiêu', ok: ['Học viên đăng ký khoá học online'] },
-      { k: '3.2 Thanh toán', bad: ['Thẻ và ví điện tử'], fix: ['Chỉ thanh toán thẻ ở Drop 1'], why: 'Sai: KH chốt qua email', at: 1 },
+      { k: '3.2 Thanh toán', bad: ['Thẻ và ví điện tử'], fix: ['Chỉ thanh toán thẻ ở Phase 1'], why: 'Sai: KH chốt qua email', at: 1 },
       { k: '3.4 Huỷ đăng ký', bad: ['Trước 24 giờ'], fix: ['Trước 72 giờ'], why: 'Sai: email chốt 72 giờ', at: 1 },
       { k: '3.5 Thông báo', bad: ['Gửi SMS xác nhận'], fix: ['Gửi email xác nhận'], why: 'Thừa: team đã bỏ SMS', at: 2 } ],
     steps: [
       { who: 'me', src: ['tpl', 'brd'], paste: 2, min: 5, html: '<span class="att"><i></i>BRD_Template.docx</span><span class="att doc"><i></i>MOM_Kickoff.docx</span><br>Viết BRD cho tính năng Đăng ký khoá học, dựa trên template và MOM buổi kickoff nhé.' },
       { who: 'ai', min: 3, html: 'Đã viết <b>BRD v0.1</b> theo template. Một vài mục:', t: 0, insight: 'Nhìn qua thì ổn. Nhưng AI chỉ biết những gì nằm trong MOM.' },
       { who: 'note', html: 'Bạn chợt nhớ: tuần trước <b>khách hàng đã chốt qua email</b> vài điểm khác MOM…' },
-      { who: 'me', src: ['mail'], paste: 1, loop: 1, min: 9, html: 'Bổ sung giúp mình, khách đã chốt trong email:<span class="paste">"…Drop 1 chỉ nhận thanh toán thẻ, cho phép huỷ trước 72 giờ…" (copy từ Outlook)</span>' },
+      { who: 'me', src: ['mail'], paste: 1, loop: 1, min: 9, html: 'Bổ sung giúp mình, khách đã chốt trong email:<span class="paste">"…Phase 1 chỉ nhận thanh toán thẻ, cho phép huỷ trước 72 giờ…" (copy từ Outlook)</span>' },
       { who: 'ai', min: 3, html: 'Đã cập nhật theo email:', t: 1 },
       { who: 'me', src: ['chat'], paste: 1, loop: 1, min: 9, html: 'À còn nữa, team vừa nhắn trong group chat:<span class="paste">"Bỏ SMS nha, khách chưa có SMS gateway" (copy từ Google Chat)</span>' },
       { who: 'ai', min: 3, html: 'Đã sửa xong:', t: 2, insight: 'Nội dung đã đúng hơn. Nhưng còn phần trình bày thì sao?' },
       { who: 'note', src: ['jira'], min: 25, final: true, html: 'Bạn mở file ra và phát hiện: <b>BRD chưa link ticket Jira, thiếu bảng lịch sử phiên bản theo mẫu khách hàng</b>.<br>"Thôi, phần còn lại mình <b>sửa tay</b> cho nhanh."' },
     ] },
     { head: ['ID', 'Tình huống', 'Kết quả mong đợi'], rows: [
-      { k: 'TC-HOM-01', ok: ['Hiển thị banner đầu trang', 'Banner hiện đủ ảnh, tiêu đề, CTA'] },
-      { k: 'TC-HOM-02', bad: ['Thêm 10 slide', 'Lưu thành công'], fix: ['Thêm slide thứ 6', 'Báo lỗi: tối đa 5 slide'], why: 'Sai: KH chốt tối đa 5', at: 1 },
-      { k: 'TC-HOM-03', bad: ['Tự chuyển slide', 'Sau 3 giây'], fix: ['Tự chuyển slide', 'Sau 6 giây'], why: 'Sai: email chốt 6 giây', at: 1 },
-      { k: 'TC-HOM-04', bad: ['Mở cửa sổ Omnichat', 'Chat bubble hiện góc phải'], fix: ['Nút "Explore All"', 'Mở trang danh mục'], why: 'Thừa: đã bỏ khỏi Wave 1', at: 2 } ],
+      { k: 'TC-HP-01', ok: ['Hiển thị banner đầu trang', 'Banner hiện đủ ảnh, tiêu đề, CTA'] },
+      { k: 'TC-HP-02', bad: ['Thêm 10 slide', 'Lưu thành công'], fix: ['Thêm slide thứ 7', 'Báo lỗi: tối đa 6 slide'], why: 'Sai: KH chốt tối đa 6', at: 1 },
+      { k: 'TC-HP-03', bad: ['Tự chuyển slide', 'Sau 3 giây'], fix: ['Tự chuyển slide', 'Sau 6 giây'], why: 'Sai: email chốt 6 giây', at: 1 },
+      { k: 'TC-HP-04', bad: ['Mở cửa sổ Live chat', 'Chat bubble hiện góc phải'], fix: ['Nút "Xem tất cả"', 'Mở trang danh mục'], why: 'Thừa: đã bỏ khỏi đợt 1', at: 2 } ],
     steps: [
       { who: 'me', src: ['tpl', 'brd'], paste: 2, min: 5, html: '<span class="att"><i></i>TC_Template.xlsx</span><span class="att doc"><i></i>BRD_Homepage_v1.0.docx</span><br>Viết test case cho tính năng Hero Banner dựa trên BRD và template đính kèm nhé.' },
       { who: 'ai', min: 3, html: 'Đã tạo <b>24 test case</b> theo template. Một vài ví dụ:', t: 0, insight: 'Nhìn qua thì ổn. Nhưng AI chỉ biết những gì nằm trong BRD.' },
       { who: 'note', html: 'Bạn chợt nhớ: tuần trước <b>khách hàng đã chốt qua email</b> vài điểm khác BRD…' },
-      { who: 'me', src: ['mail'], paste: 1, loop: 1, min: 9, html: 'Bổ sung giúp mình, khách đã chốt trong email:<span class="paste">"…banner tối đa 5 slide, tự động chuyển sau 6 giây…" (copy từ Outlook)</span>' },
+      { who: 'me', src: ['mail'], paste: 1, loop: 1, min: 9, html: 'Bổ sung giúp mình, khách đã chốt trong email:<span class="paste">"…banner tối đa 6 slide, tự động chuyển sau 6 giây…" (copy từ Outlook)</span>' },
       { who: 'ai', min: 3, html: 'Đã cập nhật theo email:', t: 1 },
-      { who: 'me', src: ['chat'], paste: 1, loop: 1, min: 9, html: 'À còn nữa, BA vừa nhắn trong group chat:<span class="paste">"Bỏ Omnichat khỏi Wave 1 nha, thêm case nút Explore All" (copy từ Google Chat)</span>' },
+      { who: 'me', src: ['chat'], paste: 1, loop: 1, min: 9, html: 'À còn nữa, BA vừa nhắn trong group chat:<span class="paste">"Bỏ Live chat khỏi đợt 1 nha, thêm case nút Xem tất cả" (copy từ Google Chat)</span>' },
       { who: 'ai', min: 3, html: 'Đã sửa xong:', t: 2, insight: 'Nội dung đã đúng hơn. Nhưng còn phần trình bày thì sao?' },
       { who: 'note', src: ['jira'], min: 25, final: true, html: 'Bạn mở file ra và phát hiện: <b>file chưa trình bày đúng mẫu khách hàng yêu cầu, thiếu phần chữ ký</b>.<br>"Thôi, phần còn lại mình <b>sửa tay</b> cho nhanh."' },
     ] },
     { head: ['Mục', 'Nội dung'], rows: [
       { k: 'Hồ sơ dự án', ok: ['Đủ Project Plan, Test Plan, RACI'] },
-      { k: 'Sign-off UAT', bad: ['Chưa có evidence'], fix: ['Khách đã duyệt qua email 20/10'], why: 'Sai: evidence nằm trong email', at: 1 },
+      { k: 'Sign-off UAT', bad: ['Chưa có evidence'], fix: ['Khách đã duyệt qua email 02/03'], why: 'Sai: evidence nằm trong email', at: 1 },
       { k: 'NC tháng trước', bad: ['Đã đóng 2/2'], fix: ['Còn 1 NC mở: log work'], why: 'Sai: email nhắc NC còn mở', at: 1 },
       { k: 'Test report', bad: ['Chưa duyệt'], fix: ['QC Lead đã duyệt bản v2'], why: 'Thiếu: duyệt trong chat', at: 2 } ],
     steps: [
       { who: 'me', src: ['tpl', 'brd'], paste: 2, min: 5, html: '<span class="att"><i></i>Compliance_Checklist.xlsx</span><span class="att doc"><i></i>Project_Plan_ABC.docx</span><br>Soạn báo cáo compliance tháng cho dự án ABC, theo checklist và kế hoạch dự án đính kèm nhé.' },
       { who: 'ai', min: 3, html: 'Đã soạn <b>báo cáo compliance</b> theo checklist. Một vài mục:', t: 0, insight: 'Nhìn qua thì ổn. Nhưng AI chỉ biết những gì nằm trong kế hoạch dự án.' },
       { who: 'note', html: 'Bạn chợt nhớ: tuần trước <b>đã có email</b> về sign-off và NC của dự án…' },
-      { who: 'me', src: ['mail'], paste: 1, loop: 1, min: 9, html: 'Bổ sung giúp mình theo email:<span class="paste">"…khách đã duyệt UAT qua email 20/10; NC log work tháng trước vẫn chưa đóng…" (copy từ Outlook)</span>' },
+      { who: 'me', src: ['mail'], paste: 1, loop: 1, min: 9, html: 'Bổ sung giúp mình theo email:<span class="paste">"…khách đã duyệt UAT qua email 02/03; NC log work tháng trước vẫn chưa đóng…" (copy từ Outlook)</span>' },
       { who: 'ai', min: 3, html: 'Đã cập nhật theo email:', t: 1 },
       { who: 'me', src: ['chat'], paste: 1, loop: 1, min: 9, html: 'À còn nữa, QC Lead vừa nhắn trong group chat:<span class="paste">"Test report v2 mình duyệt rồi nhé" (copy từ Google Chat)</span>' },
       { who: 'ai', min: 3, html: 'Đã sửa xong:', t: 2, insight: 'Nội dung đã đúng hơn. Nhưng evidence và mẫu báo cáo thì sao?' },
@@ -377,8 +377,8 @@ showRole('pm');
   const UAT_MAIL = '<div class="mail full"><div><span>To</span>Anna, Ben, Chris… (9 người phía khách)</div><div><span>CC</span>nhóm dự án ABC</div><div><span>Tiêu đề</span><b>UAT Update #8: Day 5 (Thu, 15 Oct)</b></div>'
     + '<p>Hi all, below is today\'s UAT progress.</p>'
     + '<table><tr><th>Executed</th><th>Passed</th><th>Failed</th><th>Blocked</th></tr><tr><td>46</td><td class="g">31</td><td class="r">9</td><td class="a">6</td></tr></table>'
-    + '<p><b>Risks:</b> production data due Tue 20 Oct · 2 testers on leave next week</p>'
-    + '<p><b>Need your support:</b> Okta test accounts for 6 blocked cases</p>'
+    + '<p><b>Risks:</b> production data due Tue 2 Mar · 2 testers on leave next week</p>'
+    + '<p><b>Need your support:</b> SSO test accounts for 6 blocked cases</p>'
     + '<p><b>Tomorrow:</b> UAT Round 2, 2 – 6 PM · retest 4 fixed bugs</p></div>';
   const QC_RESULT = '<div class="mail full"><div><span>File</span><b>TC_LocateUs_v0.1.xlsx</b> · 42 test case</div>'
     + '<table class="tcx"><tr><th>ID</th><th>Tình huống</th><th>Kết quả mong đợi</th><th>Loại</th></tr>'
@@ -390,15 +390,15 @@ showRole('pm');
   const BA_RESULT = '<div class="mail full"><div><span>To</span>Anna, Ben (phía khách)</div><div><span>Tiêu đề</span><b>Submission for review: BRD v0.2</b></div>'
     + '<p>Dear Anna, Ben, please find BRD v0.2 attached. Summary of changes:</p>'
     + '<table class="tcx"><tr><th>Comment</th><th>Hướng xử lý</th><th>Trạng thái</th></tr>'
-    + '<tr><td>#3 Lọc nâng cao</td><td>Dời sang Drop 2 (theo email KH 08/10)</td><td class="g">Đã cập nhật</td></tr>'
+    + '<tr><td>#3 Lọc nâng cao</td><td>Dời sang Phase 2 (theo email KH 17/02)</td><td class="g">Đã cập nhật</td></tr>'
     + '<tr><td>#11 Giờ mở cửa</td><td>Thêm trường giờ mở cửa cho từng trung tâm</td><td class="g">Đã cập nhật</td></tr>'
     + '<tr><td>#19 Bản đồ ngoài SG</td><td>Cần KH xác nhận phạm vi</td><td class="a">Chờ KH</td></tr></table>'
     + '<p>21 / 27 comment đã xử lý · 6 điểm đã gửi email làm rõ trước đó</p></div>';
   const QA_RESULT = '<div class="mail full"><div><span>To</span>PM dự án ABC</div><div><span>Tiêu đề</span><b>Project compliance report · Tháng 10</b></div>'
     + '<table class="tcx"><tr><th>Mục</th><th>Evidence</th><th>Kết quả</th></tr>'
     + '<tr><td>Test Plan</td><td>Drive: Test Plan v1.0 đã duyệt</td><td class="g">Đạt</td></tr>'
-    + '<tr><td>Sign-off UAT</td><td>Email khách 20/10</td><td class="g">Đạt</td></tr>'
-    + '<tr><td>Biên bản họp tuần 42</td><td>Không tìm thấy</td><td class="r">NC</td></tr>'
+    + '<tr><td>Sign-off UAT</td><td>Email khách 02/03</td><td class="g">Đạt</td></tr>'
+    + '<tr><td>Biên bản họp tuần 10</td><td>Không tìm thấy</td><td class="r">NC</td></tr>'
     + '<tr><td>Bug High đúng SLA</td><td>Jira: 3 bug quá hạn</td><td class="r">NC</td></tr></table>'
     + '<p>18 / 20 mục đạt · 2 NC cần đóng trước 05/11</p></div>';
   const SC = [
@@ -414,7 +414,7 @@ showRole('pm');
     { title: 'BA: "Review <strong>feedback của khách</strong> trên BRD v0.1"', actor: 'BA', man: '~1 ngày', ai: '~1 giờ review', aiW: '13%', steps: [
       { n: ['pm'], t: 'BA giao việc bằng một câu', p: 'Sau khi gửi khách tài liệu BRD v0.1.', out: L('BA:', 'Review comment feedback của khách trên BRD v0.1.') },
       { n: ['drive'], t: 'Đọc toàn bộ comment mới nhất', p: 'Tự đọc mọi comment của khách ngay trong file BRD v0.1.', out: L('Drive', '27 comment mới trên BRD v0.1 · 6 cần làm rõ') },
-      { n: ['chat', 'gmail'], t: 'Đọc chat nội bộ và email liên quan', p: 'Những gì team đã thảo luận, khách đã nói qua email.', out: L('Chat', 'Dev: tính năng lọc nâng cao vượt scope Drop 1') + L('Email', 'KH từng đồng ý dời tính năng lọc sang Drop 2') },
+      { n: ['chat', 'gmail'], t: 'Đọc chat nội bộ và email liên quan', p: 'Những gì team đã thảo luận, khách đã nói qua email.', out: L('Chat', 'Dev: tính năng lọc nâng cao vượt scope Phase 1') + L('Email', 'KH từng đồng ý dời tính năng lọc sang Phase 2') },
       { n: ['repo'], t: 'Đọc rule viết BRD và lịch sử quyết định trong Folder AI', p: 'Template BRD, quy tắc viết BRD của khách, ai comment, ai duyệt: có sẵn trong Folder AI.', out: L('Folder AI', 'template BRD của dự án') + L('Folder AI', 'quy tắc viết BRD và trả lời comment của khách hàng') + L('Folder AI', 'danh sách stakeholder: ai comment, ai duyệt nội dung, gửi phản hồi cho ai') },
       { n: ['gmail'], t: 'Đề xuất email làm rõ và hướng sửa BRD', p: 'Draft email để align với khách, cùng danh sách hướng điều chỉnh từng comment.', out: '<div class="mail"><div><span>Draft</span>Clarification on BRD v0.1 feedback</div><p>6 điểm cần khách xác nhận · đề xuất hướng sửa cho 21 comment còn lại</p></div>' },
       { n: ['pm'], t: 'BA review và phê duyệt hướng sửa', p: 'Người quyết định vẫn là BA.', out: L('BA:', 'đồng ý 19 hướng sửa, đổi 2 hướng.') },
@@ -432,9 +432,9 @@ showRole('pm');
     { title: 'QA: "Rà <strong>compliance tháng</strong> của dự án ABC"', actor: 'QA', man: '~1 ngày', ai: '~1 giờ review', aiW: '13%', steps: [
       { n: ['pm'], t: 'QA giao việc bằng một câu', p: 'Chỉ nói tên dự án và kỳ báo cáo.', out: L('QA:', 'Rà compliance tháng 10 của dự án ABC.') },
       { n: ['repo'], t: 'Đọc checklist và quy trình trong Folder AI', p: 'Checklist audit, quy trình công ty áp dụng cho dự án, danh sách stakeholder: có sẵn trong Folder AI.', out: L('Folder AI', 'checklist compliance hằng tháng của phòng QA') + L('Folder AI', 'quy trình công ty áp dụng cho dự án (tailoring)') + L('Folder AI', 'danh sách stakeholder: PM, người duyệt, ai nhận báo cáo') },
-      { n: ['drive'], t: 'Tìm evidence trong Drive', p: 'Project Plan, Test Plan, biên bản họp, file sign-off.', out: L('Drive', 'Test Plan v1.0 đã duyệt · thiếu biên bản họp tuần 42') },
+      { n: ['drive'], t: 'Tìm evidence trong Drive', p: 'Project Plan, Test Plan, biên bản họp, file sign-off.', out: L('Drive', 'Test Plan v1.0 đã duyệt · thiếu biên bản họp tuần 10') },
       { n: ['jira'], t: 'Đọc Jira', p: 'Bug mở theo mức độ, ticket thiếu thông tin bắt buộc.', out: L('Jira', '3 bug High quá hạn SLA · 5 ticket thiếu estimate') },
-      { n: ['gmail'], t: 'Đọc email phê duyệt', p: 'Sign-off, phê duyệt của khách và nội bộ.', out: L('Email', 'khách duyệt UAT Wave 1 qua email 20/10') },
+      { n: ['gmail'], t: 'Đọc email phê duyệt', p: 'Sign-off, phê duyệt của khách và nội bộ.', out: L('Email', 'khách duyệt UAT đợt 1 qua email 02/03') },
       { n: ['cc'], t: 'Tự đối chiếu checklist', p: 'Đánh dấu Đạt / Chưa đạt, ghi rõ evidence cho từng mục.', out: L('đối chiếu', '18/20 mục đạt · 2 NC: biên bản họp, SLA bug') },
       { n: ['pm'], done: true, t: 'QA review và gửi PM', p: 'Đây là báo cáo AI đã soạn sẵn kèm evidence. QA chỉ review rồi gửi.', out: QA_RESULT },
     ] },
@@ -508,9 +508,9 @@ showRole('pm');
     D('projects/', 'Project knowledge: từng dự án', 'Mỗi dự án một thư mục. Bàn giao một lần, AI nhớ mãi.', [
       F('_template/', 'Mẫu cho dự án mới', 'Bắt đầu dự án mới: copy thư mục này rồi điền thông tin.', 'overview.md · stakeholders.md · notes/'),
       D('du-an-abc/', 'Dự án ABC', 'Mọi thứ một thành viên mới cần biết về dự án ABC.', [
-        F('overview.md', 'Tổng quan dự án', 'Scope, phase, timeline, milestone, tiến độ hiện tại, rủi ro lớn.', 'Go-live Drop 1: 12/11\nUAT Wave 2: 26/10 – 06/11\nRủi ro: dữ liệu production chưa đủ'),
+        F('overview.md', 'Tổng quan dự án', 'Scope, phase, timeline, milestone, tiến độ hiện tại, rủi ro lớn.', 'Go-live Phase 1: 26/03\nUAT đợt 2: 09/03 – 19/03\nRủi ro: dữ liệu production chưa đủ'),
         F('stakeholders.md', 'Ai là ai phía khách hàng', 'Email, vai trò, quyền quyết định và phong cách làm việc của từng người.', 'Anna · Director · thích ngắn gọn, số liệu rõ\nBen · Product Owner · quyết định scope'),
-        F('notes/', 'Ghi chú, quyết định, MOM', 'Các quyết định đã chốt và vì sao, biên bản họp, lịch sử làm việc, convention của dự án.', '14/10: KH chốt banner tối đa 5 slide\n15/10: bỏ Omnichat khỏi Wave 1'),
+        F('notes/', 'Ghi chú, quyết định, MOM', 'Các quyết định đã chốt và vì sao, biên bản họp, lịch sử làm việc, convention của dự án.', '24/02: KH chốt banner tối đa 6 slide\n25/02: bỏ Live chat khỏi đợt 1'),
       ], true),
     ], true),
     D('prompt/', 'Prompt giao việc', 'Mỗi loại việc lặp lại là một file prompt, dùng lại được nhiều lần.', [
@@ -524,7 +524,7 @@ showRole('pm');
       F('report-uat-daily/', 'Report UAT cuối ngày', 'Đọc Jira, đọc chat, soạn draft email report, đợi PM review.'),
       F('read-and-sum/', 'Tổng hợp email và chat', 'Mỗi sáng: tóm tắt những gì mới, việc nào cần PM xử lý.'),
     ]),
-    F('todo/todo.md', 'Việc cần làm', 'AI tự thêm việc cho bạn khi phát hiện action item trong email, chat, biên bản họp.', '[ ] Gửi Zoho sign-off 2 tài liệu\n[ ] Nhắc khách phản hồi timeline trước 22/10'),
+    F('todo/todo.md', 'Việc cần làm', 'AI tự thêm việc cho bạn khi phát hiện action item trong email, chat, biên bản họp.', '[ ] Gửi Zoho sign-off 2 tài liệu\n[ ] Nhắc khách phản hồi timeline trước 04/03'),
   ], true);
   const ICON = { dir: '<svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>', file: '<svg viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg>' };
   const show = (node, path, el) => {
@@ -549,9 +549,9 @@ showRole('pm');
 /* ---------- 12. prompt builder: 5 essential parts ---------- */
 (() => {
   const B = [
-    { k: 'Mục tiêu', s: 'Goal', w: 26, on: true, t: '# Mục tiêu\nSoạn draft email gửi khách hàng xin xác nhận timeline Drop 1. Tôi tự review và tự gửi.', why: 'Một mục tiêu rõ ràng, có kết quả cụ thể. Không có mục tiêu thì mọi phần khác đều vô nghĩa.' },
+    { k: 'Mục tiêu', s: 'Goal', w: 26, on: true, t: '# Mục tiêu\nSoạn draft email gửi khách hàng xin xác nhận timeline Phase 1. Tôi tự review và tự gửi.', why: 'Một mục tiêu rõ ràng, có kết quả cụ thể. Không có mục tiêu thì mọi phần khác đều vô nghĩa.' },
     { k: 'Định dạng đầu ra', s: 'Output format', w: 16, t: '# Đầu ra\nDraft trong Gmail, luồng mới. To: toàn bộ DT phía khách; CC: team SmartOSC.\nCó bảng tóm tắt các mốc chính, chữ ký chuẩn của tôi.', why: 'Nhận về đúng thứ dùng được ngay: đúng nơi, đúng người nhận, đúng hình thức.' },
-    { k: 'Dữ liệu đầu vào', s: 'Input', w: 22, t: '# Dựa vào\n- File timeline Drop 1 mới nhất\n- Luồng email "Timeline review" và chat nhóm dự án hôm nay', why: 'Chỉ đúng nơi có thông tin. AI Agent tự đi lấy, không phải đoán, và bạn không phải copy.' },
+    { k: 'Dữ liệu đầu vào', s: 'Input', w: 22, t: '# Dựa vào\n- File timeline Phase 1 mới nhất\n- Luồng email "Timeline review" và chat nhóm dự án hôm nay', why: 'Chỉ đúng nơi có thông tin. AI Agent tự đi lấy, không phải đoán, và bạn không phải copy.' },
     { k: 'Yêu cầu', s: 'Requirements', w: 18, t: '# Yêu cầu\n- Tiếng Anh, lịch sự, sẵn sàng gửi khách\n- Không cam kết ngày mới khi chưa có xác nhận nội bộ\n- Highlight thông tin quan trọng bằng màu, không dùng emoji', why: 'Giọng văn, những điều được làm và "không được làm": thường là phần quyết định chất lượng.' },
     { k: 'Feedback', s: 'FEEDBACK 1, 2…', w: 14, t: '# FEEDBACK 1\n- Bỏ đề xuất pre-run; sửa cả trong email và file PDF', why: 'Góp ý nối tiếp ngay trong cùng file: giữ lịch sử, không phải bắt đầu lại, AI hiểu bạn đã sửa gì và vì sao.' },
   ];
@@ -648,14 +648,14 @@ showRole('pm');
 
   // example 3: weekly report, one version per audience
   const WK = [
-    { to: 'Team dự án và khách hàng', sub: 'Project Weekly Report · Tuần 42', focus: 'Tiến độ, rủi ro, việc cần khách hỗ trợ',
-      rows: [['Tiến độ', 'UAT Wave 1: 96% đã chạy · go-live đúng kế hoạch'], ['Đã xong', '2 BRD sign-off · 4 bug đã fix và retest'], ['Rủi ro', 'Dữ liệu production của khách có thể trễ 3 ngày'], ['Cần khách hỗ trợ', 'Dữ liệu production trước thứ Ba · 2 tài khoản test']] },
-    { to: 'PM, Dev, QC và khách hàng', sub: 'Requirement Status Report · Tuần 42', focus: 'Trạng thái BRD, thay đổi yêu cầu, câu hỏi còn mở',
-      rows: [['BRD', '5 đã sign-off · 2 chờ khách duyệt · 1 đang viết'], ['Change request', 'CR-07 lọc nâng cao: dời sang Drop 2'], ['Câu hỏi còn mở', '6 câu chờ khách trả lời · 2 quá hạn'], ['Tuần sau', 'BRD Media v0.2 · walkthrough prototype About Us']] },
-    { to: 'PM, Dev, QC Lead', sub: 'Weekly Test Report · Tuần 42', focus: 'Kết quả test, bug, độ phủ',
+    { to: 'Team dự án và khách hàng', sub: 'Project Weekly Report · Tuần 10', focus: 'Tiến độ, rủi ro, việc cần khách hỗ trợ',
+      rows: [['Tiến độ', 'UAT đợt 1: 96% đã chạy · go-live đúng kế hoạch'], ['Đã xong', '2 BRD sign-off · 4 bug đã fix và retest'], ['Rủi ro', 'Dữ liệu production của khách có thể trễ 3 ngày'], ['Cần khách hỗ trợ', 'Dữ liệu production trước thứ Ba · 2 tài khoản test']] },
+    { to: 'PM, Dev, QC và khách hàng', sub: 'Requirement Status Report · Tuần 10', focus: 'Trạng thái BRD, thay đổi yêu cầu, câu hỏi còn mở',
+      rows: [['BRD', '5 đã sign-off · 2 chờ khách duyệt · 1 đang viết'], ['Change request', 'CR-07 lọc nâng cao: dời sang Phase 2'], ['Câu hỏi còn mở', '6 câu chờ khách trả lời · 2 quá hạn'], ['Tuần sau', 'BRD Media v0.2 · walkthrough prototype About Us']] },
+    { to: 'PM, Dev, QC Lead', sub: 'Weekly Test Report · Tuần 10', focus: 'Kết quả test, bug, độ phủ',
       rows: [['Thực thi', '312 test case · 281 Pass · 19 Fail · 12 Blocked'], ['Bug', '24 mới · 18 đã fix · 3 High còn mở'], ['Độ phủ', '92% requirement đã có test case'], ['Rủi ro', '12 case blocked do thiếu tài khoản test']] },
     { to: 'PM, Head of Division, phòng QA', sub: 'Project Compliance Report · Tháng 10', focus: 'Mức tuân thủ quy trình, NC, evidence',
-      rows: [['Tuân thủ', '18 / 20 mục đạt (90%)'], ['NC mới', 'Thiếu biên bản họp tuần 42 · 3 bug High quá SLA'], ['NC cũ', '1 NC log work tháng 9 chưa đóng'], ['Đề xuất', 'Đóng NC trước 05/11 · bổ sung evidence lên Drive']] },
+      rows: [['Tuân thủ', '18 / 20 mục đạt (90%)'], ['NC mới', 'Thiếu biên bản họp tuần 10 · 3 bug High quá SLA'], ['NC cũ', '1 NC log work tháng 1 chưa đóng'], ['Đề xuất', 'Đóng NC trước 05/11 · bổ sung evidence lên Drive']] },
   ];
   const wk = (a) => {
     $$('#audTabs button').forEach((b) => b.classList.toggle('on', +b.dataset.a === a));
@@ -668,9 +668,9 @@ showRole('pm');
 
   // example 4: auto-reply in chat - answer obvious questions from the project files, suggest options when a decision is needed
   const QS = [
-    { who: 'Anna (khách hàng)', q: 'When does UAT Round 2 start?', a: 'UAT Round 2 runs from 2 to 6 Nov, 2 – 6 PM each day. Test accounts will be shared on 30 Oct.', tag: 'Tự trả lời · nguồn: timeline đã chốt trong Folder AI', k: 'auto' },
+    { who: 'Anna (khách hàng)', q: 'When does UAT Round 2 start?', a: 'UAT Round 2 runs from 15 to 19 Mar, 2 – 6 PM each day. Test accounts will be shared on 12 Mar.', tag: 'Tự trả lời · nguồn: timeline đã chốt trong Folder AI', k: 'auto' },
     { who: 'Hà (QC)', q: 'File test case Contact Us bản mới nhất ở đâu vậy?', a: 'Bản mới nhất là <b>TC_ContactUs_v0.3</b> (cập nhật 23/10), nằm trong Drive › Test Cases › Contact Us.', tag: 'Tự trả lời · nguồn: Google Drive', k: 'auto' },
-    { who: 'Ben (khách hàng)', q: 'Can we add advanced filters to Drop 1?', a: 'Câu này cần PM quyết định, AI không tự trả lời khách. Gửi riêng PM: <b>(1)</b> giữ ở Drop 2 như đã chốt qua email 08/10; <b>(2)</b> nếu đưa vào Drop 1: thêm ~5 ngày dev, ảnh hưởng ngày go-live. Kèm link email 08/10 và scope Drop 1.', tag: 'Cần PM quyết định · AI gợi ý hướng xử lý + context', k: 'ask' },
+    { who: 'Ben (khách hàng)', q: 'Can we add advanced filters to Phase 1?', a: 'Câu này cần PM quyết định, AI không tự trả lời khách. Gửi riêng PM: <b>(1)</b> giữ ở Phase 2 như đã chốt qua email 17/02; <b>(2)</b> nếu đưa vào Phase 1: thêm ~5 ngày dev, ảnh hưởng ngày go-live. Kèm link email 17/02 và scope Phase 1.', tag: 'Cần PM quyết định · AI gợi ý hướng xử lý + context', k: 'ask' },
   ];
   let replying = false;
   $('#replyBtn').addEventListener('click', async () => {
